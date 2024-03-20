@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/pri_yellow"/>
+    <stroke android:width="3dp" android:color="@color/pri_bright_brown"/>
+    <corners android:radius="30dp" />
+    <padding android:left="30dp" android:right="30dp" />
+</selector>

@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light">
+        <item name="colorPrimary">@color/pri_red</item>
+        <item name="colorPrimaryDark">@color/pri_black</item>
+        <item name="colorAccent">@color/pri_yellow</item>
+    </style>
+    <style name="h1">
+        <item name="android:textColor">@color/primary</item>
+        <item name="android:textSize">28dp</item>
+        <item name="android:gravity">center</item>
+        <item name="fontFamily">@font/bold</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
+    </style>
+    <style name="h2">
+        <item name="android:textColor">@color/primary</item>
+        <item name="fontFamily">@font/bold</item>
+        <item name="android:textSize">24dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
+    </style>
+    <style name="h3">
+        <item name="android:textColor">@color/primary</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+    <style name="h4">
+        <item name="android:textColor">@color/primary</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
+    </style>
+    <style name="table">
+        <item name="android:textColor">@color/primary</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center|fill_vertical</item>
+        <item name="android:textAlignment">textStart</item>
+    </style>
+    <style name="edt">
+        <item name="android:color">@color/pri_bright_brown</item>
+    </style>
+
+    <style name="button" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/btn_layout</item>
+        <item name="android:textColor">@color/pri_yellow</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:layout_height">@dimen/btn_height</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="button_black" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/btn_black_layout</item>
+        <item name="android:textColor">@color/pri_yellow</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:layout_height">@dimen/btn_height</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="button_outline" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/btn_outline_layout</item>
+        <item name="android:textColor">@color/primary</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:layout_height">@dimen/btn_height</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="primaryBtn">
+        <item name="android:backgroundTint">@drawable/btn_layout</item>
+        <item name="elevation">4dp</item>
+        <item name="android:textColor">@color/pri_yellow</item>
+        <item name="android:textSize">16dp</item>
+    </style>
+
+    <style name="menu">
+        <item name="android:background">@color/pri_bright_brown</item>
+    </style>
+
+    <style name="ed_primary">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">64dp</item>
+        <item name="android:background">@drawable/ed_layout</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:paddingLeft">24dp</item>
+        <item name="android:paddingRight">24dp</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="height">64dp</item>
+    </style>
+
+    <!--    Form: Begin  -->
+    <style name="layout_row">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">64dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="height">64dp</item>
+    </style>
+
+    <style name="layout_row_img">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">64dp</item>
+        <item name="android:paddingLeft">24dp</item>
+        <item name="android:paddingRight">24dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="height">64dp</item>
+    </style>
+
+    <style name="text_linear">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">75</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">@color/primary</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="ic_linear">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">25</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@drawable/bg_primary</item>
+        <item name="android:scaleType">centerCrop</item>
+        <item name="android:padding">@dimen/pd_2</item>
+        <item name="android:contentDescription">@string/description</item>
+    </style>
+    <!--    Form: End  -->
+
+
+    <!-- Ẩn tiêu đề -->
+    <style name="AppTheme.NoTitleBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <!--    Editext: dark background    -->
+    <style name="ed_appbar">
+        <item name="background">@drawable/ed_dark_bg_layout</item>
+        <item name="hintTextColor">@color/dark_bg_text</item>
+        <item name="android:textColor">@color/dark_bg_text</item>
+        <item name="android:padding">@dimen/pd_1</item>
+    </style>
+
+    <style name="btn_bottom">
+
+    </style>
+
+
+
+    <style name="h1_2" parent="@style/h1">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:focusable">true</item>
+        <item name="android:focusableInTouchMode">true</item>
+        <item name="android:scrollHorizontally">true</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="h2_2" parent="@style/h2">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:focusable">true</item>
+        <item name="android:focusableInTouchMode">true</item>
+        <item name="android:scrollHorizontally">true</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:text">@string/topbar_player</item>
+        <item name="android:textAlignment">textStart</item>
+    </style>
+
+    <style name="h3_2" parent="@style/h3">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:focusable">true</item>
+        <item name="android:focusableInTouchMode">true</item>
+        <item name="android:scrollHorizontally">true</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:text">@string/topbar_player</item>
+        <item name="android:textAlignment">textStart</item>
+    </style>
+
+    <style name="text_item" parent="@style/h2_2">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/text</item>
+    </style>
+
+    <!--  Header: end  -->
+
+</resources>
