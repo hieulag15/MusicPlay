@@ -22,7 +22,8 @@
     <color name="text">#808080</color>
 
     <!-- Color for properties -->
-    <color name="bg_layout">#e4ddd2</color>
+<!--    <color name="bg_layout">#e4ddd2</color>-->
+    <color name="bg_layout">#f0ffff</color>
     <color name="stroke">#808080</color>
     <color name="pressed">#484a48</color>
     <color name="appbar_text">#355080</color>

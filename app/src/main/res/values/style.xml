@@ -159,7 +159,60 @@
 
     </style>
 
+    <style name="CustomShapeAppearance">
+        <item name="neumorph_cornerFamily">rounded</item>
+        <item name="neumorph_cornerSize">64dp</item>
+        <!-- Or if wants different radii depending on the corner. -->
+        <!--        <item name="neumorph_cornerSizeTopLeft">16dp</item>-->
+        <!--        <item name="neumorph_cornerSizeTopRight">16dp</item>-->
+        <!--        <item name="neumorph_cornerSizeBottomLeft">16dp</item>-->
+        <!--        <item name="neumorph_cornerSizeBottomRight">16dp</item>-->
+    </style>
 
+
+    <style name="bg_primary" parent="android:Widget">
+        <item name="android:padding">@dimen/design_default_padding</item>
+        <item name="android:stateListAnimator">@animator/button_state_list_anim_neumorph</item>
+        <item name="neumorph_inset">@dimen/design_default_inset</item>
+        <item name="neumorph_shadowElevation">6dp</item>
+        <item name="neumorph_shadowColorLight">@color/shadowColorLight</item>
+        <item name="neumorph_shadowColorDark">@color/shadowColorDark</item>
+        <item name="neumorph_shapeType">flat</item>
+        <item name="neumorph_shapeAppearance">@style/ShapeAppearance.Neumorph.CardView</item>
+        <item name="neumorph_lightSource">leftTop</item>
+        <item name="neumorph_backgroundColor">@color/bg_layout</item>
+    </style>
+
+    <style name="bg_primary_pressed" parent="@style/bg_primary">
+        <item name="neumorph_shapeType">pressed</item>
+    </style>
+
+
+    <style name="bg_primary_cicle" parent="@style/bg_primary">
+        <item name="android:padding">@dimen/pd_3</item>
+    </style>
+
+
+    <!--  Header: start  -->
+    <style name="layout_header">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_marginTop">@dimen/mg_2</item>
+    </style>
+
+    <style name="header_btn" parent="@style/bg_primary">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">25</item>
+    </style>
+
+    <style name="header_title_container" parent="@style/bg_primary">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">70</item>
+    </style>
 
     <style name="h1_2" parent="@style/h1">
         <item name="android:layout_width">wrap_content</item>
@@ -203,6 +256,15 @@
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textColor">@color/text</item>
+    </style>
+
+    <style name="header_btn_inner" parent="@style/bg_primary">
+        <item name="android:layout_width">@dimen/btn_height</item>
+        <item name="android:layout_height">@dimen/btn_height</item>
+        <item name="android:background">@drawable/bg_image_btn</item>
+        <item name="android:contentDescription">@string/header_btn</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:scaleType">fitCenter</item>
     </style>
 
     <!--  Header: end  -->
