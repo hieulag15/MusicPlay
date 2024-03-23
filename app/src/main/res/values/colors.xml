@@ -34,7 +34,8 @@
 
     <!--    -->
     <color name="text_color">#355080</color>
-    <color name="background_color">#e4ddd2</color>
+<!--    <color name="background_color">#e4ddd2</color>-->
+    <color name="background_color">#f0ffff</color>
     <color name="highlight">#ffffff</color>
     <color name="shadow_color">#d9dbde</color>
     <color name="solid_light_color">#d9dbde</color>

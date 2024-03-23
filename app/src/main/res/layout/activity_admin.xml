@@ -4,17 +4,87 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_layout">
+    android:background="@color/background_color">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/bg_layout">
 
         <LinearLayout
-            style="@style/layout_header">
+            style="@style/layout_header"
+            android:layout_marginTop="0dp"
+            android:layout_height="72dp">
+
+            <soup.neumorphism.NeumorphCardView
+                style="@style/header_btn">
+
+                <ImageButton
+                    android:id="@+id/btnBack"
+                    style="@style/header_btn_inner"
+                    android:src="@drawable/ic_back"/>
+
+            </soup.neumorphism.NeumorphCardView>
+
+            <soup.neumorphism.NeumorphCardView
+                style="@style/header_title_container">
+
+                <TextView
+                    android:id="@+id/tvTitleAdmin"
+                    style="@style/h3_2"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:textAlignment="center"
+                    android:text="My Music"
+                    app:layout_constraintStart_toEndOf="@+id/imageButton"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+            </soup.neumorphism.NeumorphCardView>
+
+            <soup.neumorphism.NeumorphCardView
+                style="@style/header_btn">
+
+                <ImageButton
+                    android:id="@+id/btnAdd"
+                    style="@style/header_btn_inner"
+                    android:src="@drawable/ic_add"/>
+
+            </soup.neumorphism.NeumorphCardView>
 
         </LinearLayout>
     </com.google.android.material.appbar.AppBarLayout>
+
+    <soup.neumorphism.NeumorphCardView
+        android:layout_width="match_parent"
+        style="@style/bg_primary_pressed"
+        android:layout_height="603dp"
+        android:layout_marginTop="72dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
+
+        <FrameLayout
+            android:id="@+id/container_admin"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+
+    </soup.neumorphism.NeumorphCardView>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="63dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/bg_bottom_navigation_view"
+        app:itemIconTint="@color/bottom_nar_color"
+        app:itemTextColor="@color/bg_item_seleted"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/bottom_navigaton_menu_admin" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
