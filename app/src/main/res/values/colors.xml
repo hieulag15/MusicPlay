@@ -14,7 +14,9 @@
     <color name="pri_bright_brown">#c2bab2</color>
     <color name="btn_bg">#e65e56</color>
     <color name="transparent">#00FF0000</color>
-    <color name="primary">#355080</color>
+<!--    <color name="primary">#355080</color>-->
+    <color name="primary">#ffffff</color>
+    <color name="icon">#5C8A60</color>
     <color name="light_primary">#667EAA</color>
     <color name="btn_black">#383938</color>
     <color name="btn_black_pressed">#676867</color>
@@ -23,7 +25,7 @@
 
     <!-- Color for properties -->
 <!--    <color name="bg_layout">#e4ddd2</color>-->
-    <color name="bg_layout">#f0ffff</color>
+    <color name="bg_layout">#5c8a60</color>
     <color name="stroke">#808080</color>
     <color name="pressed">#484a48</color>
     <color name="appbar_text">#355080</color>
@@ -35,12 +37,12 @@
     <!--    -->
     <color name="text_color">#355080</color>
 <!--    <color name="background_color">#e4ddd2</color>-->
-    <color name="background_color">#f0ffff</color>
+    <color name="background_color">#5c8a60</color>
     <color name="highlight">#ffffff</color>
     <color name="shadow_color">#d9dbde</color>
     <color name="solid_light_color">#d9dbde</color>
     <color name="solid_dark_color">#808080</color>
-    <color name="shadowColorLight">#f0e7db</color>
-    <color name="shadowColorDark">#cfc6ba</color>
+    <color name="shadowColorLight">#74ad79</color>
+    <color name="shadowColorDark">#446647</color>
 
 </resources>
