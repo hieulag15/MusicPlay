@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_color">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingLeft="32dp"
+            android:paddingRight="32dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/h1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Đăng ký"
+                android:gravity="center"
+                android:textSize="48sp"
+                android:textColor="@color/primary"
+                android:layout_marginBottom="16dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/edFirstName"
+                    style="@style/ed_primary"
+                    android:hint="Họ"
+                    android:inputType="text"/>
+
+                <EditText
+                    android:id="@+id/edLastName"
+                    style="@style/ed_primary"
+                    android:hint="Tên"
+                    android:inputType="text"
+                    android:layout_marginTop="16dp"/>
+
+                <EditText
+                    android:id="@+id/edPhone"
+                    style="@style/ed_primary"
+                    android:hint="Số điện thoại"
+                    android:inputType="text"
+                    android:layout_marginTop="16dp"/>
+
+                <EditText
+                    android:id="@+id/edMail"
+                    style="@style/ed_primary"
+                    android:hint="Email"
+                    android:inputType="text"
+                    android:layout_marginTop="16dp"/>
+
+                <EditText
+                    android:id="@+id/edPassword"
+                    style="@style/ed_primary"
+                    android:hint="Mật khẩu"
+                    android:inputType="text"
+                    android:layout_marginTop="16dp"/>
+
+                <EditText
+                    android:id="@+id/edConfirmPassword"
+                    style="@style/ed_primary"
+                    android:hint="Xác nhận mật khẩu"
+                    android:inputType="text"
+                    android:layout_marginTop="16dp"/>
+
+            </LinearLayout>
+            
+            <LinearLayout
+                style="@style/layout_row">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnCancel"
+                    style="@style/button_black"
+                    android:layout_height="match_parent"
+                    android:text="Hủy"
+                    android:layout_weight="0.5"
+                    android:textSize="24sp"
+                    android:layout_marginRight="2dp"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnLogin"
+                    style="@style/button"
+                    android:layout_weight="0.5"
+                    android:layout_height="match_parent"
+                    android:text="Đăng nhập"
+                    android:textSize="24sp"
+                    android:layout_marginLeft="2dp"/>
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
