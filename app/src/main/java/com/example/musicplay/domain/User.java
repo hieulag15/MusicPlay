@@ -16,7 +16,7 @@ public class User implements Serializable {
     private String first_name;
 
     @SerializedName("last_name")
-    private String lastn_name;
+    private String last_name;
 
     @SerializedName("email")
     private String email;
@@ -30,29 +30,29 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(long id, String phone, String first_name, String lastn_name, String email, String password, String role) {
+    public User(long id, String phone, String first_name, String last_name, String email, String password, String role) {
         this.id = id;
         this.phone = phone;
         this.first_name = first_name;
-        this.lastn_name = lastn_name;
+        this.last_name = last_name;
         this.email = email;
         this.password = password;
         this.role = role;
     }
 
-    public User(long id, String phone, String first_name, String lastn_name, String email, String password) {
+    public User(long id, String phone, String first_name, String last_name, String email, String password) {
         this.id = id;
         this.phone = phone;
         this.first_name = first_name;
-        this.lastn_name = lastn_name;
+        this.last_name = last_name;
         this.email = email;
         this.password = password;
     }
 
-    public User(String phone, String first_name, String lastn_name, String email, String password) {
+    public User(String phone, String first_name, String last_name, String email, String password) {
         this.phone = phone;
         this.first_name = first_name;
-        this.lastn_name = lastn_name;
+        this.last_name = last_name;
         this.email = email;
         this.password = password;
     }
@@ -81,12 +81,12 @@ public class User implements Serializable {
         this.first_name = first_name;
     }
 
-    public String getLastn_name() {
-        return lastn_name;
+    public String getLast_name() {
+        return last_name;
     }
 
     public void setLastn_name(String lastn_name) {
-        this.lastn_name = lastn_name;
+        this.last_name = last_name;
     }
 
     public String getEmail() {
