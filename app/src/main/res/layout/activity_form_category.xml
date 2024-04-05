@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg_layout">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="732dp"
+        android:layout_marginStart="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/pd_4"
+            android:paddingLeft="@dimen/pd_4"
+            android:paddingRight="@dimen/pd_4">
+
+            <TextView
+                android:id="@+id/tvTitleCategory"
+                style="@style/h1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/transparent"
+                android:hint="@string/edit_category"
+                android:textColor="@color/primary"
+                android:textColorHint="@color/primary"
+                tools:layout_editor_absoluteX="56dp"
+                tools:layout_editor_absoluteY="0dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/pd_2"
+                android:paddingRight="@dimen/pd_2"
+                android:layout_marginTop="@dimen/mg_2"
+                android:paddingBottom="16dp"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/edCategoryName"
+                    style="@style/ed_primary"
+                    android:hint="@string/category_name"
+                    android:inputType="text"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+                <EditText
+                    android:id="@+id/edCategoryDescription"
+                    style="@style/ed_primary"
+                    android:hint="@string/description"
+                    android:inputType="text"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+                <LinearLayout
+                    style="@style/layout_row_img">
+
+                    <TextView
+                        android:id="@+id/tvCategoryImg"
+                        style="@style/text_linear"
+                        android:text="@string/song_img" />
+
+                    <soup.neumorphism.NeumorphCardView
+                        style="@style/bg_primary"
+                        android:layout_height="match_parent"
+                        android:layout_width="wrap_content">
+
+                        <ImageButton
+                            android:id="@+id/btnChooseImage"
+                            style="@style/header_btn_inner"
+                            android:src="@drawable/ic_upload" />
+                    </soup.neumorphism.NeumorphCardView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/layout_row">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnCategoryCancel"
+                        style="@style/button_black"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.5"
+                        android:layout_marginRight="2dp"
+                        android:text="@string/cancel" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnCategorySubmit"
+                        style="@style/button"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.5"
+                        android:layout_marginLeft="2dp"
+                        android:text="@string/edit" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

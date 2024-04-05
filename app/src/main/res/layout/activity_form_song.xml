@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg_layout">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="732dp"
+        android:layout_marginStart="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/pd_4"
+            android:paddingLeft="@dimen/pd_4"
+            android:paddingRight="@dimen/pd_4">
+
+            <TextView
+                android:id="@+id/tvTitleSong"
+                style="@style/h1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/transparent"
+                android:hint="@string/edit_user"
+                android:textColor="@color/primary"
+                android:textColorHint="@color/primary"
+                tools:layout_editor_absoluteX="56dp"
+                tools:layout_editor_absoluteY="0dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/pd_2"
+                android:paddingRight="@dimen/pd_2"
+                android:layout_marginTop="@dimen/mg_2"
+                android:paddingBottom="16dp"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/edSongName"
+                    style="@style/ed_primary"
+                    android:hint="@string/song_name"
+                    android:inputType="text"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+                <EditText
+                    android:id="@+id/edSongAuthor"
+                    style="@style/ed_primary"
+                    android:hint="@string/song_author"
+                    android:inputType="text"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+                <EditText
+                    android:id="@+id/edSongSinger"
+                    style="@style/ed_primary"
+                    android:hint="@string/song_signer"
+                    android:inputType="text"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView" />
+                <Spinner
+                    android:id="@+id/spCategory"
+                    android:layout_width="@dimen/ed_width"
+                    android:layout_height="61dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/style_spinner"
+                    android:contentDescription="@string/profile_name"
+                    android:ems="10" />
+                <LinearLayout
+                    style="@style/layout_row_img">
+
+                    <TextView
+                        android:id="@+id/tvSongLink"
+                        style="@style/text_linear"
+                        android:text="@string/song_link" />
+
+                    <ImageButton
+                        android:id="@+id/btnUpSongLink"
+                        style="@style/ic_linear"
+                        android:src="@drawable/ic_upload" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/layout_row_img">
+
+                    <TextView
+                        android:id="@+id/tvSongImg"
+                        style="@style/text_linear"
+                        android:text="@string/song_img" />
+
+                    <ImageButton
+                        android:id="@+id/btnUpSongImg"
+                        style="@style/ic_linear"
+                        android:src="@drawable/ic_upload" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/layout_row">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnSongCancel"
+                        style="@style/button_black"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.5"
+                        android:layout_marginRight="2dp"
+                        android:text="@string/cancel" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnSongSubmit"
+                        style="@style/button"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.5"
+                        android:layout_marginLeft="2dp"
+                        android:text="@string/edit" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

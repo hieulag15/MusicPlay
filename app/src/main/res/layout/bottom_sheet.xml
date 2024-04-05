@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottom_sheet"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fff"
+    android:orientation="vertical"
+    app:behavior_hideable="true"
+    app:behavior_peekHeight="56dp"
+    android:paddingBottom="@dimen/pd_2"
+    android:paddingTop="@dimen/pd_2"
+    app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/action"
+            style="@style/h2"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_delete"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/btn_height"
+        android:layout_gravity="center_vertical"
+        android:paddingLeft="@dimen/pd_2">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_delete" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:gravity="fill_vertical"
+            android:text="@string/delete"
+            style="@style/h3"
+            android:layout_marginLeft="@dimen/mg_2"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/layout_edit"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/btn_height"
+        android:layout_gravity="center_vertical"
+        android:paddingLeft="@dimen/pd_2">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_edit" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:gravity="fill_vertical"
+            android:text="@string/edit"
+            style="@style/h3"
+            android:layout_marginLeft="@dimen/mg_2"/>
+
+    </LinearLayout>
+</LinearLayout>

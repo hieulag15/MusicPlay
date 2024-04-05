@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soup.neumorphism.NeumorphCardView xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/bg_primary"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:gravity="center"
+        android:padding="@dimen/pd_2"
+        android:background="@color/bg_layout"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="60"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                style="@style/h2"
+                android:text="@string/favourite"
+                android:gravity="start"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                style="@style/h3"
+                android:text="@string/favourite_description"
+                android:gravity="start"
+                android:textColor="@color/light_primary"
+                android:layout_marginTop="@dimen/mg_1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_weight="40"
+            android:layout_height="117dp"
+            android:src="@drawable/layout_favourite" />
+    </LinearLayout>
+</soup.neumorphism.NeumorphCardView>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_user"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/btn_height"
+    android:orientation="horizontal"
+    android:background="@drawable/bg_row">
+
+    <!--        android:background="@drawable/bg_primary-->
+    <TextView
+        android:id="@+id/tvNumber"
+        style="@style/table"
+        android:layout_weight="0.16"
+        android:scrollHorizontally="true"
+        android:text="@string/number" />
+
+
+    <TextView
+        android:id="@+id/tvFirstName"
+        style="@style/table"
+        android:layout_weight="0.21"
+        android:scrollHorizontally="true"
+        android:text="@string/first_name" />
+
+    <TextView
+        android:id="@+id/tvLastName"
+        style="@style/table"
+        android:layout_weight="0.21"
+        android:scrollHorizontally="true"
+        android:text="@string/last_name" />
+
+    <TextView
+        android:id="@+id/tvEmail"
+        style="@style/table"
+        android:layout_weight="0.21"
+        android:scrollHorizontally="true"
+        android:text="@string/email" />
+
+    <TextView
+        android:id="@+id/tvPhone"
+        style="@style/table"
+        android:layout_weight="0.21"
+        android:scrollHorizontally="true"
+        android:text="@string/phone" />
+
+    <TextView
+        android:id="@+id/tvPassword"
+        style="@style/table"
+        android:layout_weight="0"
+        android:text="@string/password" />
+
+</LinearLayout>
+
+    <!--<soup.neumorphism.NeumorphCardView xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--style="@style/bg_primary"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:background="@android:color/transparent">-->
+
+    <!--<LinearLayout-->
+    <!--    android:id="@+id/layout_user"-->
+    <!--    android:layout_width="match_parent"-->
+    <!--    android:layout_height="@dimen/btn_height"-->
+    <!--    android:orientation="horizontal">-->
+
+    <!--    &lt;!&ndash;        android:background="@drawable/bg_primary&ndash;&gt;-->
+    <!--    <TextView-->
+    <!--        android:id="@+id/tvNumber"-->
+    <!--        style="@style/table"-->
+    <!--        android:layout_weight="0.16"-->
+    <!--        android:text="@string/number"-->
+    <!--        android:scrollHorizontally="true"/>-->
+
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/tvFirstName"-->
+    <!--        style="@style/table"-->
+    <!--        android:layout_weight="0.21"-->
+    <!--        android:text="@string/first_name"-->
+    <!--        android:scrollHorizontally="true"/>-->
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/tvLastName"-->
+    <!--        style="@style/table"-->
+    <!--        android:layout_weight="0.21"-->
+    <!--        android:text="@string/last_name"-->
+    <!--        android:scrollHorizontally="true"/>-->
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/tvEmail"-->
+    <!--        style="@style/table"-->
+    <!--        android:layout_weight="0.21"-->
+    <!--        android:text="@string/email"-->
+    <!--        android:scrollHorizontally="true"/>-->
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/tvPhone"-->
+    <!--        style="@style/table"-->
+    <!--        android:layout_weight="0.21"-->
+    <!--        android:text="@string/phone"-->
+    <!--        android:scrollHorizontally="true"/>-->
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/tvPassword"-->
+    <!--        style="@style/table"-->
+    <!--        android:layout_weight="0"-->
+    <!--        android:text="@string/password"/>-->
+
+    <!--</LinearLayout>-->
+
+
+    <!--</soup.neumorphism.NeumorphCardView>-->
