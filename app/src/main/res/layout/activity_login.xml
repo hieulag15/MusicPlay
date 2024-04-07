@@ -23,7 +23,7 @@
         <TextView
             android:id="@+id/tvTitleSong"
             style="@style/h1"
-            android:text="Đăng nhập"
+            android:text="@string/login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="64sp"
@@ -61,7 +61,7 @@
                     android:id="@+id/btnLogin"
                     style="@style/button"
                     android:layout_height="match_parent"
-                    android:text="Đăng nhập"
+                    android:text="@string/login"
                     android:textSize="24sp"/>
 
             </LinearLayout>
@@ -76,7 +76,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/tvRegister"
-                    android:text="Đăng ký tài khoản mới"
+                    android:text="@string/forward_register"
                     android:gravity="center"
                     style="@style/h3"/>
 

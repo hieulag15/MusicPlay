@@ -94,33 +94,14 @@ public class SongListFragment extends Fragment {
             @Override
             public void onResponse(Call<SongMessage> call, Response<SongMessage> response) {
                 if (response.isSuccessful()) {
-                    List<Song> songs;
                     SongMessage songMessage = response.body();
-                    songs = songMessage.getSongs();
-
-                    mSongAdapter = new SongListAdapter(songs);
-                    mRecyclerView.setAdapter(mSongAdapter);
-                    mRecyclerView.setHasFixedSize(true);
-                    mSongAdapter.notifyDataSetChanged();
-
-                    if (songs != null && !songs.isEmpty()) {
-                        mSongAdapter.setOnItemClickListener(new OnItemClickListener() {
-                            @Override
-                            public void onItemClick(int position) {
-                                Song song = songs.get(position);
-                                Intent intent = new Intent(getActivity(), PlayerActivity.class);
-                                intent.putExtra("position", position);
-                                intent.putExtra("songs", (Serializable) songs);
-                                startActivity(intent);
-                            }
-                        });
-                    }
+                    setupSongListAdapter(songMessage.getSongs());
                 }
             }
 
             @Override
             public void onFailure(Call<SongMessage> call, Throwable t) {
-                Toast.makeText(getActivity(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+
             }
         });
     }
@@ -139,23 +120,7 @@ public class SongListFragment extends Fragment {
                     for (Favourite favourite : favouriteMessage.getFavourites()) {
                         songs.add(favourite.getSong());
                     }
-                    mSongAdapter = new SongListAdapter(songs);
-                    mRecyclerView.setAdapter(mSongAdapter);
-                    mRecyclerView.setHasFixedSize(true);
-                    mSongAdapter.notifyDataSetChanged();
-
-                    if (songs != null && !songs.isEmpty()) {
-                        mSongAdapter.setOnItemClickListener(new OnItemClickListener() {
-                            @Override
-                            public void onItemClick(int position) {
-                                Song song = songs.get(position);
-                                Intent intent = new Intent(getActivity(), PlayerActivity.class);
-                                intent.putExtra("position", position);
-                                intent.putExtra("songs", (Serializable) songs);
-                                startActivity(intent);
-                            }
-                        });
-                    }
+                    setupSongListAdapter(songs);
                 }
             }
 
@@ -164,6 +129,26 @@ public class SongListFragment extends Fragment {
 
             }
         });
+    }
+
+    private void setupSongListAdapter(List<Song> songs) {
+        mSongAdapter = new SongListAdapter(songs);
+        mRecyclerView.setAdapter(mSongAdapter);
+        mRecyclerView.setHasFixedSize(true);
+        mSongAdapter.notifyDataSetChanged();
+
+        if (songs != null && !songs.isEmpty()) {
+            mSongAdapter.setOnItemClickListener(new OnItemClickListener() {
+                @Override
+                public void onItemClick(int position) {
+                    Song song = songs.get(position);
+                    Intent intent = new Intent(getActivity(), PlayerActivity.class);
+                    intent.putExtra("position", position);
+                    intent.putExtra("songs", (Serializable) songs);
+                    startActivity(intent);
+                }
+            });
+        }
     }
 
     @Override

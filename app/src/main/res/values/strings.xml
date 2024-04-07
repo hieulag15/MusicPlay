@@ -64,4 +64,8 @@
     <string name="language_vietname">Tiếng Việt</string>
     <string name="language_english">Tiếng Anh</string>
 
+    <string name="enter_full_info">Nhập đầy đủ thông tin</string>
+    <string name="connection_error">Lỗi kết nối</string>
+    <string name="error_message_get_song_by_category">Không lấy được bài hát trong Category</string>
+
 </resources>

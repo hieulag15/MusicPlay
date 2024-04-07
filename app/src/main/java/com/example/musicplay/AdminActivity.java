@@ -62,16 +62,16 @@ public class AdminActivity extends AppCompatActivity {
 
     private void setTitle() {
         if (currentFragment instanceof SongManagerFragment) {
-            title = "Danh sách bài hát";
+            title = getString(R.string.song_list);
             btnBack.setImageResource(R.drawable.ic_song);
         } else if (currentFragment instanceof CategoryManagerFragment) {
-            title = "Danh sách danh muc";
+            title = getString(R.string.category_list);
             btnBack.setImageResource(R.drawable.ic_category);
         } else if (currentFragment instanceof UserManagerFragment) {
-            title = "Danh sách người dùng";
+            title = getString(R.string.user_list);
+            btnBack.setImageResource(R.drawable.ic_user_maneger);
+        } else if (currentFragment instanceof UserFragment) {
             btnBack.setImageResource(R.drawable.ic_user);
-        } else {
-            title = "Song Manager";
         }
         tvTitle.setText(title);
     }
@@ -120,7 +120,6 @@ public class AdminActivity extends AppCompatActivity {
                             return true;
                         }
                         return false;
-
                     }
                 }
         );

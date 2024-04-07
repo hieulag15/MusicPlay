@@ -24,4 +24,6 @@
     <dimen name="title_big">64dp</dimen>
 
     <dimen name="bar_height">72dp</dimen>
+
+    <dimen name="sw360dp">360dp</dimen>
 </resources>

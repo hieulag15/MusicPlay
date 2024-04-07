@@ -2,6 +2,7 @@ package com.example.musicplay;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -30,24 +31,16 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         if (item.getItemId() == R.id.navigation_home) {
-                            getSupportFragmentManager().beginTransaction()
-                                    .replace(R.id.container, new HomeFragment())
-                                    .commit();
+                            replaceFragment(new HomeFragment());
                             return true;
                         } else if (item.getItemId() == R.id.navigation_search) {
-                            getSupportFragmentManager().beginTransaction()
-                                    .replace(R.id.container, new SearchFragment())
-                                    .commit();
+                            replaceFragment(new SearchFragment());
                             return true;
                         } else if (item.getItemId() == R.id.navigation_setting) {
-                            getSupportFragmentManager().beginTransaction()
-                                    .replace(R.id.container, new SettingFragment())
-                                    .commit();
+                            replaceFragment(new SettingFragment());
                             return true;
                         } else if (item.getItemId() == R.id.navigation_user) {
-                            getSupportFragmentManager().beginTransaction()
-                                    .replace(R.id.container, new UserFragment())
-                                    .commit();
+                            replaceFragment(new UserFragment());
                             return true;
                         }
                         return false;
@@ -55,8 +48,12 @@ public class MainActivity extends AppCompatActivity {
                 }
         );
 
+        replaceFragment(new HomeFragment());
+    }
+
+    private void replaceFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, new HomeFragment())
+                .replace(R.id.container, fragment)
                 .commit();
     }
 }
