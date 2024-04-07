@@ -6,6 +6,7 @@ import android.view.MenuItem;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -13,6 +14,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.example.musicplay.fragment.CategoryManagerFragment;
 import com.example.musicplay.fragment.SongManagerFragment;
+import com.example.musicplay.fragment.UserFragment;
 import com.example.musicplay.fragment.UserManagerFragment;
 import com.example.musicplay.utilities.Utility;
 import com.example.musicplayer.R;
@@ -100,19 +102,28 @@ public class AdminActivity extends AppCompatActivity {
     }
 
     private void loadBottomNavigationView() {
-        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.navigation_song:
-                    forwardToFragment(new SongManagerFragment(), "SongManagerFragment");
-                    return true;
-                case R.id.navigation_category:
-                    forwardToFragment(new CategoryManagerFragment(), "CategoryManagerFragment");
-                    return true;
-                case R.id.navigation_user_maneger:
-                    forwardToFragment(new UserManagerFragment(), "UserManagerFragment");
-                    return true;
-            }
-            return false;
-        });
+        bottomNavigationView.setOnNavigationItemSelectedListener(
+                new BottomNavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        if (item.getItemId() == R.id.navigation_song) {
+                            forwardToFragment(new SongManagerFragment(), "SongManagerFragment");
+                            return true;
+                        } else if (item.getItemId() == R.id.navigation_category) {
+                            forwardToFragment(new CategoryManagerFragment(), "CategoryManagerFragment");
+                            return true;
+                        } else if (item.getItemId() == R.id.navigation_user_maneger) {
+                            forwardToFragment(new UserManagerFragment(), "UserManagerFragment");
+                            return true;
+                        } else if (item.getItemId() == R.id.navigation_user) {
+                            forwardToFragment(new UserFragment(), "UserFragment");
+                            return true;
+                        }
+                        return false;
+
+                    }
+                }
+        );
+        forwardToFragment(new SongManagerFragment(), "SongManagerFragment");
     }
 }
