@@ -77,4 +77,8 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
             });
         }
     }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        Listener = listener;
+    }
 }
