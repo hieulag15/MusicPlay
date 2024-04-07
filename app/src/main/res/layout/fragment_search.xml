@@ -42,7 +42,7 @@
                 android:layout_marginTop="@dimen/mg_2"
                 android:paddingStart="@dimen/pd_2"
                 android:paddingEnd="@dimen/pd_2"
-                android:background="@drawable/bg_gradient"
+                android:background="@drawable/bg_row"
                 android:height="64dp"
                 android:drawableEnd="@drawable/ic_mini_search"
                 android:text="@string/ed_search"
