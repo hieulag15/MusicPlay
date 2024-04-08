@@ -33,6 +33,7 @@
         <activity android:name="com.example.musicplay.AdminActivity"></activity>
         <activity android:name="com.example.musicplay.MainActivity"></activity>
         <activity android:name="com.example.musicplay.PlayerActivity"></activity>
+        <activity android:name="com.example.musicplay.RegisterActivity"></activity>
     </application>
 
 </manifest>
