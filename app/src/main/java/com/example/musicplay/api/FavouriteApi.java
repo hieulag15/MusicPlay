@@ -22,6 +22,6 @@ public interface FavouriteApi {
     Call<FavouriteMessage> addFavourite(@Field("songId") Long songId, @Field("userId") Long userId);
 
     @FormUrlEncoded
-    @POST("category/delete")
+    @POST("favourite/delete")
     Call<FavouriteMessage> deleteFavourite(@Field("songId") Long songId, @Field("userId") Long userId);
 }
