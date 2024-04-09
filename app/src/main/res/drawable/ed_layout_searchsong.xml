@@ -2,6 +2,14 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
     <solid android:color="#029C35"/>
+    <gradient
+        android:angle="0"
+        android:startColor="#003913"
+        android:centerColor="#20CC5A"
+        android:endColor="#50EAA2"
+        android:type="linear">
+
+    </gradient>
     <stroke android:width="3dp" android:color="#01321A"/>
     <corners android:radius="30dp" />
 
