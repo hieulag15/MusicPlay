@@ -4,21 +4,19 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.example.musicplay.domain.User;
+import com.google.gson.Gson;
 
 public class SharePrefManager {
     private static final String SHARED_PREF_NAME = "registerlogin";
-    private static final String KEY_ID = "keyid";
-    private static final String KEY_PHONE = "keyphone";
-    private static final String KEY_FIRSTNAME = "keyfirstname";
-    private static final String KEY_LASTNAME = "keylastname";
-    private static final String KEY_EMAIL = "keyemail";
-    private static final String KEY_PASSWORD = "keypassword";
-    private static final String KEY_ROLE = "keyrole";
+    private static final String KEY_USER = "user";
     private static SharePrefManager mInstance;
     private static Context ctx;
+    private final SharedPreferences sharedPreferences;
+    private final Gson gson = new Gson();
 
     private SharePrefManager(Context context) {
         ctx = context;
+        sharedPreferences = ctx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
     }
 
     public static synchronized SharePrefManager getInstance(Context context) {
@@ -30,33 +28,26 @@ public class SharePrefManager {
 
     //Chua user data trong shared preferences
     public void userLogin(User user) {
-        SharedPreferences sharedPreferences = ctx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putLong(KEY_ID, user.getId());
-        editor.putString(KEY_PHONE, user.getPhone());
-        editor.putString(KEY_EMAIL, user.getEmail());
-        editor.putString(KEY_FIRSTNAME, user.getFirst_name());
-        editor.putString(KEY_LASTNAME, user.getLast_name());
-        editor.putString(KEY_ROLE, user.getRole());
-        editor.putString(KEY_PASSWORD, user.getPassword());
+        String userJson = gson.toJson(user);
+        editor.putString(KEY_USER, userJson);
         editor.apply();
     }
 
     public boolean isLoggedIn() {
-        SharedPreferences sharedPreferences = ctx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
-        return sharedPreferences.getString(KEY_PHONE, null) != null;
+        return sharedPreferences.getString(KEY_USER, null) != null;
     }
 
     public User getUser() {
+        String userJson = sharedPreferences.getString(KEY_USER, null);
+        return gson.fromJson(userJson, User.class);
+    }
+
+    public void logout() {
         SharedPreferences sharedPreferences = ctx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
-        return new User(
-                sharedPreferences.getLong(KEY_ID, -1),
-                sharedPreferences.getString(KEY_PHONE, null),
-                sharedPreferences.getString(KEY_FIRSTNAME, null),
-                sharedPreferences.getString(KEY_LASTNAME, null),
-                sharedPreferences.getString(KEY_EMAIL, null),
-                sharedPreferences.getString(KEY_PASSWORD, null)
-        );
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove(KEY_USER);
+        editor.apply();
     }
 
 }

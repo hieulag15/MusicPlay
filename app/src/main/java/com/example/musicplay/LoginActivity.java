@@ -72,6 +72,7 @@ public class LoginActivity extends AppCompatActivity {
                                 if (userMessage.getUser() != null) {
                                     Toast.makeText(LoginActivity.this, userMessage.getMessage(), Toast.LENGTH_SHORT).show();
                                     User user = userMessage.getUser();
+                                    SharePrefManager.getInstance(getApplicationContext()).userLogin(user);
                                     if ("admin".equals(user.getRole())) {
                                         Intent intent = new Intent(LoginActivity.this, AdminActivity.class);
                                         startActivity(intent);
