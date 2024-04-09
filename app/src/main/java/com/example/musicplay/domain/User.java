@@ -85,7 +85,7 @@ public class User implements Serializable {
         return last_name;
     }
 
-    public void setLastn_name(String lastn_name) {
+    public void setLast_name(String last_name) {
         this.last_name = last_name;
     }
 

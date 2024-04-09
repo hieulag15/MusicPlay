@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -13,8 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.musicplay.api.UserApi;
 import com.example.musicplay.domain.User;
-import com.example.musicplay.domain.UserMessage;
-import com.example.musicplay.fragment.UserFragment;
 import com.example.musicplay.retrofit.RetrofitClient;
 import com.example.musicplayer.R;
 
@@ -84,7 +81,7 @@ public class EditUserActivity extends AppCompatActivity {
         userApi = RetrofitClient.getInstance().getRetrofit().create(UserApi.class);
         User userUpdate = user;
         userUpdate.setFirst_name(edFirstName.getText().toString());
-        userUpdate.setLastn_name(edLastname.getText().toString());
+        userUpdate.setLast_name(edLastname.getText().toString());
         userUpdate.setEmail(edEmail.getText().toString());
         userUpdate.setPassword(edPassword.getText().toString());
 
