@@ -22,6 +22,9 @@
             <size android:height="30dp" android:width="100dp"/>
             <corners android:radius="40dp" />
             <solid android:color="@color/primary"/>
+
         </shape>
     </item>
+
+
 </selector>
