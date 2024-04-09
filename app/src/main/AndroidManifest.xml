@@ -34,6 +34,7 @@
         <activity android:name="com.example.musicplay.MainActivity"></activity>
         <activity android:name="com.example.musicplay.PlayerActivity"></activity>
         <activity android:name="com.example.musicplay.RegisterActivity"></activity>
+        <activity android:name="com.example.musicplay.EditUserActivity"></activity>
     </application>
 
 </manifest>

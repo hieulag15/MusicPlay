@@ -20,8 +20,8 @@ public interface UserApi {
     @POST("user/delete")
     Call<UserMessage> deteleUser(@Field("userId") Long id);
 
-    @PUT("user/update")
-    Call<UserMessage> updateUser(@Path("id") Long id, @Body User user);
+    @PUT("user/update/{id}")
+    Call<User> update(@Path("id") long id, @Body User user);
 
     @POST("user/register")
     Call<UserMessage> register(@Body User user);
