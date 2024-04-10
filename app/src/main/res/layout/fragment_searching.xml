@@ -22,7 +22,7 @@
 
 
             <ImageButton
-                android:id="@+id/ibBackSearching"
+                android:id="@+id/btnBack"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="?attr/selectableItemBackgroundBorderless"
@@ -34,7 +34,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
-                android:id="@+id/edSearching"
+                android:id="@+id/edSearch"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="56dp"
@@ -44,7 +44,7 @@
                 android:background="@color/transparent"/>
 
             <ImageButton
-                android:id="@+id/ibSearch"
+                android:id="@+id/btnSearch"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginTop="10dp"

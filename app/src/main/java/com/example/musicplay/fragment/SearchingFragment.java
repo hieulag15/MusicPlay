@@ -1,28 +1,21 @@
 package com.example.musicplay.fragment;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.musicplay.PlayerActivity;
-import com.example.musicplay.adapter.SongListAdapter;
 import com.example.musicplay.api.SongApi;
-import com.example.musicplay.domain.OnItemClickListener;
 import com.example.musicplay.domain.Song;
 import com.example.musicplay.domain.SongMessage;
 import com.example.musicplay.retrofit.RetrofitClient;
@@ -35,51 +28,34 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SearchFragment extends Fragment {
-    private List<Song> songs;
-    private EditText edSearch;
-    private RecyclerView songRecyclerView;
-    private SongListAdapter songListAdapter;
-    private ImageButton btnSearch;
+public class SearchingFragment extends Fragment {
     private View view;
+    private EditText edSearch;
     private SongApi songApi;
+    private ImageButton btnSearch, btnBack;
+    private FragmentManager fragmentManager;
+    private TextView tvSearchResult;
 
-    public SearchFragment() {
+    public SearchingFragment() {
         // Required empty public constructor
     }
 
-
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_search, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        view  = inflater.inflate(R.layout.fragment_searching, container, false);
 
         init();
         setEvent();
+
         return view;
     }
 
     private void init() {
         edSearch = view.findViewById(R.id.edSearch);
-        btnSearch = view.findViewById(R.id.btnSearchSong);
-        songRecyclerView = view.findViewById(R.id.songRecyclerView);
-
-        songRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        getSong(songs);
-    }
-
-    private void getSong(List<Song> songs) {
-        if (songs != null && !songs.isEmpty()) {
-            songListAdapter.setOnItemClickListener(new OnItemClickListener() {
-                @Override
-                public void onItemClick(int position) {
-                    Song song = songs.get(position);
-                    Intent intent = new Intent(getActivity(), PlayerActivity.class);
-                    intent.putExtra("position", position);
-                    intent.putExtra("songs", (Serializable) songs);
-                    startActivity(intent);
-                }
-            });
-        }
+        btnSearch = view.findViewById(R.id.btnSearch);
+        btnBack = view.findViewById(R.id.btnBack);
+        tvSearchResult = view.findViewById(R.id.tvFirstSong);
     }
 
     private void setEvent() {
@@ -97,6 +73,15 @@ public class SearchFragment extends Fragment {
             }
         });
 
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fragmentManager = getParentFragmentManager();
+                SearchFragment searchFragment = new SearchFragment();
+                fragmentManager.beginTransaction().replace(R.id.container, searchFragment).commit();
+            }
+        });
+
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -108,12 +93,19 @@ public class SearchFragment extends Fragment {
                     public void onResponse(Call<SongMessage> call, Response<SongMessage> response) {
                         if (response.isSuccessful()) {
                             SongMessage songMessage = response.body();
-                            songs = songMessage.getSongs();
+                            List<Song> songs = songMessage.getSongs();
 
-                            songListAdapter = new SongListAdapter(songs);
-                            songRecyclerView.setAdapter(songListAdapter);
-                            songRecyclerView.setHasFixedSize(true);
-                            songListAdapter.notifyDataSetChanged();
+                            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                            FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+                            Fragment searchFragment = new SearchFragment();
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("songs", (Serializable) songs);
+                            searchFragment.setArguments(bundle);
+
+                            transaction.replace(R.id.container, searchFragment);
+                            transaction.addToBackStack(null);
+                            transaction.commit();
                         }
                     }
 
