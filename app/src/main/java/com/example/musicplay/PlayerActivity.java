@@ -15,9 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.musicplay.SQLite.DatabaseHelper;
-import com.example.musicplay.adapter.SongAdapter;
 import com.example.musicplay.api.FavouriteApi;
-import com.example.musicplay.api.SongApi;
 import com.example.musicplay.domain.FavouriteMessage;
 import com.example.musicplay.domain.Song;
 import com.example.musicplay.domain.User;
@@ -186,20 +184,24 @@ public class PlayerActivity extends AppCompatActivity {
     }
 
     private void favouriteSong(Song song) {
+        System.out.println("isFavorite: " + isFavorite);
         User user = SharePrefManager.getInstance(getApplicationContext()).getUser();
         favouriteApi = RetrofitClient.getInstance().getRetrofit().create(FavouriteApi.class);
         Call<FavouriteMessage> call;
 
         if (isFavorite) {
             call = favouriteApi.deleteFavourite(song.getId(), user.getId());
+            System.out.println("delete");
         } else {
             call = favouriteApi.addFavourite(song.getId(), user.getId());
+            System.out.println("add");
         }
 
         call.enqueue(new Callback<FavouriteMessage>() {
             @Override
             public void onResponse(Call<FavouriteMessage> call, Response<FavouriteMessage> response) {
                 if (response.isSuccessful()) {
+                    System.out.println("success");
                     FavouriteMessage favouriteMessage = response.body();
                     if (favouriteMessage.getMessage().equals("Successful")) {
                         isFavorite = !isFavorite;

@@ -130,8 +130,10 @@ public class HomeFragment extends Fragment {
                     int count;
                     if (favourites == null) {
                         count = 0;
+                        System.out.println("null");
                     } else {
                         count = favourites.size();
+                        System.out.println(count);
                     }
                     favouriteDescription.setText("Hiện tại có " + count + " ca khúc được bạn thích");
                 }
