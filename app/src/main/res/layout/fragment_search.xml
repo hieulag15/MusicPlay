@@ -44,7 +44,7 @@
                     android:id="@+id/edSearch"
                     android:layout_width="0dp"
                     android:layout_height="64dp"
-                    android:background="@drawable/ed_layout_searchsong"
+                    android:background="@drawable/intro_btn_background"
                     android:drawablePadding="@dimen/pd_2"
                     android:paddingStart="@dimen/pd_2"
                     android:paddingEnd="@dimen/pd_2"
@@ -61,6 +61,7 @@
                     android:layout_height="64dp"
                     android:layout_marginEnd="@dimen/pd_2"
                     android:src="@drawable/ic_mini_search"
+                    android:background="@drawable/intro_btn_background"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/edSearch" />
 
