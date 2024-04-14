@@ -1,61 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
-    android:background="@drawable/loginbkg">
+    android:background="@color/main_backgroud">
 
-    <androidx.cardview.widget.CardView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="30dp"
-        app:cardCornerRadius="30dp"
-        app:cardElevation="20dp"
-        android:background="@drawable/custom_edittext">
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_gradient"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="center_horizontal"
-            android:padding="24dp">
+            android:orientation="vertical">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/tvTitleSong"
-                android:textSize="36sp"
+                android:textSize="50sp"
                 android:textAlignment="center"
                 android:hint="@string/login"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="128dp"
                 android:textStyle="bold"
-                android:textColorHint="@color/purple"/>
+                android:textColorHint="@color/white"/>
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:id="@+id/edLoginPhone"
-                android:background="@drawable/custom_edittext"
+                android:background="@drawable/intro_btn_background"
                 android:drawablePadding="8dp"
                 android:hint="Số điện thoại"
                 android:padding="8dp"
-                android:textColor="@color/black"
+                android:ems="10"
+                android:layout_marginBottom="16dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
                 android:textColorHighlight="@color/cardview_dark_background"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="128dp"
+                android:textAlignment="center"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView"/>
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:id="@+id/edLoginPW"
-                android:background="@drawable/custom_edittext"
-
+                android:background="@drawable/intro_btn_background"
+                android:ems="10"
                 android:drawablePadding="8dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
                 android:hint="Mật khẩu"
                 android:padding="8dp"
+                android:textAlignment="center"
                 android:inputType="textPassword"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
                 android:textColorHighlight="@color/cardview_dark_background"
                 android:layout_marginTop="20dp"/>
             <Button
@@ -63,22 +72,26 @@
                 android:layout_height="60dp"
                 android:id="@+id/btnLogin"
                 android:text="@string/login"
-                android:textSize="18sp"
-                android:layout_marginTop="30dp"
-                android:backgroundTint="@color/purple"
+                android:textSize="22sp"
+                android:textColor="@color/white"
+                android:layout_marginTop="64dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:background="@drawable/intro_btn_background"
                 app:cornerRadius = "20dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="@string/forward_register"
+                android:textSize="16sp"
+                android:textAlignment="center"
+                android:id="@+id/tvRegister"
+                android:textColor="@color/white"
+                android:layout_marginBottom="20dp"/>
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:text="@string/forward_register"
-        android:textSize="14sp"
-        android:textAlignment="center"
-        android:id="@+id/tvRegister"
-        android:textColor="@color/purple"
-        android:layout_marginBottom="20dp"/>
+    </ScrollView>
 
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
