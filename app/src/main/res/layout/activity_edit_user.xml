@@ -5,12 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/bg_layout">
+    android:background="@color/main_backgroud">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="732dp"
         android:layout_marginStart="4dp"
+        android:background="@drawable/bg_gradient"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -34,8 +35,8 @@
                 android:layout_height="match_parent"
                 android:background="@color/transparent"
                 android:hint="@string/edit_user"
-                android:textColor="@color/primary"
-                android:textColorHint="@color/primary"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
                 tools:layout_editor_absoluteX="56dp"
                 tools:layout_editor_absoluteY="0dp" />
 
@@ -53,6 +54,9 @@
                     style="@style/ed_primary"
                     android:hint="@string/first_name"
                     android:inputType="text"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:background="@drawable/intro_btn_background"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -62,6 +66,9 @@
                     style="@style/ed_primary"
                     android:hint="@string/last_name"
                     android:inputType="text"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:background="@drawable/intro_btn_background"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -70,6 +77,9 @@
                     style="@style/ed_primary"
                     android:hint="@string/email"
                     android:inputType="textEmailAddress"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:background="@drawable/intro_btn_background"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -79,6 +89,9 @@
                     android:hint="@string/phone"
                     android:inputType="none"
                     android:editable="false"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:background="@drawable/intro_btn_background"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -87,6 +100,9 @@
                     style="@style/ed_primary"
                     android:hint="@string/password"
                     android:inputType="text"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:background="@drawable/intro_btn_background"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -98,7 +114,8 @@
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/btnEditUserCancel"
-                        style="@style/button_black"
+
+                        style="@style/button"
                         android:layout_width="0dp"
                         android:layout_weight="0.5"
                         android:layout_marginRight="2dp"
