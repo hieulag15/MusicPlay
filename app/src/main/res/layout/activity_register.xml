@@ -3,11 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color">
+    android:background="@color/main_backgroud">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/bg_gradient"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -26,9 +29,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="Đăng ký"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
                 android:gravity="center"
                 android:textSize="48sp"
-                android:textColor="@color/primary"
                 android:layout_marginBottom="16dp"/>
 
             <LinearLayout
@@ -41,41 +45,54 @@
                     android:id="@+id/edFirstName"
                     style="@style/ed_primary"
                     android:hint="Họ"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:background="@drawable/intro_btn_background"
                     />
 
                 <EditText
                     android:id="@+id/edLastName"
                     style="@style/ed_primary"
                     android:hint="Tên"
-
-                    android:layout_marginTop="16dp"/>
+                    android:background="@drawable/intro_btn_background"
+                    android:layout_marginTop="16dp"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"/>
 
                 <EditText
                     android:id="@+id/edPhone"
                     style="@style/ed_primary"
                     android:hint="Số điện thoại"
-
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:background="@drawable/intro_btn_background"
                     android:layout_marginTop="16dp"/>
 
                 <EditText
                     android:id="@+id/edMail"
                     style="@style/ed_primary"
                     android:hint="Email"
-
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:background="@drawable/intro_btn_background"
                     android:layout_marginTop="16dp"/>
 
                 <EditText
                     android:id="@+id/edPassword"
                     style="@style/ed_primary"
                     android:hint="Mật khẩu"
-
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:background="@drawable/intro_btn_background"
                     android:layout_marginTop="16dp"/>
 
                 <EditText
                     android:id="@+id/edConfirmPassword"
                     style="@style/ed_primary"
                     android:hint="Xác nhận mật khẩu"
-
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:background="@drawable/intro_btn_background"
                     android:layout_marginTop="16dp"/>
 
             </LinearLayout>
@@ -85,7 +102,8 @@
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btnCancel"
-                    style="@style/button_black"
+
+                    style="@style/button"
                     android:layout_height="match_parent"
                     android:text="Hủy"
                     android:layout_weight="0.5"
