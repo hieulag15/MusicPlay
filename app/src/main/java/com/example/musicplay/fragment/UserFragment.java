@@ -56,7 +56,8 @@ public class UserFragment extends Fragment {
 
     private void edit() {
         Intent intent = new Intent(getActivity(), EditUserActivity.class);
-        intent.putExtra("data", user);
+        intent.putExtra("user", user);
+        intent.putExtra("valueFragment", 1);
         startActivity(intent);
     }
 

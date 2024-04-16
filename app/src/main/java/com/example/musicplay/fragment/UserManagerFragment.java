@@ -144,6 +144,7 @@ public class UserManagerFragment extends Fragment {
     private void editUser(User user) {
         Intent intent = new Intent(getActivity(), EditUserActivity.class);
         intent.putExtra("user", user);
+        intent.putExtra("valueFragment", 2);
         startActivity(intent);
     }
 

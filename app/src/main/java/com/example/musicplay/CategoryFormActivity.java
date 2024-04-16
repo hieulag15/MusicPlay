@@ -80,6 +80,7 @@ public class CategoryFormActivity extends AppCompatActivity {
             edName.setText("");
             edDescription.setText("");
             tvImg.setText(getResources().getString(R.string.choose_img));
+            btnSubmit.setText(getResources().getString(R.string.add_category));
         }
     }
 
@@ -147,7 +148,10 @@ public class CategoryFormActivity extends AppCompatActivity {
                     CategoryMessage categoryMessage = response.body();
                     Toast.makeText(CategoryFormActivity.this, categoryMessage.getMessage(), Toast.LENGTH_SHORT).show();
                     loadingDialog.cancel();
-                    finish();
+
+                    Intent intent = new Intent(CategoryFormActivity.this, AdminActivity.class);
+                    intent.putExtra("valueDefualt", 2);
+                    startActivity(intent);
                 }
             }
 
@@ -171,7 +175,10 @@ public class CategoryFormActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     CategoryMessage categoryMessage = response.body();
                     Toast.makeText(CategoryFormActivity.this, categoryMessage.getMessage(), Toast.LENGTH_SHORT).show();
-                    finish();
+
+                    Intent intent = new Intent(CategoryFormActivity.this, AdminActivity.class);
+                    intent.putExtra("valueDefualt", 2);
+                    startActivity(intent);
                 }
             }
 

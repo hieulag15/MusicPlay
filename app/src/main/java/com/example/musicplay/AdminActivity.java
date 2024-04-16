@@ -29,11 +29,14 @@ public class AdminActivity extends AppCompatActivity {
     TextView tvTitle;
     String title;
     FragmentManager fm;
+    private int defaultFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
+        Intent intent = getIntent();
+        defaultFragment = intent.getIntExtra("valueDefualt", 1);
 
         init();
     }
@@ -51,6 +54,7 @@ public class AdminActivity extends AppCompatActivity {
 
         fm = getSupportFragmentManager();
         loadBottomNavigationView();
+        fragmentDefault(defaultFragment);
     }
 
     private void loadData() {
@@ -84,6 +88,7 @@ public class AdminActivity extends AppCompatActivity {
                 startActivity(intent);
             } else if (currentFragment instanceof CategoryManagerFragment) {
                 intent = new Intent(AdminActivity.this, CategoryFormActivity.class);
+                intent.putExtra("addOrEdit", 1);
                 startActivity(intent);
 //            } else if (currentFragment instanceof UserManagerFragment) {
 //                intent = new Intent(AdminActivity.this, UserFormActivity.class);
@@ -124,5 +129,18 @@ public class AdminActivity extends AppCompatActivity {
                 }
         );
         forwardToFragment(new SongManagerFragment(), "SongManagerFragment");
+    }
+
+    private void fragmentDefault(int defaultFragment) {
+        if (defaultFragment == 1) {
+            forwardToFragment(new SongManagerFragment(), "SongManagerFragment");
+            menuItemSong.setChecked(true);
+        } else if (defaultFragment == 2) {
+            forwardToFragment(new CategoryManagerFragment(), "CategoryManagerFragment");
+            menuItemCategory.setChecked(true);
+        } else if (defaultFragment == 3) {
+            forwardToFragment(new UserManagerFragment(), "UserManagerFragment");
+            menuItemUser.setChecked(true);
+        }
     }
 }

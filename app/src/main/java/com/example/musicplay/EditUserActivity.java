@@ -9,9 +9,13 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.musicplay.api.UserApi;
 import com.example.musicplay.domain.User;
+import com.example.musicplay.fragment.SongManagerFragment;
+import com.example.musicplay.fragment.UserManagerFragment;
 import com.example.musicplay.retrofit.RetrofitClient;
 import com.example.musicplayer.R;
 
@@ -24,11 +28,17 @@ public class EditUserActivity extends AppCompatActivity {
     Button btnSubmit, btnCancel;
     User user;
     UserApi userApi;
+    FragmentManager fm;
+    private int defaultFragment;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_user);
+
+        Intent intent = getIntent();
+        defaultFragment = intent.getIntExtra("valueFragment", 1);
 
         init();
         loadData();
@@ -43,11 +53,14 @@ public class EditUserActivity extends AppCompatActivity {
         edPassword = findViewById(R.id.edPassword);
         btnSubmit = findViewById(R.id.btnEditUserSubmit);
         btnCancel = findViewById(R.id.btnEditUserCancel);
+
+        fm = getSupportFragmentManager();
+
     }
 
     private void loadData() {
         Intent intent = getIntent();
-        user = (User) intent.getSerializableExtra("data");
+        user = (User) intent.getSerializableExtra("user");
         edFirstName.setText(user.getFirst_name());
         edLastname.setText(user.getLast_name());
         edEmail.setText(user.getEmail());
@@ -93,9 +106,17 @@ public class EditUserActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     Toast.makeText(EditUserActivity.this, "Thành Công!", Toast.LENGTH_SHORT).show();
 
-                    Intent intent = new Intent(EditUserActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                    finish();
+                    if (defaultFragment == 1) {
+                        Intent form = new Intent(EditUserActivity.this, LoginActivity.class);
+                        startActivity(form);
+                    }
+
+                    else {
+                        Intent intent = new Intent(EditUserActivity.this, AdminActivity.class);
+                        intent.putExtra("valueDefualt", 3);
+                        startActivity(intent);
+                    }
+
                 }
             }
 
