@@ -170,17 +170,17 @@
     </style>
 
 
-    <style name="bg_primary" parent="android:Widget">
+    <style name="bg_primary" >
         <item name="android:padding">@dimen/design_default_padding</item>
         <item name="android:stateListAnimator">@animator/button_state_list_anim_neumorph</item>
         <item name="neumorph_inset">@dimen/design_default_inset</item>
         <item name="neumorph_shadowElevation">6dp</item>
-        <item name="neumorph_shadowColorLight">@color/shadowColorLight</item>
-        <item name="neumorph_shadowColorDark">@color/shadowColorDark</item>
+        <item name="neumorph_shadowColorLight">@color/black</item>
+        <item name="neumorph_shadowColorDark">@color/black</item>
         <item name="neumorph_shapeType">flat</item>
         <item name="neumorph_shapeAppearance">@style/ShapeAppearance.Neumorph.CardView</item>
-        <item name="neumorph_lightSource">leftTop</item>
-        <item name="neumorph_backgroundColor">@color/bg_layout</item>
+        <item name="neumorph_lightSource">leftBottom</item>
+        <item name="neumorph_backgroundColor">#19191b</item>
     </style>
 
     <style name="bg_primary_pressed" parent="@style/bg_primary">

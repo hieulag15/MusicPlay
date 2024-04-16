@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="770dp"
-    android:background="@color/bg_layout">
+    android:background="@color/main_backgroud">
 
 
     <ScrollView
+        android:background="@drawable/bg_gradient"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"

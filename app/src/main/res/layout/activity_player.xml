@@ -4,10 +4,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color">
+    android:background="@color/main_backgroud">
 
     <ScrollView
         android:layout_width="match_parent"
+        android:background="@drawable/bg_gradient"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -29,6 +30,7 @@
                     <ImageButton
                         android:id="@+id/btnBack"
                         style="@style/header_btn_inner"
+                        android:background="@drawable/intro_btn_left"
                         android:src="@drawable/ic_back"/>
 
                 </soup.neumorphism.NeumorphCardView>
@@ -41,8 +43,10 @@
                         style="@style/h3_2"
                         android:paddingRight="16dp"
                         android:paddingLeft="16dp"
+                        android:background="@drawable/intro_btn_background"
                         android:textAlignment="center"
                         android:text="Tên danh mục"
+                        android:textColor="@color/primary"
                         app:layout_constraintStart_toEndOf="@+id/imageButton"
                         app:layout_constraintTop_toTopOf="parent"/>
 
@@ -54,6 +58,7 @@
                     <ImageButton
                         android:id="@+id/btnOption"
                         style="@style/header_btn_inner"
+                        android:background="@drawable/intro_btn_right"
                         android:src="@drawable/ic_action"/>
 
                 </soup.neumorphism.NeumorphCardView>
@@ -69,6 +74,7 @@
                     android:id="@+id/imgMusic"
                     android:layout_width="match_parent"
                     android:layout_height="320dp"
+
                     android:foreground="@drawable/circle_small"
                     android:foregroundGravity="center"
                     android:padding="16dp"
@@ -93,6 +99,7 @@
                     <TextView
                         android:id="@+id/tvSongName"
                         style="@style/h2_2"
+                        android:textColor="#7c3660"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="50"
@@ -101,6 +108,7 @@
                     <TextView
                         android:id="@+id/tvSongSinger"
                         style="@style/h3_2"
+                        android:textColor="#7c3660"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="50"
@@ -116,6 +124,7 @@
                     <ImageButton
                         android:id="@+id/btnFavorite"
                         style="@style/header_btn_inner"
+                        android:background="@drawable/intro_btn_right"
                         android:src="@drawable/ic_favorite_white"/>
 
                 </soup.neumorphism.NeumorphCardView>
@@ -157,7 +166,7 @@
                             android:layout_weight="1"
                             android:text="00:00"
                             android:textSize="18sp"
-                            android:textColor="@color/black"/>
+                            android:textColor="#7c3660"/>
 
                         <TextView
                             android:id="@+id/tvEndTime"
@@ -167,7 +176,7 @@
                             android:gravity="end"
                             android:text="05:45"
                             android:textSize="18sp"
-                            android:textColor="@color/black"/>
+                            android:textColor="@color/primary"/>
 
                     </LinearLayout>
 
@@ -188,6 +197,7 @@
                     <ImageButton
                         android:id="@+id/btnSuffle"
                         style="@style/header_btn_inner"
+                        android:background="@drawable/intro_btn_left"
                         android:src="@drawable/icon_shuffle_black"/>
 
                 </soup.neumorphism.NeumorphCardView>
@@ -200,6 +210,7 @@
                     <ImageButton
                         android:id="@+id/btnPrevious"
                         style="@style/header_btn_inner"
+                        android:background="@drawable/intro_btn_left"
                         android:src="@drawable/ic_previous"/>
 
                 </soup.neumorphism.NeumorphCardView>
@@ -212,6 +223,7 @@
                     <ImageButton
                         android:id="@+id/btnPlay"
                         style="@style/header_btn_inner"
+                        android:background="@drawable/intro_btn_background"
                         android:src="@drawable/ic_play"/>
 
                 </soup.neumorphism.NeumorphCardView>
@@ -224,6 +236,7 @@
                     <ImageButton
                         android:id="@+id/btnNext"
                         style="@style/header_btn_inner"
+                        android:background="@drawable/intro_btn_right"
                         android:src="@drawable/ic_next"/>
 
                 </soup.neumorphism.NeumorphCardView>
@@ -236,6 +249,7 @@
                     <ImageButton
                         android:id="@+id/btnRepeat"
                         style="@style/header_btn_inner"
+                        android:background="@drawable/intro_btn_right"
                         android:src="@drawable/ic_repeat_black"/>
 
                 </soup.neumorphism.NeumorphCardView>

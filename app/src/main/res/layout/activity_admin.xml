@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color">
+    android:background="@color/main_backgroud">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="@color/bg_layout">
+        android:background="@color/main_backgroud">
 
         <LinearLayout
             style="@style/layout_header"
@@ -22,8 +22,9 @@
 
                 <ImageButton
                     android:id="@+id/btnBack"
+                    android:background="@drawable/intro_btn_right"
                     style="@style/header_btn_inner"
-                    android:src="@drawable/ic_back"/>
+                    android:src="@drawable/ic_back_admin"/>
 
             </soup.neumorphism.NeumorphCardView>
 
@@ -48,6 +49,7 @@
                 <ImageButton
                     android:id="@+id/btnAdd"
                     style="@style/header_btn_inner"
+                    android:background="@drawable/intro_btn_right"
                     android:src="@drawable/ic_add"/>
 
             </soup.neumorphism.NeumorphCardView>
@@ -80,9 +82,9 @@
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_gravity="bottom"
-        android:background="@drawable/bg_bottom_navigation_view"
-        app:itemIconTint="@color/bottom_nar_color"
-        app:itemTextColor="@color/bg_item_seleted"
+        android:background="@color/main_backgroud"
+        app:itemIconTint="@color/ed_hint_color"
+        app:itemTextColor="@color/ed_hint_color"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_navigaton_menu_admin" />
 
