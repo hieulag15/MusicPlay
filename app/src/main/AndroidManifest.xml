@@ -35,6 +35,13 @@
         <activity android:name="com.example.musicplay.PlayerActivity"></activity>
         <activity android:name="com.example.musicplay.RegisterActivity"></activity>
         <activity android:name="com.example.musicplay.EditUserActivity"></activity>
+
+        <activity android:name="com.example.musicplay.EditUserActivity"
+            tools:ignore="DuplicateActivity"></activity>
+
+        <activity android:name="com.example.musicplay.SongFormActivity"></activity>
+        <activity android:name="com.example.musicplay.CategoryFormActivity"></activity>
+
     </application>
 
 </manifest>

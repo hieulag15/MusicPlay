@@ -190,8 +190,8 @@ public class CategoryFormActivity extends AppCompatActivity {
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             mImageUri = data.getData();
-            tvImg.setText(fileImage.getName());
             fileImage = new File(RealPathUtil.getRealPath(this, mImageUri));
+            tvImg.setText(fileImage.getName());
         } else if (requestCode == PICK_MP3_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             mSongUri = data.getData();
             fileMp3 = new File(RealPathUtil.getRealPath(this, mSongUri));

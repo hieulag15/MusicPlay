@@ -105,9 +105,9 @@ public class SongManagerFragment extends Fragment {
     }
 
     private void showDialog(Song song) {
-        id_song = song.getId();
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.bottom_sheet);
+        id_song = song.getId();
 
         deleteLayout = dialog.findViewById(R.id.layout_delete);
         editLayout = dialog.findViewById(R.id.layout_edit);
