@@ -3,6 +3,7 @@ package com.example.musicplay;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -98,13 +99,13 @@ public class SongFormActivity extends AppCompatActivity {
         if (song != null) {
             setSpinerEdit();
             isEditForm = true;
-            tvTitle.setText(getResources().getString(R.string.add_song));
+            tvTitle.setText(getResources().getString(R.string.edit_song));
             edName.setText(song.getName());
             edAuthor.setText(song.getAuthor());
             edSinger.setText(song.getSinger());
             tvSongLink.setText(song.getLink());
             tvSongImg.setText(song.getImage());
-            btnSubmit.setText(getResources().getString(R.string.add));
+            btnSubmit.setText(getResources().getString(R.string.edit));
         } else {
             setSpinerAdd();
             isEditForm = false;
@@ -175,13 +176,21 @@ public class SongFormActivity extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             mImageUri = data.getData();
             String IMAGE_PATH = RealPathUtil.getRealPath(this, mImageUri);
-            tvSongImg.setText(fileImage.getName());
-            fileImage = new File(IMAGE_PATH);
+            if (IMAGE_PATH != null) {
+                fileImage = new File(IMAGE_PATH);
+                tvSongImg.setText(fileImage.getName());
+            } else {
+                Toast.makeText(this, "Unable to access the selected file", Toast.LENGTH_SHORT).show();
+            }
         } else if (requestCode == PICK_MP3_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             mSongUri = data.getData();
             String IMAGE_PATH = RealPathUtil.getRealPath(this, mSongUri);
-            tvSongLink.setText(fileMp3.getName());
-            fileMp3 = new File(IMAGE_PATH);
+            if (IMAGE_PATH != null) {
+                fileMp3 = new File(IMAGE_PATH);
+                tvSongLink.setText(fileMp3.getName());
+            } else {
+                Toast.makeText(this, "Unable to access the selected file", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -235,7 +244,14 @@ public class SongFormActivity extends AppCompatActivity {
         songApi.update(id, songUpdate).enqueue(new Callback<SongMessage>() {
             @Override
             public void onResponse(Call<SongMessage> call, Response<SongMessage> response) {
-                Toast.makeText(SongFormActivity.this, response.message(), Toast.LENGTH_SHORT);
+                if (response.isSuccessful()) {
+                    SongMessage songMessage = response.body();
+                    Toast.makeText(SongFormActivity.this, songMessage.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(SongFormActivity.this, AdminActivity.class);
+                    intent.putExtra("valueDefualt", 1);
+                    startActivity(intent);
+                }
             }
 
             @Override
@@ -271,20 +287,27 @@ public class SongFormActivity extends AppCompatActivity {
         songApi = RetrofitClient.getRetrofit().create(SongApi.class);
         LoadingDialog loadingDialog = new LoadingDialog(this);
         loadingDialog.show();
-
-        songApi.createSong(mp3, image, requestSongName, requestAuthor, requestSinger, requestIdCategory).enqueue(new Callback<SongMessage>() {
+        songApi.createSong(mp3, image, songName, author, singer, id).enqueue(new Callback<SongMessage>() {
             @Override
             public void onResponse(Call<SongMessage> call, Response<SongMessage> response) {
-                SongMessage songMessage = response.body();
-                System.out.println(songMessage.getMessage());
-                Toast.makeText(SongFormActivity.this, songMessage.getMessage(), Toast.LENGTH_SHORT).show();
-                loadingDialog.cancel();
-                finish();
+                System.out.println("hi");
+                if (response.isSuccessful()) {
+                    SongMessage songMessage = response.body();
+                    Toast.makeText(SongFormActivity.this, songMessage.getMessage(), Toast.LENGTH_SHORT).show();
+                    System.out.println(songMessage.getMessage());
+                    loadingDialog.cancel();
+
+                    Intent intent = new Intent(SongFormActivity.this, AdminActivity.class);
+                    intent.putExtra("valueDefualt", 1);
+                    startActivity(intent);
+                }
             }
 
             @Override
             public void onFailure(Call<SongMessage> call, Throwable t) {
                 loadingDialog.cancel();
+                Toast.makeText(SongFormActivity.this, "faild", Toast.LENGTH_SHORT).show();
+                Log.e("SongFormActivity", "Failed to add song", t);
                 finish();
             }
         });

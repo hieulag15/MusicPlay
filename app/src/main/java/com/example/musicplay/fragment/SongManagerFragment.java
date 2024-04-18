@@ -45,7 +45,7 @@ public class SongManagerFragment extends Fragment {
     private SongManagerAdapter mSongAdapter;
     private SongApi songApi;
     private LinearLayout deleteLayout, editLayout;
-    private Dialog dialog;
+
     private Long id_song;
 
 
@@ -57,7 +57,6 @@ public class SongManagerFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_song_manager, container, false);
-        dialog = new Dialog(getActivity());
         init();
         loadData();
         setEvent();
@@ -105,6 +104,7 @@ public class SongManagerFragment extends Fragment {
     }
 
     private void showDialog(Song song) {
+        final Dialog dialog = new Dialog(getActivity());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.bottom_sheet);
         id_song = song.getId();
@@ -146,7 +146,7 @@ public class SongManagerFragment extends Fragment {
                 Song song = songList.get(currentPosition);
                 dialog.cancel();
                 Intent intent = new Intent(getActivity(), SongFormActivity.class);
-                intent.putExtra("data", song);
+                intent.putExtra("song", song);
                 startActivity(intent);
             }
         });
