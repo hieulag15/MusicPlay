@@ -93,19 +93,16 @@
                 android:orientation="vertical"
                 android:layout_marginTop="14dp">
 
-                <soup.neumorphism.NeumorphCardView xmlns:app="http://schemas.android.com/apk/res-auto"
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-                    style="@style/bg_primary"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+
 
                     <LinearLayout
+
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center_vertical|center_horizontal"
                         android:gravity="center"
                         android:padding="@dimen/pd_2"
-                        android:background="@color/bg_layout"
+                        android:background="@drawable/intro_btn_background"
                         android:orientation="horizontal"
                         android:id="@+id/favorite">
 
@@ -139,7 +136,7 @@
                             android:layout_height="117dp"
                             android:src="@drawable/layout_favourite" />
                     </LinearLayout>
-                </soup.neumorphism.NeumorphCardView>
+
             </LinearLayout>
 
         </LinearLayout>
