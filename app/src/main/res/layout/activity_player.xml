@@ -24,7 +24,7 @@
             <LinearLayout
                 style="@style/layout_header">
 
-                <soup.neumorphism.NeumorphCardView
+                <LinearLayout
                     style="@style/header_btn">
 
                     <ImageButton
@@ -33,9 +33,9 @@
                         android:background="@drawable/intro_btn_left"
                         android:src="@drawable/ic_back"/>
 
-                </soup.neumorphism.NeumorphCardView>
+                </LinearLayout>
 
-                <soup.neumorphism.NeumorphCardView
+                <LinearLayout
                     style="@style/header_title_container">
 
                     <TextView
@@ -50,9 +50,9 @@
                         app:layout_constraintStart_toEndOf="@+id/imageButton"
                         app:layout_constraintTop_toTopOf="parent"/>
 
-                </soup.neumorphism.NeumorphCardView>
+                </LinearLayout>
 
-                <soup.neumorphism.NeumorphCardView
+                <LinearLayout
                     style="@style/header_btn">
 
                     <ImageButton
@@ -61,7 +61,7 @@
                         android:background="@drawable/intro_btn_right"
                         android:src="@drawable/ic_action"/>
 
-                </soup.neumorphism.NeumorphCardView>
+                </LinearLayout>
 
             </LinearLayout>
 

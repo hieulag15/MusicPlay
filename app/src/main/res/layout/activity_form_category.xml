@@ -74,7 +74,7 @@
                         style="@style/text_linear"
                         android:text="@string/song_img" />
 
-                    <soup.neumorphism.NeumorphCardView
+                    <LinearLayout
                         style="@style/bg_primary"
                         android:layout_height="match_parent"
                         android:layout_width="wrap_content">
@@ -83,7 +83,7 @@
                             android:id="@+id/btnChooseImage"
                             style="@style/header_btn_inner"
                             android:src="@drawable/ic_upload" />
-                    </soup.neumorphism.NeumorphCardView>
+                    </LinearLayout>
 
                 </LinearLayout>
 
