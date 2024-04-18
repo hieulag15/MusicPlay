@@ -6,13 +6,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="@color/bg_layout">
+    android:background="@color/main_backgroud">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="4dp"
         android:layout_gravity="center"
+        android:background="@drawable/bg_gradient"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -48,7 +49,7 @@
                     android:layout_gravity="center_vertical|center_horizontal"
                     android:gravity="center"
                     android:padding="@dimen/pd_2"
-                    android:background="@color/bg_layout"
+                    android:background="@color/main_backgroud"
                     android:orientation="horizontal">
 
                     <soup.neumorphism.NeumorphCardView xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -121,15 +122,17 @@
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/btnProfileLogout"
-                        style="@style/button_black"
+                        style="@style/button"
                         android:layout_width="0dp"
                         android:layout_weight="0.5"
+                        android:background="@drawable/intro_btn_left"
                         android:layout_marginRight="2dp"
                         android:text="@string/logout" />
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/btnProfileEdit"
                         style="@style/button"
+                        android:background="@drawable/intro_btn_right"
                         android:layout_width="0dp"
                         android:layout_weight="0.5"
                         android:layout_marginLeft="2dp"
