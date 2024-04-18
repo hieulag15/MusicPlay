@@ -133,7 +133,7 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">25</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:background">@drawable/bg_primary</item>
+        <item name="android:background">@drawable/intro_btn_right</item>
         <item name="android:scaleType">centerCrop</item>
         <item name="android:padding">@dimen/pd_2</item>
         <item name="android:contentDescription">@string/description</item>

@@ -5,12 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/bg_layout">
+    android:background="@color/main_backgroud">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="732dp"
         android:layout_marginStart="4dp"
+        android:background="@drawable/bg_gradient"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -46,6 +47,9 @@
                 <EditText
                     android:id="@+id/edCategoryName"
                     style="@style/ed_primary"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:background="@drawable/intro_btn_background"
                     android:hint="@string/category_name"
                     android:inputType="text"
                     app:layout_constraintStart_toStartOf="parent"
@@ -54,6 +58,9 @@
                 <EditText
                     android:id="@+id/edCategoryDescription"
                     style="@style/ed_primary"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:background="@drawable/intro_btn_background"
                     android:hint="@string/description"
                     android:inputType="text"
                     app:layout_constraintStart_toStartOf="parent"
@@ -85,15 +92,17 @@
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/btnCategoryCancel"
-                        style="@style/button_black"
+                        style="@style/button"
                         android:layout_width="0dp"
                         android:layout_weight="0.5"
+                        android:background="@drawable/intro_btn_left"
                         android:layout_marginRight="2dp"
                         android:text="@string/cancel" />
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/btnCategorySubmit"
                         style="@style/button"
+                        android:background="@drawable/intro_btn_right"
                         android:layout_width="0dp"
                         android:layout_weight="0.5"
                         android:layout_marginLeft="2dp"

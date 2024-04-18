@@ -5,10 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/bg_layout">
+    android:background="@color/main_backgroud">
 
     <ScrollView
         android:layout_width="match_parent"
+        android:background="@drawable/bg_gradient"
         android:layout_height="732dp"
         android:layout_marginStart="4dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,6 +49,9 @@
                     style="@style/ed_primary"
                     android:hint="@string/song_name"
                     android:inputType="text"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:background="@drawable/intro_btn_background"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -56,6 +60,9 @@
                     style="@style/ed_primary"
                     android:hint="@string/song_author"
                     android:inputType="text"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:background="@drawable/intro_btn_background"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -64,6 +71,9 @@
                     style="@style/ed_primary"
                     android:hint="@string/song_signer"
                     android:inputType="text"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:background="@drawable/intro_btn_background"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView" />
                 <Spinner
@@ -110,9 +120,10 @@
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/btnSongCancel"
-                        style="@style/button_black"
+                        style="@style/button"
                         android:layout_width="0dp"
                         android:layout_weight="0.5"
+                        android:background="@drawable/intro_btn_left"
                         android:layout_marginRight="2dp"
                         android:text="@string/cancel" />
 
@@ -121,6 +132,7 @@
                         style="@style/button"
                         android:layout_width="0dp"
                         android:layout_weight="0.5"
+                        android:background="@drawable/intro_btn_right"
                         android:layout_marginLeft="2dp"
                         android:text="@string/edit" />
                 </LinearLayout>
