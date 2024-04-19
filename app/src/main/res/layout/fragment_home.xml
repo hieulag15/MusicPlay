@@ -3,28 +3,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="770dp"
+    android:layout_height="810dp"
     android:background="@color/main_backgroud">
 
 
     <ScrollView
-        android:background="@drawable/bg_gradient"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/bg_gradient"
+        android:layout_marginBottom="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintVertical_bias="0.0">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:paddingTop="20dp">
+            android:paddingTop="20dp"
+            android:paddingRight="20dp">
 
             <TextView
                 android:id="@+id/txtHello"
@@ -38,8 +39,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_marginTop="14dp">
+                android:layout_marginTop="14dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/txtCategories"
@@ -55,15 +56,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    tools:layout_editor_absoluteX="20dp"
-                    android:orientation="horizontal"/>
+                    android:orientation="horizontal"
+                    tools:layout_editor_absoluteX="20dp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_marginTop="14dp">
+                android:layout_marginTop="14dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/txtLastestCategory"
@@ -72,11 +73,13 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Gần đây" />
-                <soup.neumorphism.NeumorphCardView xmlns:app="http://schemas.android.com/apk/res-auto"
-                    xmlns:android="http://schemas.android.com/apk/res/android"
+
+                <soup.neumorphism.NeumorphCardView xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
                     style="@style/bg_primary"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/lastestCategoryRecyclerView"
                         android:layout_width="match_parent"
@@ -90,52 +93,54 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_marginTop="14dp">
+                android:layout_marginTop="14dp"
+                android:orientation="vertical">
 
 
+                <LinearLayout
+
+                    android:id="@+id/favorite"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:background="@drawable/intro_btn_background"
+                    android:gravity="center"
+                    android:layout_margin="20dp"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/pd_2">
 
                     <LinearLayout
-
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_gravity="center_vertical|center_horizontal"
-                        android:gravity="center"
-                        android:padding="@dimen/pd_2"
-                        android:background="@drawable/intro_btn_background"
-                        android:orientation="horizontal"
-                        android:id="@+id/favorite">
+                        android:layout_weight="60"
+                        android:orientation="vertical">
 
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_weight="60"
+                        <TextView
+                            style="@style/h2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="start"
+                            android:text="@string/favourite" />
+
+                        <TextView
+                            android:id="@+id/favoriteDescription"
+                            style="@style/h3"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:orientation="vertical">
-                            <TextView
-                                style="@style/h2"
-                                android:text="@string/favourite"
-                                android:gravity="start"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content" />
+                            android:layout_marginTop="@dimen/mg_1"
+                            android:gravity="start"
+                            android:text="@string/favourite_description"
+                            android:textColor="@color/light_primary" />
 
-                            <TextView
-                                android:id="@+id/favoriteDescription"
-                                style="@style/h3"
-                                android:text="@string/favourite_description"
-                                android:gravity="start"
-                                android:textColor="@color/light_primary"
-                                android:layout_marginTop="@dimen/mg_1"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent" />
-
-                        </LinearLayout>
-
-                        <ImageView
-                            android:layout_width="0dp"
-                            android:layout_weight="40"
-                            android:layout_height="117dp"
-                            android:src="@drawable/layout_favourite" />
                     </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="117dp"
+                        android:layout_weight="40"
+                        android:src="@drawable/layout_favourite" />
+                </LinearLayout>
+
 
             </LinearLayout>
 

@@ -48,6 +48,7 @@
                     android:drawablePadding="@dimen/pd_2"
                     android:paddingStart="@dimen/pd_2"
                     android:paddingEnd="@dimen/pd_2"
+                    android:layout_marginRight="20dp"
                     android:text="@string/ed_search"
                     android:textColor="#FAFAFA"
                     android:textColorHint="@color/primary"
@@ -61,7 +62,7 @@
                     android:layout_height="64dp"
                     android:layout_marginEnd="@dimen/pd_2"
                     android:src="@drawable/ic_mini_search"
-                    android:background="@drawable/intro_btn_background"
+                    android:background="@drawable/intro_btn_right"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/edSearch" />
 
