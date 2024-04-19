@@ -127,16 +127,16 @@ public class HomeFragment extends Fragment {
                     FavouriteMessage favouriteMessage = response.body();
                     List<Favourite> favourites = favouriteMessage.getFavourites();
                     favouriteDescription = view.findViewById(R.id.favoriteDescription);
-                    int count;
-                    if (favourites == null) {
-                        count = 0;
+                    int len;
+                    if(favourites == null) {
+                        len = 0;
                         System.out.println("null");
                     } else {
-                        count = favourites.size();
-                        System.out.println(count);
+                        len = favourites.size();
                     }
-                    favouriteDescription.setText("Hiện tại có " + count + " ca khúc được bạn thích");
+                    favouriteDescription.setText("Hiện tại có " +len+" ca khúc được bạn thích");
                 }
+
             }
 
             @Override
