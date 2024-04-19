@@ -1,7 +1,9 @@
 package com.example.musicplay.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +57,7 @@ public class SongListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_song_list, container, false);
         init();
-        return  view;
+        return view;
     }
 
     private void init() {
@@ -70,8 +72,7 @@ public class SongListFragment extends Fragment {
             } else {
                 isCategory = false;
             }
-        }
-        else {
+        } else {
             isCategory = false;
         }
 
@@ -95,6 +96,7 @@ public class SongListFragment extends Fragment {
             public void onResponse(Call<SongMessage> call, Response<SongMessage> response) {
                 if (response.isSuccessful()) {
                     SongMessage songMessage = response.body();
+                    assert songMessage != null;
                     setupSongListAdapter(songMessage.getSongs());
                 }
             }
@@ -108,17 +110,24 @@ public class SongListFragment extends Fragment {
 
     private void getSongByFavourite() {
         User user = SharePrefManager.getInstance(getContext()).getUser();
+        Long id = user.getId();
 
-        favouriteApi = RetrofitClient.getInstance().getRetrofit().create(FavouriteApi.class);
-        favouriteApi.listByUser(user.getId()).enqueue(new Callback<FavouriteMessage>() {
+        favouriteApi = RetrofitClient.getRetrofit().create(FavouriteApi.class);
+        favouriteApi.listByUser(id).enqueue(new Callback<FavouriteMessage>() {
             @Override
             public void onResponse(Call<FavouriteMessage> call, Response<FavouriteMessage> response) {
                 if (response.isSuccessful()) {
                     FavouriteMessage favouriteMessage = response.body();
                     List<Song> songs = new ArrayList<>();
+                    List<Favourite> favourites = favouriteMessage.getFavourites();
+                    if (favourites == null) {
+                        System.out.println("null");
+                    } else {
 
-                    for (Favourite favourite : favouriteMessage.getFavourites()) {
-                        songs.add(favourite.getSong());
+                        for (Favourite favourite : favourites) {
+                            songs.add(favourite.getSong());
+                            System.out.println(favourite.getSong().getName());
+                        }
                     }
                     setupSongListAdapter(songs);
                 }
@@ -126,28 +135,34 @@ public class SongListFragment extends Fragment {
 
             @Override
             public void onFailure(Call<FavouriteMessage> call, Throwable t) {
-
+                System.out.println("khong lay dc favourite");
             }
         });
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void setupSongListAdapter(List<Song> songs) {
-        mSongAdapter = new SongListAdapter(songs);
-        mRecyclerView.setAdapter(mSongAdapter);
-        mRecyclerView.setHasFixedSize(true);
-        mSongAdapter.notifyDataSetChanged();
+        if (songs != null) {
+            mSongAdapter = new SongListAdapter(songs);
+            mRecyclerView.setAdapter(mSongAdapter);
+            mRecyclerView.setHasFixedSize(true);
+            mSongAdapter.notifyDataSetChanged();
 
-        if (songs != null && !songs.isEmpty()) {
-            mSongAdapter.setOnItemClickListener(new OnItemClickListener() {
-                @Override
-                public void onItemClick(int position) {
-                    Song song = songs.get(position);
-                    Intent intent = new Intent(getActivity(), PlayerActivity.class);
-                    intent.putExtra("position", position);
-                    intent.putExtra("songs", (Serializable) songs);
-                    startActivity(intent);
-                }
-            });
+            if (!songs.isEmpty()) {
+                mSongAdapter.setOnItemClickListener(new OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        Song song = songs.get(position);
+                        Intent intent = new Intent(getActivity(), PlayerActivity.class);
+                        intent.putExtra("position", position);
+                        intent.putExtra("songs", (Serializable) songs);
+                        startActivity(intent);
+                    }
+                });
+            }
+        }
+        else {
+            Toast.makeText(getContext(), "Không có bài hát nào", Toast.LENGTH_SHORT).show();
         }
     }
 
