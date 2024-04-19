@@ -111,7 +111,14 @@ public class PlayerActivity extends AppCompatActivity {
         btnPre.setOnClickListener(view -> playPreSong(songs));
         btnNext.setOnClickListener(view -> playNextSong(songs));
         btnfavourite.setOnClickListener(view -> favouriteSong(song));
-        btnBack.setOnClickListener(view -> finish());
+        btnBack.setOnClickListener(view -> {
+            if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+                mediaPlayer.stop();
+                mediaPlayer.release();
+                mediaPlayer = null;
+            }
+            finish();
+        });
 
         btnShuffle.setOnClickListener(view -> onShuffle());
         btnRepeat.setOnClickListener(view -> onRepeat());
@@ -333,4 +340,13 @@ public class PlayerActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+            mediaPlayer.stop();
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
+        super.onBackPressed();
+    }
 }
