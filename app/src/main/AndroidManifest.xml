@@ -47,6 +47,9 @@
         <activity android:name="com.example.musicplay.SongFormActivity"></activity>
         <activity android:name="com.example.musicplay.CategoryFormActivity"></activity>
 
+        <service android:name="com.example.musicplay.MusicService"></service>
+
+
     </application>
 
 </manifest>

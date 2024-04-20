@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:background="#FFFFFF">
+
+    <ImageView
+        android:id="@+id/miniPlayerAlbumArt"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ctctl" />
+
+    <TextView
+        android:id="@+id/miniPlayerSongName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/miniPlayerAlbumArt"
+        android:layout_marginLeft="10dp"
+        android:text="Song Name"
+        android:textSize="16sp"
+        android:textColor="#000000" />
+
+    <TextView
+        android:id="@+id/miniPlayerArtistName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/miniPlayerSongName"
+        android:layout_toRightOf="@id/miniPlayerAlbumArt"
+        android:layout_marginLeft="10dp"
+        android:text="Artist Name"
+        android:textSize="14sp"
+        android:textColor="#666666" />
+
+    <ImageButton
+        android:id="@+id/miniPlayerPlayPauseButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="135dp"
+        android:layout_toRightOf="@id/miniPlayerArtistName"
+        android:src="@drawable/ic_play" />
+
+</RelativeLayout>

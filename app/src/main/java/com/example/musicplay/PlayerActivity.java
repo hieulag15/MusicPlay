@@ -1,11 +1,20 @@
 package com.example.musicplay;
 
 import android.animation.ObjectAnimator;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -17,6 +26,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.musicplay.SQLite.DatabaseHelper;
 import com.example.musicplay.api.FavouriteApi;
 import com.example.musicplay.domain.FavouriteMessage;
+import com.example.musicplay.domain.MusicServiceListener;
 import com.example.musicplay.domain.Song;
 import com.example.musicplay.domain.User;
 import com.example.musicplay.retrofit.RetrofitClient;
@@ -26,6 +36,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -39,15 +50,22 @@ public class PlayerActivity extends AppCompatActivity {
     TextView tvSongName, tvEndTime, tvBeginTime, tvSongSinger, tvHeaderTitle;
     CircleImageView imgMusic;
     SeekBar seekBar;
-    ImageView btnPre, btnPlay, btnNext, btnfavourite, btnShuffle, btnRepeat, btnBack;
+    ImageView btnPre, btnPlay, btnNext, btnfavourite, btnShuffle, btnRepeat, btnBack, btnOption;
     ObjectAnimator objectAnimator;
-    MediaPlayer mediaPlayer;
+//    MediaPlayer mediaPlayer;
     static int position;
-    static boolean isFavorite;
+    static boolean isFavorite, isPlaying;
     List<Song> songs;
     FavouriteApi favouriteApi;
     private Boolean isShuffle, isRepeat;
     private ExecutorService executorService;
+    private Song currentSong;
+
+    private MusicService musicService;
+    private Intent playIntent;
+    private boolean musicBound = false;
+    private BroadcastReceiver broadcastReceiver;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,10 +73,30 @@ public class PlayerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_player);
         Intent intent = getIntent();
         position = intent.getIntExtra("position", 0);
-        songs = (List<Song>) intent.getSerializableExtra("songs");
-        Song songCurrent = songs.get(position);
+        songs = Collections.unmodifiableList((List<Song>) intent.getSerializableExtra("songs"));
+        currentSong = songs.get(position);
         init();
-        playMusic(songCurrent);
+
+        playIntent = new Intent(this, MusicService.class);
+        bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
+        startService(playIntent);
+
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                int currentPosition = intent.getIntExtra("currentPosition", 0);
+                System.out.println("currentPosition: " + currentPosition);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        seekBar.setProgress(currentPosition);
+                        tvBeginTime.setText(musicService.formatTime(currentPosition));
+                        seekBar.setMax(musicService.getDuration());
+                        TimeSong();
+                    }
+                });
+            }
+        };
     }
 
     private void init() {
@@ -76,6 +114,9 @@ public class PlayerActivity extends AppCompatActivity {
         btnShuffle = findViewById(R.id.btnSuffle);
         btnRepeat = findViewById(R.id.btnRepeat);
         btnBack = findViewById(R.id.btnBack);
+        btnOption = findViewById(R.id.btnOption);
+//        btnOption.setOnClickListener(view -> {onOptionButtonClicked(); valueMiniplayer();});
+
 
         Utility.setScrollText(tvSongName);
         Utility.setScrollText(tvSongSinger);
@@ -87,6 +128,9 @@ public class PlayerActivity extends AppCompatActivity {
         isRepeat = false;
 
         executorService = Executors.newSingleThreadExecutor();
+        isPlaying = false;
+
+
     }
 
     private void playMusic(Song song) {
@@ -101,27 +145,44 @@ public class PlayerActivity extends AppCompatActivity {
         tvSongName.setSelected(true);
         btnPlay.setImageResource(R.drawable.ic_pause);
         Picasso.get().load(song.getImage()).into(imgMusic);
-
-        PlayMp3(song);
-
+        musicBound = true;
+        if (musicBound) {
+            musicService.playSong(song.getLink());
+            seekBar.setProgress(0);
+            seekBar.setMax(musicService.getDuration());
+        }
         rontation();
-        UpdateSeekBar();
+        musicService.updateSeekBar();
 
         btnPlay.setOnClickListener(view -> playMusic());
         btnPre.setOnClickListener(view -> playPreSong(songs));
         btnNext.setOnClickListener(view -> playNextSong(songs));
         btnfavourite.setOnClickListener(view -> favouriteSong(song));
-        btnBack.setOnClickListener(view -> {
-            if (mediaPlayer != null && mediaPlayer.isPlaying()) {
-                mediaPlayer.stop();
-                mediaPlayer.release();
-                mediaPlayer = null;
-            }
-            finish();
-        });
+        btnBack.setOnClickListener(view -> stopMusic());
 
         btnShuffle.setOnClickListener(view -> onShuffle());
         btnRepeat.setOnClickListener(view -> onRepeat());
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                if (b) {
+                    musicService.seekTo(i);
+                    tvBeginTime.setText(musicService.formatTime(i));
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+//                musicService.onStartTrackingTouch();
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+//                musicService.onStopTrackingTouch();
+            }
+        });
+
     }
 
     private void onShuffle() {
@@ -154,15 +215,22 @@ public class PlayerActivity extends AppCompatActivity {
     }
 
     private void playMusic() {
-        if (mediaPlayer.isPlaying()) {
-            mediaPlayer.pause();
+        if (musicService.isPlaying()) {
+            musicService.pause();
             btnPlay.setImageResource(R.drawable.ic_play);
             objectAnimator.pause();
         } else {
-            mediaPlayer.start();
+            musicService.play();
             btnPlay.setImageResource(R.drawable.ic_pause);
             objectAnimator.resume();
         }
+    }
+
+    private void stopMusic() {
+        if (musicService.isPlaying()) {
+            musicService.stopMusic();
+        }
+        finish();
     }
 
     private void setFavourite(Song song) {
@@ -228,125 +296,129 @@ public class PlayerActivity extends AppCompatActivity {
         });
     }
 
-    private void UpdateSeekBar() {
-        Handler handler = new Handler();
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                if (mediaPlayer != null && mediaPlayer.isPlaying()) {
-                    int currentPosition = mediaPlayer.getCurrentPosition();
-                    seekBar.setProgress(currentPosition);
-                    tvBeginTime.setText(formatTime(currentPosition));
-                }
-                handler.postDelayed(this, 1000);
-            }
-        };
-        handler.postDelayed(runnable, 0);
-    }
 
-    private String formatTime(int timeInMillis) {
-        SimpleDateFormat formatter = new SimpleDateFormat("mm:ss");
-        return formatter.format(timeInMillis);
-    }
-
-    private void PlayMp3(Song song) {
-        executorService.execute(() -> {
-            try {
-                mediaPlayer = new MediaPlayer();
-                mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-                mediaPlayer.setDataSource(song.getLink());
-                mediaPlayer.prepare();
-                mediaPlayer.start();
-
-                // Set seekBar after mediaPlayer is prepared
-                seekBar.setProgress(0);
-                seekBar.setMax(mediaPlayer.getDuration());
-
-                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                    @Override
-                    public void onCompletion(MediaPlayer mediaPlayer) {
-                        if (isRepeat) {
-                            seekBar.setProgress(0);
-                            mediaPlayer.seekTo(0);
-                            mediaPlayer.start();
-                        } else {
-                            if (isShuffle) {
-                                playNextSong(songs);
-                            } else {
-                                playNextSong(songs);
-                            }
-                        }
-                    }
-                });
-
-                seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                    @Override
-                    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                        if (b) {
-                            mediaPlayer.seekTo(i);
-                            tvBeginTime.setText(formatTime(mediaPlayer.getCurrentPosition()));
-                        }
-                    }
-
-                    @Override
-                    public void onStartTrackingTouch(SeekBar seekBar) {
-
-                    }
-
-                    @Override
-                    public void onStopTrackingTouch(SeekBar seekBar) {
-
-                    }
-                });
-                TimeSong();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-    }
+//    private void PlayMp3(Song song) {
+//        executorService.execute(() -> {
+//            try {
+//                mediaPlayer = new MediaPlayer();
+//                mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+//                mediaPlayer.setDataSource(song.getLink());
+//                mediaPlayer.prepare();
+//                mediaPlayer.start();
+//
+//                // Set seekBar after mediaPlayer is prepared
+//                seekBar.setProgress(0);
+//                seekBar.setMax(mediaPlayer.getDuration());
+//
+//                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                    @Override
+//                    public void onCompletion(MediaPlayer mediaPlayer) {
+//                        if (isRepeat) {
+//                            seekBar.setProgress(0);
+//                            mediaPlayer.seekTo(0);
+//                            mediaPlayer.start();
+//                        } else {
+//                            if (isShuffle) {
+//                                playNextSong(songs);
+//                            } else {
+//                                playNextSong(songs);
+//                            }
+//                        }
+//                    }
+//                });
+//
+//                seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+//                    @Override
+//                    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+//                        if (b) {
+//                            mediaPlayer.seekTo(i);
+//                            tvBeginTime.setText(formatTime(mediaPlayer.getCurrentPosition()));
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onStartTrackingTouch(SeekBar seekBar) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onStopTrackingTouch(SeekBar seekBar) {
+//
+//                    }
+//                });
+//                TimeSong();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        });
+//    }
 
 
     private void playNextSong(List<Song> songs) {
-        if (position < songs.size() - 1) {
-            mediaPlayer.stop();
-            position++;
-        } else {
-            mediaPlayer.stop();
-            position = 0;
-        }
-        objectAnimator.pause();
-        playMusic(songs.get(position));
+        musicService.playNextSong();
     }
 
     private void playPreSong(List<Song> songs) {
-        if (position > 0) {
-            mediaPlayer.stop();
-            position--;
-        } else {
-            mediaPlayer.stop();
-            position = songs.size() - 1;
-        }
-        objectAnimator.pause();
-        mediaPlayer.stop();
-        playMusic(songs.get(position));
+        musicService.playPreSong();
     }
 
     private void TimeSong() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                tvEndTime.setText(formatTime(mediaPlayer.getDuration()));
+                if (musicService != null) {
+                    tvEndTime.setText(musicService.formatTime(musicService.getDuration()));
+                }
             }
         });
     }
 
     @Override
     public void onBackPressed() {
-        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
-            mediaPlayer.stop();
-            mediaPlayer.release();
-            mediaPlayer = null;
-        }
+        musicService.stopMusic();
         super.onBackPressed();
+    }
+
+    private void valueMiniplayer() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("valueMiniplayer", 2);
+        startActivity(intent);
+        finish();
+    }
+
+//    public void onOptionButtonClicked() {
+//        SharedPreferences sharedPreferences = getSharedPreferences("PlayerState", MODE_PRIVATE);
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        editor.putString("currentSong", String.valueOf(currentSong.getName())); // currentSong là bài hát đang phát
+//        editor.putInt("position", mediaPlayer.getCurrentPosition());
+//        editor.apply();
+//    }
+
+    private ServiceConnection musicConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            MusicService.MusicBinder binder = (MusicService.MusicBinder) service;
+            musicService = binder.getService();
+            musicBound = true;
+
+            playMusic(currentSong);
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            musicBound = false;
+        }
+    };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(broadcastReceiver, new IntentFilter(MusicService.BROADCAST_ACTION));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(broadcastReceiver);
     }
 }

@@ -173,7 +173,6 @@ public class HomeFragment extends Fragment {
                                 songListAdapter.setOnItemClickListener(new OnItemClickListener() {
                                     @Override
                                     public void onItemClick(int position) {
-                                        Song song = songs.get(position);
                                         Intent intent = new Intent(getActivity(), PlayerActivity.class);
                                         intent.putExtra("position", position);
                                         intent.putExtra("songs", (Serializable) songs);
@@ -209,4 +208,5 @@ public class HomeFragment extends Fragment {
             }
         });
     }
+
 }
