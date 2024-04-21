@@ -7,14 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
-import android.content.SharedPreferences;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -26,7 +20,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.musicplay.SQLite.DatabaseHelper;
 import com.example.musicplay.api.FavouriteApi;
 import com.example.musicplay.domain.FavouriteMessage;
-import com.example.musicplay.domain.MusicServiceListener;
 import com.example.musicplay.domain.Song;
 import com.example.musicplay.domain.User;
 import com.example.musicplay.retrofit.RetrofitClient;
@@ -34,8 +27,6 @@ import com.example.musicplay.utilities.Utility;
 import com.example.musicplayer.R;
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -45,6 +36,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import com.example.musicplay.domain.MusicServiceListener;
 
 public class PlayerActivity extends AppCompatActivity {
     TextView tvSongName, tvEndTime, tvBeginTime, tvSongSinger, tvHeaderTitle;
@@ -97,6 +90,8 @@ public class PlayerActivity extends AppCompatActivity {
                 });
             }
         };
+
+
     }
 
     private void init() {
@@ -147,6 +142,7 @@ public class PlayerActivity extends AppCompatActivity {
         Picasso.get().load(song.getImage()).into(imgMusic);
         musicBound = true;
         if (musicBound) {
+            musicService.setSongs(songs);
             musicService.playSong(song.getLink());
             seekBar.setProgress(0);
             seekBar.setMax(musicService.getDuration());
@@ -193,6 +189,7 @@ public class PlayerActivity extends AppCompatActivity {
             isShuffle = true;
             btnShuffle.setImageResource(R.drawable.icon_shuffle_black);
         }
+        musicService.setShuffle(isShuffle);
     }
 
     private void onRepeat() {
@@ -203,6 +200,7 @@ public class PlayerActivity extends AppCompatActivity {
             isRepeat = true;
             btnRepeat.setImageResource(R.drawable.ic_repeat_black);
         }
+        musicService.setRepeat(isRepeat);
     }
 
     private void rontation() {
@@ -228,7 +226,7 @@ public class PlayerActivity extends AppCompatActivity {
 
     private void stopMusic() {
         if (musicService.isPlaying()) {
-            musicService.stopMusic();
+            musicService.pause();
         }
         finish();
     }
@@ -259,17 +257,14 @@ public class PlayerActivity extends AppCompatActivity {
     }
 
     private void favouriteSong(Song song) {
-        System.out.println("isFavorite: " + isFavorite);
         User user = SharePrefManager.getInstance(getApplicationContext()).getUser();
         favouriteApi = RetrofitClient.getInstance().getRetrofit().create(FavouriteApi.class);
         Call<FavouriteMessage> call;
 
         if (isFavorite) {
             call = favouriteApi.deleteFavourite(song.getId(), user.getId());
-            System.out.println("delete");
         } else {
             call = favouriteApi.addFavourite(song.getId(), user.getId());
-            System.out.println("add");
         }
 
         call.enqueue(new Callback<FavouriteMessage>() {
@@ -355,11 +350,29 @@ public class PlayerActivity extends AppCompatActivity {
 
 
     private void playNextSong(List<Song> songs) {
+        musicService.setSongs(songs);
         musicService.playNextSong();
+        Song CurrentSong = musicService.getCurrentSong();
+        tvSongName.setText(CurrentSong.getName());
+        tvSongSinger.setText(CurrentSong.getSinger());
+        tvHeaderTitle.setText(CurrentSong.getCategory().getName());
+        tvSongName.setSelected(true);
+        Picasso.get().load(CurrentSong.getImage()).into(imgMusic);
+        btnPlay.setImageResource(R.drawable.ic_pause);
+        setFavourite(CurrentSong);
     }
 
     private void playPreSong(List<Song> songs) {
+        musicService.setSongs(songs);
         musicService.playPreSong();
+        Song CurrentSong = musicService.getCurrentSong();
+        tvSongName.setText(CurrentSong.getName());
+        tvSongSinger.setText(CurrentSong.getSinger());
+        tvHeaderTitle.setText(CurrentSong.getCategory().getName());
+        tvSongName.setSelected(true);
+        Picasso.get().load(CurrentSong.getImage()).into(imgMusic);
+        btnPlay.setImageResource(R.drawable.ic_pause);
+        setFavourite(CurrentSong);
     }
 
     private void TimeSong() {
@@ -402,6 +415,33 @@ public class PlayerActivity extends AppCompatActivity {
             musicBound = true;
 
             playMusic(currentSong);
+
+            musicService.setListener(new MusicServiceListener() {
+                @Override
+                public void onProgressChanged(int progress) {
+
+                }
+
+                @Override
+                public void onStartTrackingTouch() {
+
+                }
+
+                @Override
+                public void onStopTrackingTouch() {
+
+                }
+
+                @Override
+                public void onCompletion() {
+
+                }
+
+                @Override
+                public void onSongChanged(Song song) {
+                    updateUI(song);
+                }
+            });
         }
 
         @Override
@@ -420,5 +460,15 @@ public class PlayerActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         unregisterReceiver(broadcastReceiver);
+    }
+
+    private void updateUI(Song song) {
+        tvSongName.setText(song.getName());
+        tvSongSinger.setText(song.getSinger());
+        tvHeaderTitle.setText(song.getCategory().getName());
+        tvSongName.setSelected(true);
+        Picasso.get().load(song.getImage()).into(imgMusic);
+        btnPlay.setImageResource(R.drawable.ic_pause);
+        setFavourite(song);
     }
 }

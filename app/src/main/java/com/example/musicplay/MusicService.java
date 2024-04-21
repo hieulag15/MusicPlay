@@ -23,23 +23,37 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class MusicService extends Service {
+    // Để sử dụng MediaPlayer và xử lý âm nhạc
     private MediaPlayer mediaPlayer;
+
+    // ExecutorService để thực thi các tác vụ nền
     private ExecutorService executorService;
+
+    // Vị trí hiện tại của bài hát đang phát
     private int position;
+
+    // Danh sách các bài hát
     private List<Song> songs;
 
+    // Action để cập nhật thanh seekbar
     public static final String BROADCAST_ACTION = "com.example.musicplay.seekbarupdate";
 
-    private final Handler handler = new Handler();
+    // Intent để gửi thông điệp cập nhật seekbar
     private Intent seekbarIntent;
 
+    // Listener để lắng nghe sự kiện của MusicService
     private MusicServiceListener listener;
 
+    // Phương thức để thiết lập listener
     public void setListener(MusicServiceListener listener) {
         this.listener = listener;
     }
 
+    // Cờ cho việc lặp lại bài hát
+    private boolean isRepeat = false;
 
+    // Cờ cho việc phát ngẫu nhiên bài hát
+    private boolean isShuffle = false;
 
     private final IBinder binder = new MusicBinder();
 
@@ -50,28 +64,11 @@ public class MusicService extends Service {
         executorService = Executors.newSingleThreadExecutor();
         seekbarIntent = new Intent(BROADCAST_ACTION);
         updateSeekBar();
+        setSongs(songs);
     }
 
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        String actionName = intent.getStringExtra("actionName");
-        if (actionName != null) {
-            switch (actionName) {
-                case "playPause":
-                    if (PlayerActivity.isPlaying) {
-                        PlayerActivity.isPlaying = false;
-                        mediaPlayer.pause();
-                    } else {
-                        PlayerActivity.isPlaying = true;
-                        mediaPlayer.start();
-                    }
-                    break;
-                case "next":
-                    break;
-                case "prev":
-                    break;
-            }
-        }
-        return super.onStartCommand(intent, flags, startId);
+    public void setSongs(List<Song> songs) {
+        this.songs = songs;
     }
 
     @Override
@@ -85,15 +82,35 @@ public class MusicService extends Service {
     }
 
     public void playSong(String songLink) {
-        if (mediaPlayer.isPlaying()) {
+        if (mediaPlayer.isPlaying() && mediaPlayer != null) {
             mediaPlayer.stop();
-            mediaPlayer.reset();
         }
+        mediaPlayer.reset();
         executorService.execute(() -> {
             try {
                 mediaPlayer.setDataSource(songLink);
-                mediaPlayer.prepare();
-                mediaPlayer.start();
+                mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                    @Override
+                    public void onPrepared(MediaPlayer mp) {
+                        mp.start();
+                    }
+                });
+                mediaPlayer.prepareAsync();
+                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mediaPlayer) {
+                        if (isRepeat) {
+                            mediaPlayer.seekTo(0);
+                            mediaPlayer.start();
+                        } else {
+                            if (isShuffle) {
+                                playNextSong();
+                            } else {
+                                playNextSong();
+                            }
+                        }
+                    }
+                });
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -136,6 +153,9 @@ public class MusicService extends Service {
             position = 0;
         }
         playSong(songs.get(position).getLink());
+        if (listener != null) {
+            listener.onSongChanged(songs.get(position));
+        }
     }
 
     public void playPreSong() {
@@ -147,6 +167,9 @@ public class MusicService extends Service {
             position = songs.size() - 1;
         }
         playSong(songs.get(position).getLink());
+        if (listener != null) {
+            listener.onSongChanged(songs.get(position));
+        }
     }
 
     public void stopMusic() {
@@ -197,5 +220,17 @@ public class MusicService extends Service {
         if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
             mediaPlayer.start();
         }
+    }
+
+    public Song getCurrentSong() {
+        return songs.get(position);
+    }
+
+    public void setRepeat(boolean isRepeat) {
+        this.isRepeat = isRepeat;
+    }
+
+    public void setShuffle(boolean isShuffle) {
+        this.isShuffle = isShuffle;
     }
 }

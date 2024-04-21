@@ -5,4 +5,5 @@ public interface MusicServiceListener {
     void onStartTrackingTouch();
     void onStopTrackingTouch();
     void onCompletion();
+    void onSongChanged(Song song);
 }
