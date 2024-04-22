@@ -234,4 +234,11 @@ public class MusicService extends Service {
     public void setShuffle(boolean isShuffle) {
         this.isShuffle = isShuffle;
     }
+
+    public int getCurrentPosition() {
+        if (mediaPlayer != null) {
+            return mediaPlayer.getCurrentPosition();
+        }
+        return 0;
+    }
 }

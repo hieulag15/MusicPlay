@@ -13,31 +13,41 @@
 
     <TextView
         android:id="@+id/miniPlayerSongName"
-        android:layout_width="wrap_content"
+        android:layout_width="110dp"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/miniPlayerAlbumArt"
         android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/miniPlayerAlbumArt"
         android:text="Song Name"
-        android:textSize="16sp"
-        android:textColor="#000000" />
+        android:textColor="#000000"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/miniPlayerArtistName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/miniPlayerSongName"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="6dp"
         android:layout_toRightOf="@id/miniPlayerAlbumArt"
-        android:layout_marginLeft="10dp"
         android:text="Artist Name"
-        android:textSize="14sp"
-        android:textColor="#666666" />
+        android:textColor="#666666"
+        android:textSize="14sp" />
+
+
+    <soup.neumorphism.NeumorphCardView
+        style="@style/bg_primary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    </soup.neumorphism.NeumorphCardView>
 
     <ImageButton
         android:id="@+id/miniPlayerPlayPauseButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="135dp"
-        android:layout_toRightOf="@id/miniPlayerArtistName"
+        style="@style/header_btn_inner"
+        android:layout_width="36dp"
+        android:layout_height="37dp"
+        android:layout_marginLeft="104dp"
+        android:background="@drawable/intro_btn_background"
         android:src="@drawable/ic_play" />
 
 </RelativeLayout>

@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.view.animation.LinearInterpolator;
@@ -67,10 +68,8 @@ public class PlayerActivity extends AppCompatActivity {
         Intent intent = getIntent();
         position = intent.getIntExtra("position", 0);
         songs = Collections.unmodifiableList((List<Song>) Objects.requireNonNull(intent.getSerializableExtra("songs")));
-        System.out.println("position: " + position);
 
         currentSong = songs.get(position);
-        System.out.println("currentSong: " + currentSong.getName());
         init();
 
         playIntent = new Intent(this, MusicService.class);
@@ -113,7 +112,7 @@ public class PlayerActivity extends AppCompatActivity {
         btnRepeat = findViewById(R.id.btnRepeat);
         btnBack = findViewById(R.id.btnBack);
         btnOption = findViewById(R.id.btnOption);
-//        btnOption.setOnClickListener(view -> {onOptionButtonClicked(); valueMiniplayer();});
+        btnOption.setOnClickListener(view -> {onOptionButtonClicked();});
 
 
         Utility.setScrollText(tvSongName);
@@ -331,13 +330,15 @@ public class PlayerActivity extends AppCompatActivity {
         finish();
     }
 
-//    public void onOptionButtonClicked() {
-//        SharedPreferences sharedPreferences = getSharedPreferences("PlayerState", MODE_PRIVATE);
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-//        editor.putString("currentSong", String.valueOf(currentSong.getName())); // currentSong là bài hát đang phát
-//        editor.putInt("position", mediaPlayer.getCurrentPosition());
-//        editor.apply();
-//    }
+    public void onOptionButtonClicked() {
+        SharedPreferences sharedPreferences = getSharedPreferences("PlayerState", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("currentSong", String.valueOf(currentSong.getName())); // currentSong là bài hát đang phát
+        editor.putInt("position", musicService.getCurrentPosition());
+        editor.apply();
+
+        valueMiniplayer();
+    }
 
     private ServiceConnection musicConnection = new ServiceConnection() {
         @Override
