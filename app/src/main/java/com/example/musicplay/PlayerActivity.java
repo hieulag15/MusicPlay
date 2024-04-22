@@ -29,6 +29,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -45,7 +46,6 @@ public class PlayerActivity extends AppCompatActivity {
     SeekBar seekBar;
     ImageView btnPre, btnPlay, btnNext, btnfavourite, btnShuffle, btnRepeat, btnBack, btnOption;
     ObjectAnimator objectAnimator;
-//    MediaPlayer mediaPlayer;
     static int position;
     static boolean isFavorite, isPlaying;
     List<Song> songs;
@@ -66,8 +66,11 @@ public class PlayerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_player);
         Intent intent = getIntent();
         position = intent.getIntExtra("position", 0);
-        songs = Collections.unmodifiableList((List<Song>) intent.getSerializableExtra("songs"));
+        songs = Collections.unmodifiableList((List<Song>) Objects.requireNonNull(intent.getSerializableExtra("songs")));
+        System.out.println("position: " + position);
+
         currentSong = songs.get(position);
+        System.out.println("currentSong: " + currentSong.getName());
         init();
 
         playIntent = new Intent(this, MusicService.class);
@@ -145,7 +148,6 @@ public class PlayerActivity extends AppCompatActivity {
             musicService.setSongs(songs);
             musicService.playSong(song.getLink());
             seekBar.setProgress(0);
-            seekBar.setMax(musicService.getDuration());
         }
         rontation();
         musicService.updateSeekBar();
@@ -291,88 +293,18 @@ public class PlayerActivity extends AppCompatActivity {
         });
     }
 
-
-//    private void PlayMp3(Song song) {
-//        executorService.execute(() -> {
-//            try {
-//                mediaPlayer = new MediaPlayer();
-//                mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-//                mediaPlayer.setDataSource(song.getLink());
-//                mediaPlayer.prepare();
-//                mediaPlayer.start();
-//
-//                // Set seekBar after mediaPlayer is prepared
-//                seekBar.setProgress(0);
-//                seekBar.setMax(mediaPlayer.getDuration());
-//
-//                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-//                    @Override
-//                    public void onCompletion(MediaPlayer mediaPlayer) {
-//                        if (isRepeat) {
-//                            seekBar.setProgress(0);
-//                            mediaPlayer.seekTo(0);
-//                            mediaPlayer.start();
-//                        } else {
-//                            if (isShuffle) {
-//                                playNextSong(songs);
-//                            } else {
-//                                playNextSong(songs);
-//                            }
-//                        }
-//                    }
-//                });
-//
-//                seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//                    @Override
-//                    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-//                        if (b) {
-//                            mediaPlayer.seekTo(i);
-//                            tvBeginTime.setText(formatTime(mediaPlayer.getCurrentPosition()));
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onStartTrackingTouch(SeekBar seekBar) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onStopTrackingTouch(SeekBar seekBar) {
-//
-//                    }
-//                });
-//                TimeSong();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        });
-//    }
-
-
     private void playNextSong(List<Song> songs) {
         musicService.setSongs(songs);
         musicService.playNextSong();
         Song CurrentSong = musicService.getCurrentSong();
-        tvSongName.setText(CurrentSong.getName());
-        tvSongSinger.setText(CurrentSong.getSinger());
-        tvHeaderTitle.setText(CurrentSong.getCategory().getName());
-        tvSongName.setSelected(true);
-        Picasso.get().load(CurrentSong.getImage()).into(imgMusic);
-        btnPlay.setImageResource(R.drawable.ic_pause);
-        setFavourite(CurrentSong);
+        updateUI(CurrentSong);
     }
 
     private void playPreSong(List<Song> songs) {
         musicService.setSongs(songs);
         musicService.playPreSong();
         Song CurrentSong = musicService.getCurrentSong();
-        tvSongName.setText(CurrentSong.getName());
-        tvSongSinger.setText(CurrentSong.getSinger());
-        tvHeaderTitle.setText(CurrentSong.getCategory().getName());
-        tvSongName.setSelected(true);
-        Picasso.get().load(CurrentSong.getImage()).into(imgMusic);
-        btnPlay.setImageResource(R.drawable.ic_pause);
-        setFavourite(CurrentSong);
+        updateUI(CurrentSong);
     }
 
     private void TimeSong() {
@@ -468,6 +400,7 @@ public class PlayerActivity extends AppCompatActivity {
         tvHeaderTitle.setText(song.getCategory().getName());
         tvSongName.setSelected(true);
         Picasso.get().load(song.getImage()).into(imgMusic);
+        objectAnimator.start();
         btnPlay.setImageResource(R.drawable.ic_pause);
         setFavourite(song);
     }

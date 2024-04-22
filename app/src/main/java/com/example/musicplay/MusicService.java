@@ -148,6 +148,7 @@ public class MusicService extends Service {
         if (position < songs.size() - 1) {
             mediaPlayer.stop();
             position++;
+            System.out.println("position trong musicService: " + position);
         } else {
             mediaPlayer.stop();
             position = 0;
