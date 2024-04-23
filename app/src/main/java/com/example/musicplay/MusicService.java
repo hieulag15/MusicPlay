@@ -241,4 +241,12 @@ public class MusicService extends Service {
         }
         return 0;
     }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
+    public int getCurrentPositionSong() {
+        return this.position;
+    }
 }

@@ -16,23 +16,32 @@ import android.os.IBinder;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.musicplay.domain.Song;
 import com.example.musicplay.domain.User;
 import com.example.musicplay.fragment.HomeFragment;
 import com.example.musicplay.fragment.SearchFragment;
 import com.example.musicplay.fragment.SettingFragment;
 import com.example.musicplay.fragment.UserFragment;
+import com.example.musicplay.utilities.Utility;
 import com.example.musicplayer.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.squareup.picasso.Picasso;
+
+import java.lang.reflect.Type;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
-    private int valueMiniplayer;
+    private int valueMiniplayer, position;
     private TextView tvSongName, tvArtistName;
-    private ImageButton btnPlay;
-
+    private ImageButton btnPlay, btnNext, btnPre;
+    private ImageView imgSong;
     private MusicService musicService;
     private Intent playIntent;
     private boolean musicBound = false;
@@ -82,22 +91,60 @@ public class MainActivity extends AppCompatActivity {
 
             // Check if there is a song playing
             SharedPreferences sharedPreferences = getSharedPreferences("PlayerState", MODE_PRIVATE);
-            String currentSong = sharedPreferences.getString("currentSong", null);
-            int position = sharedPreferences.getInt("position", 0);
+            String currentSong = sharedPreferences.getString("songs", null);
+            Gson gson = new Gson();
+            Type type = new TypeToken<List<Song>>() {}.getType();
+            List<Song> songs = gson.fromJson(currentSong, type);
+            position = sharedPreferences.getInt("position", 0);
 
             tvSongName = findViewById(R.id.miniPlayerSongName);
             tvArtistName = findViewById(R.id.miniPlayerArtistName);
-            btnPlay = findViewById(R.id.miniPlayerPlayPauseButton);
+            btnPlay = findViewById(R.id.btnPlay);
+            btnNext = findViewById(R.id.btnNextSongMiniPlayer);
+            btnPre = findViewById(R.id.btnPreviousSongMiniPlayer);
+            imgSong = findViewById(R.id.miniPlayerAlbumArt);
 
 
             btnPlay.setImageResource(R.drawable.ic_pause);
-            tvSongName.setText(currentSong);
+            System.out.println("Position trong mainactivity: " + position);
+            Song song = songs.get(position);
+            System.out.println(song.getName() + " " + song.getAuthor() + " " + song.getImage());
 
+            tvSongName.setText(songs.get(position).getName());
+            tvArtistName.setText(songs.get(position).getAuthor());
+            Picasso.get().load(songs.get(position).getImage()).into(imgSong);
+
+            Utility.setScrollText(tvSongName);
+            Utility.setScrollText(tvArtistName);
 
             btnPlay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     playMusic();
+                }
+            });
+
+            btnNext.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    playNextSong(songs);
+                }
+            });
+            btnPre.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    playPreSong(songs);
+                }
+            });
+
+            miniPlayer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(MainActivity.this, PlayerActivity.class);
+                    intent.putExtra("songs", new Gson().toJson(songs)); // Pass the songs list
+                    intent.putExtra("position", position); // Pass the current position of the song
+                    intent.putExtra("valuePlayerActivity", 2);
+                    startActivity(intent);
                 }
             });
         } else {
@@ -133,19 +180,6 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
     }
 
-//    public void showMiniPlayer() {
-//        SharedPreferences sharedPreferences = getSharedPreferences("PlayerState", MODE_PRIVATE);
-//        String currentSong = sharedPreferences.getString("currentSong", null);
-//        int position = sharedPreferences.getInt("position", 0);
-//
-//        if (currentSong != null) {
-//            // Hiển thị MiniPlayer với thông tin về bài hát và các nút điều khiển
-//            // Tiếp tục phát bài hát từ vị trí đã lưu
-//            mediaPlayer.seekTo(position);
-//            mediaPlayer.start();
-//        }
-//    }
-
     private void playMusic() {
         if (musicService.isPlaying()) {
             musicService.pause();
@@ -163,5 +197,27 @@ public class MainActivity extends AppCompatActivity {
             unbindService(musicConnection);
             musicBound = false;
         }
+    }
+
+    private void playNextSong(List<Song> songs) {
+        musicService.setSongs(songs);
+        musicService.playNextSong();
+        updateSongUI();
+        position = musicService.getCurrentPositionSong();
+    }
+
+    private void playPreSong(List<Song> songs) {
+        musicService.setSongs(songs);
+        musicService.playPreSong();
+        updateSongUI();
+        position = musicService.getCurrentPositionSong();
+    }
+
+    private void updateSongUI() {
+        Song song = musicService.getCurrentSong();
+        tvSongName.setText(song.getName());
+        tvArtistName.setText(song.getAuthor());
+        Picasso.get().load(song.getImage()).into(imgSong);
+        btnPlay.setImageResource(R.drawable.ic_pause);
     }
 }

@@ -26,8 +26,11 @@ import com.example.musicplay.domain.User;
 import com.example.musicplay.retrofit.RetrofitClient;
 import com.example.musicplay.utilities.Utility;
 import com.example.musicplayer.R;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
 
+import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -47,7 +50,7 @@ public class PlayerActivity extends AppCompatActivity {
     SeekBar seekBar;
     ImageView btnPre, btnPlay, btnNext, btnfavourite, btnShuffle, btnRepeat, btnBack, btnOption;
     ObjectAnimator objectAnimator;
-    static int position;
+    static int position, miniValue;
     static boolean isFavorite, isPlaying;
     List<Song> songs;
     FavouriteApi favouriteApi;
@@ -65,22 +68,44 @@ public class PlayerActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
+        init();
         Intent intent = getIntent();
         position = intent.getIntExtra("position", 0);
-        songs = Collections.unmodifiableList((List<Song>) Objects.requireNonNull(intent.getSerializableExtra("songs")));
+        miniValue = intent.getIntExtra("valuePlayerActivity", 1);
 
-        currentSong = songs.get(position);
-        init();
+        if (miniValue == 2) {
+            String songsJson = intent.getStringExtra("songs");
+            Type type = new TypeToken<List<Song>>() {}.getType();
+            songs = new Gson().fromJson(songsJson, type);
+            currentSong = songs.get(position);
 
-        playIntent = new Intent(this, MusicService.class);
-        bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
-        startService(playIntent);
+            isFavorite = false;
+            setFavourite(currentSong);
+            tvSongName.setText(currentSong.getName());
+            tvSongSinger.setText(currentSong.getSinger());
+            tvHeaderTitle.setText(currentSong.getCategory().getName());
+            tvSongName.setSelected(true);
+            btnPlay.setImageResource(R.drawable.ic_pause);
+            Picasso.get().load(currentSong.getImage()).into(imgMusic);
+            musicBound = true;
+            playIntent = new Intent(this, MusicService.class);
+            bindService(playIntent, musicConnectionMiniPlayer, Context.BIND_AUTO_CREATE);
+            startService(playIntent);
+//            musicService.updateSeekBar();
+            rontation();
+            setEventButton();
+        } else {
+            songs = Collections.unmodifiableList((List<Song>) Objects.requireNonNull(intent.getSerializableExtra("songs")));
+            playIntent = new Intent(this, MusicService.class);
+            bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
+            startService(playIntent);
+        }
+
 
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 int currentPosition = intent.getIntExtra("currentPosition", 0);
-                System.out.println("currentPosition: " + currentPosition);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -151,34 +176,7 @@ public class PlayerActivity extends AppCompatActivity {
         rontation();
         musicService.updateSeekBar();
 
-        btnPlay.setOnClickListener(view -> playMusic());
-        btnPre.setOnClickListener(view -> playPreSong(songs));
-        btnNext.setOnClickListener(view -> playNextSong(songs));
-        btnfavourite.setOnClickListener(view -> favouriteSong(song));
-        btnBack.setOnClickListener(view -> stopMusic());
-
-        btnShuffle.setOnClickListener(view -> onShuffle());
-        btnRepeat.setOnClickListener(view -> onRepeat());
-
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                if (b) {
-                    musicService.seekTo(i);
-                    tvBeginTime.setText(musicService.formatTime(i));
-                }
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-//                musicService.onStartTrackingTouch();
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-//                musicService.onStopTrackingTouch();
-            }
-        });
+        setEventButton();
 
     }
 
@@ -297,6 +295,7 @@ public class PlayerActivity extends AppCompatActivity {
         musicService.playNextSong();
         Song CurrentSong = musicService.getCurrentSong();
         updateUI(CurrentSong);
+        position = musicService.getCurrentPositionSong();
     }
 
     private void playPreSong(List<Song> songs) {
@@ -304,6 +303,7 @@ public class PlayerActivity extends AppCompatActivity {
         musicService.playPreSong();
         Song CurrentSong = musicService.getCurrentSong();
         updateUI(CurrentSong);
+        position = musicService.getCurrentPositionSong();
     }
 
     private void TimeSong() {
@@ -333,8 +333,12 @@ public class PlayerActivity extends AppCompatActivity {
     public void onOptionButtonClicked() {
         SharedPreferences sharedPreferences = getSharedPreferences("PlayerState", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("currentSong", String.valueOf(currentSong.getName())); // currentSong là bài hát đang phát
-        editor.putInt("position", musicService.getCurrentPosition());
+
+        Gson gson = new Gson();
+        String jsonSongs = gson.toJson(songs);
+        editor.putString("songs", jsonSongs);
+
+        editor.putInt("position", position);
         editor.apply();
 
         valueMiniplayer();
@@ -347,7 +351,53 @@ public class PlayerActivity extends AppCompatActivity {
             musicService = binder.getService();
             musicBound = true;
 
+            musicService.setPosition(position);
+            currentSong = songs.get(position);
+            musicService.setSongs(songs);
+
             playMusic(currentSong);
+
+            musicService.setListener(new MusicServiceListener() {
+                @Override
+                public void onProgressChanged(int progress) {
+
+                }
+
+                @Override
+                public void onStartTrackingTouch() {
+
+                }
+
+                @Override
+                public void onStopTrackingTouch() {
+
+                }
+
+                @Override
+                public void onCompletion() {
+
+                }
+
+                @Override
+                public void onSongChanged(Song song) {
+                    updateUI(song);
+                }
+            });
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            musicBound = false;
+        }
+    };
+
+    private ServiceConnection musicConnectionMiniPlayer = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            MusicService.MusicBinder binder = (MusicService.MusicBinder) service;
+            musicService = binder.getService();
+            musicBound = true;
+
 
             musicService.setListener(new MusicServiceListener() {
                 @Override
@@ -404,5 +454,37 @@ public class PlayerActivity extends AppCompatActivity {
         objectAnimator.start();
         btnPlay.setImageResource(R.drawable.ic_pause);
         setFavourite(song);
+    }
+
+    private void setEventButton() {
+        Song song = songs.get(position);
+        btnPlay.setOnClickListener(view -> playMusic());
+        btnPre.setOnClickListener(view -> playPreSong(songs));
+        btnNext.setOnClickListener(view -> playNextSong(songs));
+        btnfavourite.setOnClickListener(view -> favouriteSong(song));
+        btnBack.setOnClickListener(view -> stopMusic());
+
+        btnShuffle.setOnClickListener(view -> onShuffle());
+        btnRepeat.setOnClickListener(view -> onRepeat());
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                if (b) {
+                    musicService.seekTo(i);
+                    tvBeginTime.setText(musicService.formatTime(i));
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+//                musicService.onStartTrackingTouch();
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+//                musicService.onStopTrackingTouch();
+            }
+        });
     }
 }
