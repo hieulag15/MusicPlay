@@ -21,8 +21,9 @@ public class SongAdapter extends ArrayAdapter<Song> {
     private Context context;
 
     private int resource;
+
     public SongAdapter(Context context, int resource, List<Song> songs) {
-        super(context, resource,songs);
+        super(context, resource, songs);
         this.context = context;
         this.resource = resource;
     }
@@ -52,4 +53,5 @@ public class SongAdapter extends ArrayAdapter<Song> {
 
         return view;
     }
+
 }

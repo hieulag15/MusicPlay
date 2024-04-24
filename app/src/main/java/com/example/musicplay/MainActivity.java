@@ -5,6 +5,7 @@ import static android.app.PendingIntent.getActivity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -15,6 +16,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,6 +24,7 @@ import android.widget.TextView;
 import com.example.musicplay.domain.Song;
 import com.example.musicplay.domain.User;
 import com.example.musicplay.fragment.HomeFragment;
+import com.example.musicplay.fragment.LibraryFragment;
 import com.example.musicplay.fragment.SearchFragment;
 import com.example.musicplay.fragment.SettingFragment;
 import com.example.musicplay.fragment.UserFragment;
@@ -45,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private MusicService musicService;
     private Intent playIntent;
     private boolean musicBound = false;
+    private FrameLayout fragementHolder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
                             replaceFragment(new SearchFragment());
                             return true;
                         } else if (item.getItemId() == R.id.navigation_setting) {
-                            replaceFragment(new SettingFragment());
+                            replaceFragment(new LibraryFragment());
                             return true;
                         } else if (item.getItemId() == R.id.navigation_user) {
                             replaceFragment(new UserFragment());
@@ -219,5 +223,11 @@ public class MainActivity extends AppCompatActivity {
         tvArtistName.setText(song.getAuthor());
         Picasso.get().load(song.getImage()).into(imgSong);
         btnPlay.setImageResource(R.drawable.ic_pause);
+    }
+    private void setFragement(Fragment fragment)
+    {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(fragementHolder.getId(), fragment);
+        fragmentTransaction.commit();
     }
 }
