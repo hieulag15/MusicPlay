@@ -83,16 +83,17 @@ public class SearchFragment extends Fragment {
     }
 
     private void setEvent() {
-        ColorStateList colorStateList = ColorStateList.valueOf(getResources().getColor(R.color.appbar_text));
-        edSearch.setBackgroundTintList(colorStateList);
+//        ColorStateList colorStateList = ColorStateList.valueOf(getResources().getColor(R.color.appbar_text));
+//        edSearch.setBackgroundTintList(colorStateList);
 
         edSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
                 if (b) {
                     edSearch.setHintTextColor(getResources().getColor(R.color.transparent));
-                } else {
-                    edSearch.setHintTextColor(colorStateList);
+//                } else {
+//                    edSearch.setHintTextColor(colorStateList);
+//                }
                 }
             }
         });

@@ -49,9 +49,10 @@
                     android:paddingStart="@dimen/pd_2"
                     android:paddingEnd="@dimen/pd_2"
                     android:layout_marginRight="20dp"
-                    android:text="@string/ed_search"
+
+                    android:hint="@string/ed_search"
                     android:textColor="#FAFAFA"
-                    android:textColorHint="@color/primary"
+                    android:textColorHint="@color/white"
                     app:layout_constraintEnd_toStartOf="@+id/btnSearchSong"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
