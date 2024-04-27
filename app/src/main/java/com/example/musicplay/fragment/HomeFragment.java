@@ -126,7 +126,7 @@ public class HomeFragment extends Fragment {
                 if (response.isSuccessful()) {
                     FavouriteMessage favouriteMessage = response.body();
                     List<Favourite> favourites = favouriteMessage.getFavourites();
-                    favouriteDescription = view.findViewById(R.id.favoriteDescription);
+                    favouriteDescription = view.findViewById(R.id.favoriteDescriptiontest);
                     int len;
                     if(favourites == null) {
                         len = 0;
