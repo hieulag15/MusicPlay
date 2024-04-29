@@ -29,84 +29,91 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SearchingFragment extends Fragment {
-    private View view;
-    private EditText edSearch;
-    private SongApi songApi;
-    private ImageButton btnSearch, btnBack;
-    private FragmentManager fragmentManager;
-    private TextView tvSearchResult;
+    View view;
+    EditText edSearching;
 
+    private SongApi songApi;
+    ImageButton ibBack, ibSearch;
+    TextView tv;
+    FragmentManager fragmentManager;
     public SearchingFragment() {
-        // Required empty public constructor
+
     }
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         view  = inflater.inflate(R.layout.fragment_searching, container, false);
 
-        init();
+//        init();
         setEvent();
 
         return view;
     }
 
-    private void init() {
-        edSearch = view.findViewById(R.id.edSearch);
-        btnSearch = view.findViewById(R.id.btnSearch);
-        btnBack = view.findViewById(R.id.btnBack);
-        tvSearchResult = view.findViewById(R.id.tvFirstSong);
-    }
+//    private void init(){
+//        edSearching = view.findViewById(R.id.edSearching);
+//        ibBack = view.findViewById(R.id.ibBackSearching);
+//        tv = view.findViewById(R.id.tvFirstSong);
+//        ibSearch= view.findViewById(R.id.ibSearch);
+//    }
 
-    private void setEvent() {
+    private void setEvent(){
+        //to opacity for hint of editext (edSearching) when selected
         ColorStateList colorStateList = ColorStateList.valueOf(getResources().getColor(R.color.appbar_text));
-        edSearch.setBackgroundTintList(colorStateList);
-
-        edSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        edSearching.setHintTextColor(colorStateList);
+        edSearching.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onFocusChange(View view, boolean b) {
-                if (b) {
-                    edSearch.setHintTextColor(getResources().getColor(R.color.transparent));
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    edSearching.setHintTextColor(getResources().getColor(R.color.transparent));
                 } else {
-                    edSearch.setHintTextColor(colorStateList);
+                    edSearching.setHintTextColor(colorStateList);
                 }
             }
         });
 
-        btnBack.setOnClickListener(new View.OnClickListener() {
+        //back to previous page
+        ibBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fragmentManager = getParentFragmentManager();
+                FragmentManager fragmentManager = getParentFragmentManager();
                 SearchFragment searchFragment = new SearchFragment();
                 fragmentManager.beginTransaction().replace(R.id.container, searchFragment).commit();
             }
         });
 
-        btnSearch.setOnClickListener(new View.OnClickListener() {
+        tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String songName = edSearch.getText().toString();
+            }
+        });
+
+        ibSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String stringSong = edSearching.getText().toString();
 
                 songApi = RetrofitClient.getInstance().getRetrofit().create(SongApi.class);
-                songApi.getByName(songName).enqueue(new Callback<SongMessage>() {
+                songApi.GetByName(stringSong).enqueue(new Callback<SongMessage>() {
                     @Override
                     public void onResponse(Call<SongMessage> call, Response<SongMessage> response) {
-                        if (response.isSuccessful()) {
-                            SongMessage songMessage = response.body();
-                            List<Song> songs = songMessage.getSongs();
 
-                            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                            FragmentTransaction transaction = fragmentManager.beginTransaction();
+                        SongMessage songMessage = response.body();
+                        List<Song> songList = songMessage.getSongs();
+                        // Start a new fragment transaction
+                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                        FragmentTransaction transaction = fragmentManager.beginTransaction();
+                        // Replace the current fragment with a new fragment
+                        Fragment searchFragment = new SearchFragment();
+                        Bundle args = new Bundle();
+                        System.out.println("--------"+songList);
+                        args.putSerializable("songs", (Serializable) songList);
+                        searchFragment.setArguments(args);
 
-                            Fragment searchFragment = new SearchFragment();
-                            Bundle bundle = new Bundle();
-                            bundle.putSerializable("songs", (Serializable) songs);
-                            searchFragment.setArguments(bundle);
-
-                            transaction.replace(R.id.container, searchFragment);
-                            transaction.addToBackStack(null);
-                            transaction.commit();
-                        }
+                        transaction.replace(R.id.container, searchFragment);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
                     }
 
                     @Override

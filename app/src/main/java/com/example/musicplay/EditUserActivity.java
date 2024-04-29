@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -24,55 +25,53 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class EditUserActivity extends AppCompatActivity {
-    EditText edFirstName, edLastname, edEmail, edPhone, edPassword;
-    Button btnSubmit, btnCancel;
+
+    EditText edFirstName, ed_lastname, edEmail, edPhone, edPassword;
+
+    Button btnSubmit;
+    TextView tvCancel;
+
     User user;
+
     UserApi userApi;
-    FragmentManager fm;
+
     private int defaultFragment;
 
-
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_user);
-
         Intent intent = getIntent();
         defaultFragment = intent.getIntExtra("valueFragment", 1);
-
         init();
-        loadData();
-        setEvent();
     }
 
+
     private void init() {
-        edFirstName = findViewById(R.id.edFirstName);
-        edLastname = findViewById(R.id.edLastname);
+        edFirstName =findViewById(R.id.edFirstName);
+        ed_lastname = findViewById(R.id.edLastname);
         edEmail = findViewById(R.id.edEmail);
         edPhone = findViewById(R.id.edPhone);
         edPassword = findViewById(R.id.edPassword);
         btnSubmit = findViewById(R.id.btnEditUserSubmit);
-        btnCancel = findViewById(R.id.btnEditUserCancel);
-
-        fm = getSupportFragmentManager();
-
+        tvCancel = findViewById(R.id.btnEditUserCancel);
+        loadData();
+        setEvent();
     }
-
-    private void loadData() {
+    private void loadData(){
         Intent intent = getIntent();
-        user = (User) intent.getSerializableExtra("user");
+        user =(User) intent.getSerializableExtra("data");
         edFirstName.setText(user.getFirst_name());
-        edLastname.setText(user.getLast_name());
+        ed_lastname.setText(user.getLast_name());
         edEmail.setText(user.getEmail());
         edPhone.setText(user.getPhone());
         edPassword.setText(user.getPassword());
     }
-
     private void setEvent() {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(edFirstName.getText().toString().isEmpty() || edLastname.getText().toString().isEmpty() ||
+                if(edFirstName.getText().toString().isEmpty() || ed_lastname.getText().toString().isEmpty() ||
                         edEmail.getText().toString().isEmpty() ||edPassword.getText().toString().isEmpty() )
                 {
                     Toast.makeText(EditUserActivity.this, "Nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
@@ -82,19 +81,18 @@ public class EditUserActivity extends AppCompatActivity {
             }
         });
 
-        btnCancel.setOnClickListener(new View.OnClickListener() {
+        tvCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
     }
-
     private void submit() {
         userApi = RetrofitClient.getInstance().getRetrofit().create(UserApi.class);
         User userUpdate = user;
         userUpdate.setFirst_name(edFirstName.getText().toString());
-        userUpdate.setLast_name(edLastname.getText().toString());
+        userUpdate.setLast_name(ed_lastname.getText().toString());
         userUpdate.setEmail(edEmail.getText().toString());
         userUpdate.setPassword(edPassword.getText().toString());
 

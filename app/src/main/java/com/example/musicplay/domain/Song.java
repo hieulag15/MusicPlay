@@ -5,29 +5,21 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 public class Song implements Serializable {
+
     @SerializedName("id")
     private long id;
-
     @SerializedName("name")
     private String name;
-
     @SerializedName("author")
     private String author;
-
     @SerializedName("singer")
     private String singer;
-
     @SerializedName("link")
     private String link;
-
     @SerializedName("image")
     private String image;
-
     @SerializedName("category")
     private Category category;
-
-    public Song() {
-    }
 
     public Song(long id, String name, String author, String singer, String link, String image, Category category) {
         this.id = id;
@@ -38,6 +30,10 @@ public class Song implements Serializable {
         this.image = image;
         this.category = category;
     }
+    public Song() {
+    }
+
+    public Song(String s, String s1, int default_song){}
 
     public long getId() {
         return id;

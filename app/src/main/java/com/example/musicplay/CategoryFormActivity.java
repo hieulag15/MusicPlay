@@ -31,62 +31,30 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CategoryFormActivity extends AppCompatActivity {
-    private ImageButton btnImg;
-    private Button btnSubmit, btnCancel;
-    private TextView tvImg, tvTitle;
-    private Category category, obj;
-    private Boolean isEditForm;
-    private EditText edName, edDescription;
+    ImageButton  btnChooseImg;
+    Button btnSubmit, btnCancel;
+    TextView tvCancel, tvImg, tvTitle, tvSubmit;
+    int currentPosition;
+    Category data, obj;
+    Boolean isEditForm;
+    EditText edName, edDescription;
     private static final int PICK_IMAGE_REQUEST = 1;
     private static final int PICK_MP3_REQUEST = 2;
     private Uri mImageUri, mSongUri;
-    private File fileImage, fileMp3;
-    private CategoryApi categoryApi;
+
+    File fileImage, fileMp3;
+    CategoryApi categoryApi;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form_category);
         init();
     }
 
-    private void init() {
-        btnImg = findViewById(R.id.btnChooseImage);
-        btnSubmit = findViewById(R.id.btnCategorySubmit);
-        btnCancel = findViewById(R.id.btnCategoryCancel);
-        tvImg = findViewById(R.id.tvCategoryImg);
-        tvTitle = findViewById(R.id.tvTitleCategory);
-        edName = findViewById(R.id.edCategoryName);
-        edDescription = findViewById(R.id.edCategoryDescription);
-
-        Intent intent = getIntent();
-        category = (Category) intent.getSerializableExtra("category");
-
-        loadData();
-        setEvent();
-    }
-
-    private void loadData() {
-        // nếu có dữ liệu là form edit còn không có dữ liệu là form add
-        if (category != null) {
-            isEditForm = true;
-            tvTitle.setText(getResources().getString(R.string.edit_category));
-            edName.setText(category.getName());
-            edDescription.setText(category.getDescription());
-            tvImg.setText(category.getImage());
-        } else {
-            isEditForm = false;
-            tvTitle.setText(getResources().getString(R.string.add_category));
-            edName.setText("");
-            edDescription.setText("");
-            tvImg.setText(getResources().getString(R.string.choose_img));
-            btnSubmit.setText(getResources().getString(R.string.add_category));
-        }
-    }
-
     private void setEvent() {
-        if (isEditForm == false) {
-            btnImg.setOnClickListener(new View.OnClickListener() {
+        if (isEditForm == false){
+            btnChooseImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     chooseImage();
@@ -94,16 +62,79 @@ public class CategoryFormActivity extends AppCompatActivity {
             });
         }
 
-        btnSubmit.setOnClickListener(view -> {
-            if (edName.getText().toString().isEmpty() || edDescription.getText().toString().isEmpty() ||
-                    tvImg.getText().toString().equals("Chọn avatar")) {
-                Toast.makeText(CategoryFormActivity.this, "Nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
-            } else {
-                submit();
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(edName.getText().toString().isEmpty() || edDescription.getText().toString().isEmpty() ||
+                        tvImg.getText().toString().equals("Chọn avatar") )
+                {
+                    Toast.makeText(CategoryFormActivity.this, "Nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+                }else {
+                    submit();
+                }
             }
         });
 
-        btnCancel.setOnClickListener(view -> finish());
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+    }
+
+    private void loadData(){
+        //   Kiểm tra: nếu có dữ liệu là form edit, khong là form add
+        if(data != null){
+            isEditForm = true;
+            tvTitle.setText(getResources().getString(R.string.edit_category));
+            edName.setText(data.getName());
+            edDescription.setText(data.getDescription());
+            tvImg.setText(data.getImage());
+        } else {
+            isEditForm = false;
+            tvTitle.setText(getResources().getString(R.string.add_category));
+            edName.setText("");
+            edDescription.setText("");
+            tvImg.setText(getResources().getString(R.string.choose_img));
+        }
+    }
+
+    private void init(){
+        btnChooseImg = findViewById(R.id.btnUpSongImg);
+        btnSubmit = findViewById(R.id.btnCategorySubmit);
+        btnCancel = findViewById(R.id.btnCategoryCancel);
+        edName = findViewById(R.id.edCategoryName);
+        edDescription = findViewById(R.id.edCategoryDescription);
+        tvImg = findViewById(R.id.tvCategoryImg);
+        tvTitle = findViewById(R.id.tvTitleCategory);
+
+        Intent intent = getIntent();
+        data = (Category) intent.getSerializableExtra("data");
+
+
+        loadData();
+        setEvent();
+    }
+
+    //Upload Image
+    // This method is called when the user selects an image from their device
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            mImageUri = data.getData();
+            String IMAGE_PATH= RealPathUtil.getRealPath(this,mImageUri);
+            fileImage = new File(IMAGE_PATH);
+            tvImg.setText(fileImage.getName());
+        } else if (requestCode == PICK_MP3_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            mSongUri = data.getData();
+            String IMAGE_PATH= RealPathUtil.getRealPath(this,mSongUri);
+            // Handle the selected MP3 file here
+            fileMp3 = new File(IMAGE_PATH);
+            //tvSongLink.setText(fileMp3.getName());
+        }
     }
 
     private void chooseImage() {
@@ -113,46 +144,40 @@ public class CategoryFormActivity extends AppCompatActivity {
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
     }
 
-    private void submit() {
+    private void submit(){
         obj = new Category();
-        obj.setName(edName.getText().toString());
+        obj.setName(String.valueOf(edName.getText()));
         obj.setDescription(String.valueOf(edDescription.getText()));
         obj.setImage(String.valueOf(tvImg.getText()));
 
-        if (isEditForm) {
+        if(isEditForm){
             edit();
         } else {
             add();
         }
     }
 
-    private void add() {
-        RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), fileImage);
-        MultipartBody.Part image = MultipartBody.Part.createFormData("image", fileImage.getName(), requestBody);
-
+    private void add(){
+        //file image
+        RequestBody requestFileImage=RequestBody.create(MediaType.parse("multipart/form-data"), fileImage);
+        MultipartBody.Part image = MultipartBody.Part.createFormData("image", fileImage.getName(), requestFileImage);
+        //text
         String name = edName.getText().toString();
-        RequestBody nameBody = RequestBody.create(MediaType.parse("text/plain"), name);
+        RequestBody requestName = RequestBody.create(MediaType.parse("text/plain"), name);
 
         String description = edDescription.getText().toString();
-        RequestBody descriptionBody = RequestBody.create(MediaType.parse("text/plain"), description);
+        RequestBody requestDescription = RequestBody.create(MediaType.parse("text/plain"), description);
 
         categoryApi = RetrofitClient.getRetrofit().create(CategoryApi.class);
-
         LoadingDialog loadingDialog = new LoadingDialog(this);
         loadingDialog.show();
-
-        categoryApi.createCategory(nameBody, image, descriptionBody).enqueue(new Callback<CategoryMessage>() {
+        categoryApi.createCategory(requestName, image, requestDescription).enqueue(new Callback<CategoryMessage>() {
             @Override
             public void onResponse(Call<CategoryMessage> call, Response<CategoryMessage> response) {
-                if (response.isSuccessful()) {
-                    CategoryMessage categoryMessage = response.body();
-                    Toast.makeText(CategoryFormActivity.this, categoryMessage.getMessage(), Toast.LENGTH_SHORT).show();
-                    loadingDialog.cancel();
-
-                    Intent intent = new Intent(CategoryFormActivity.this, AdminActivity.class);
-                    intent.putExtra("valueDefualt", 2);
-                    startActivity(intent);
-                }
+                CategoryMessage categoryMessage = response.body();
+                Toast.makeText(CategoryFormActivity.this, categoryMessage.getMessage(), Toast.LENGTH_SHORT).show();
+                loadingDialog.cancel();
+                finish();
             }
 
             @Override
@@ -161,47 +186,29 @@ public class CategoryFormActivity extends AppCompatActivity {
                 finish();
             }
         });
+
     }
 
-    private void edit() {
-        categoryApi = RetrofitClient.getInstance().getRetrofit().create(CategoryApi.class);
-        Category categoryUpdate = category;
+    private void edit(){
+        categoryApi= RetrofitClient.getInstance().getRetrofit().create(CategoryApi.class);
+        Category categoryUpdate = data;
         categoryUpdate.setName(edName.getText().toString());
         categoryUpdate.setDescription(edDescription.getText().toString());
 
-        categoryApi.update(categoryUpdate.getId(), categoryUpdate).enqueue(new Callback<CategoryMessage>() {
+        Long id = categoryUpdate.getId();
+
+        categoryApi.update(id, categoryUpdate).enqueue(new Callback<CategoryMessage>() {
             @Override
             public void onResponse(Call<CategoryMessage> call, Response<CategoryMessage> response) {
-                if (response.isSuccessful()) {
-                    CategoryMessage categoryMessage = response.body();
-                    Toast.makeText(CategoryFormActivity.this, categoryMessage.getMessage(), Toast.LENGTH_SHORT).show();
-
-                    Intent intent = new Intent(CategoryFormActivity.this, AdminActivity.class);
-                    intent.putExtra("valueDefualt", 2);
-                    startActivity(intent);
-                }
+                CategoryMessage categoryMessage = response.body();
+                Toast.makeText(getApplicationContext(), categoryMessage.getMessage(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(Call<CategoryMessage> call, Throwable t) {
-                finish();
             }
         });
         setEvent();
         loadData();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            mImageUri = data.getData();
-            fileImage = new File(RealPathUtil.getRealPath(this, mImageUri));
-            tvImg.setText(fileImage.getName());
-        } else if (requestCode == PICK_MP3_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            mSongUri = data.getData();
-            fileMp3 = new File(RealPathUtil.getRealPath(this, mSongUri));
-        }
     }
 }

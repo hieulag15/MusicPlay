@@ -18,14 +18,13 @@ import com.example.musicplayer.R;
 import java.util.List;
 
 public class SongAdapter extends ArrayAdapter<Song> {
-    private Context context;
-
-    private int resource;
+    private Context mContext;
+    private int mResource;
 
     public SongAdapter(Context context, int resource, List<Song> songs) {
         super(context, resource, songs);
-        this.context = context;
-        this.resource = resource;
+        mContext = context;
+        mResource = resource;
     }
 
     @NonNull
@@ -33,8 +32,8 @@ public class SongAdapter extends ArrayAdapter<Song> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View view = convertView;
         if (view == null) {
-            LayoutInflater inflater = LayoutInflater.from(context);
-            view = inflater.inflate(resource, parent, false);
+            LayoutInflater inflater = LayoutInflater.from(mContext);
+            view = inflater.inflate(mResource, parent, false);
         }
 
         Song song = getItem(position);
@@ -53,5 +52,4 @@ public class SongAdapter extends ArrayAdapter<Song> {
 
         return view;
     }
-
 }

@@ -3,7 +3,6 @@ package com.example.musicplay.fragment;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.musicplay.PlayerActivity;
-import com.example.musicplay.SharePrefManager;
+
+import com.example.musicplay.SharedPrefManager;
 import com.example.musicplay.adapter.SongListAdapter;
 import com.example.musicplay.api.FavouriteApi;
 import com.example.musicplay.api.SongApi;
@@ -89,27 +89,46 @@ public class SongListFragment extends Fragment {
         }
     }
 
-    private void getSongByCategory() {
+    private void getSongByCategory(){
         songApi = RetrofitClient.getInstance().getRetrofit().create(SongApi.class);
-        songApi.getSongOfCategory(categoryId).enqueue(new Callback<SongMessage>() {
+
+        songApi.SongCategory(categoryId).enqueue(new Callback<SongMessage>() {
             @Override
             public void onResponse(Call<SongMessage> call, Response<SongMessage> response) {
-                if (response.isSuccessful()) {
-                    SongMessage songMessage = response.body();
-                    assert songMessage != null;
-                    setupSongListAdapter(songMessage.getSongs());
+                List<Song> songs;
+                SongMessage songMessage = response.body();
+                songs = songMessage.getSongs();
+                List<Song> songList = songs;
+                mSongAdapter = new SongListAdapter(songs);
+                mRecyclerView.setAdapter(mSongAdapter);
+                mRecyclerView.setHasFixedSize(true);
+                mSongAdapter.notifyDataSetChanged();
+                if (songs != null && !songs.isEmpty()) {
+                    mSongAdapter.setOnItemClickListener(new OnItemClickListener() {
+                        @Override
+                        public void onItemClick(int position) {
+                            Song data = songs.get(position);
+                            Intent intent = new Intent(getActivity(), PlayerActivity.class);
+                            intent.putExtra("position", position);
+                            intent.putExtra("songs", (Serializable) songs);
+                            System.out.println("-----------------");
+                            System.out.println(data);
+                            //intent.putExtra("songList", new ArrayList<>(songList));
+                            startActivity(intent);
+                        }
+                    });
                 }
             }
 
             @Override
             public void onFailure(Call<SongMessage> call, Throwable t) {
-
+                System.out.println(t);
             }
         });
     }
 
     private void getSongByFavourite() {
-        User user = SharePrefManager.getInstance(getContext()).getUser();
+        User user = SharedPrefManager.getInstance(getContext()).getUser();
         Long id = user.getId();
 
         favouriteApi = RetrofitClient.getRetrofit().create(FavouriteApi.class);

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_layout"
+    android:background="@color/main_backgroud"
     android:orientation="vertical">
 
     <!-- Note: A RecyclerView can also be used -->
@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/btn_height"
         android:orientation="horizontal"
-        android:background="@drawable/bg_row">
+        android:background="@color/main_backgroud">
 
         <TextView
             style="@style/table"
@@ -56,6 +56,7 @@
     </LinearLayout>
 
     <androidx.core.widget.NestedScrollView
+        android:background="@drawable/bg_gradient"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="fill_vertical"

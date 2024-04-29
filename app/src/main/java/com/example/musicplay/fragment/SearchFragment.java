@@ -1,8 +1,6 @@
 package com.example.musicplay.fragment;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -104,7 +100,7 @@ public class SearchFragment extends Fragment {
                 String songName = edSearch.getText().toString();
 
                 songApi = RetrofitClient.getInstance().getRetrofit().create(SongApi.class);
-                songApi.getByName(songName).enqueue(new Callback<SongMessage>() {
+                songApi.GetByName(songName).enqueue(new Callback<SongMessage>() {
                     @Override
                     public void onResponse(Call<SongMessage> call, Response<SongMessage> response) {
                         if (response.isSuccessful()) {

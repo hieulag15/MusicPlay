@@ -11,11 +11,12 @@ public interface FavouriteApi {
 
     @FormUrlEncoded
     @POST("favourite/find")
-    Call<FavouriteMessage> findFavourite(@Field("songId") Long songId, @Field("userId") Long userId);
+    Call<FavouriteMessage> findFavorite(@Field("songId") Long songId, @Field("userId") Long userId);
 
     @FormUrlEncoded
     @POST("favourite/listByUser")
     Call<FavouriteMessage> listByUser(@Field("userId") Long userId);
+
 
     @FormUrlEncoded
     @POST("favourite/add")
@@ -23,5 +24,6 @@ public interface FavouriteApi {
 
     @FormUrlEncoded
     @POST("favourite/delete")
-    Call<FavouriteMessage> deleteFavourite(@Field("songId") Long songId, @Field("userId") Long userId);
+    Call<FavouriteMessage> deleteFavorite(@Field("songId") Long songId, @Field("userId") Long userId);
+
 }

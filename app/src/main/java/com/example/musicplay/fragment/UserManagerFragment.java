@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -122,7 +123,7 @@ public class UserManagerFragment extends Fragment {
     }
 
     private void deleteUser(User user, Dialog dialog) {
-        userApi.deteleUser(user.getId()).enqueue(new Callback<UserMessage>() {
+        userApi.deleteUser(user.getId()).enqueue(new Callback<UserMessage>() {
             @Override
             public void onResponse(Call<UserMessage> call, Response<UserMessage> response) {
                 if (response.isSuccessful() && response.body() != null) {

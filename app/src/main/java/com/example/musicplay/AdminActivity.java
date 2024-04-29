@@ -84,8 +84,8 @@ public class AdminActivity extends AppCompatActivity {
         btnAdd.setOnClickListener(v -> {
             Intent intent;
             if (currentFragment instanceof SongManagerFragment) {
-                intent = new Intent(AdminActivity.this, SongFormActivity.class);
-                startActivity(intent);
+//                intent = new Intent(AdminActivity.this, SongFormActivity.class);
+//                startActivity(intent);
             } else if (currentFragment instanceof CategoryManagerFragment) {
                 intent = new Intent(AdminActivity.this, CategoryFormActivity.class);
                 intent.putExtra("addOrEdit", 1);

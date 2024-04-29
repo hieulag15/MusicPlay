@@ -12,21 +12,22 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface UserApi {
-
-    @POST("user/all")
-    Call<UserMessage> getAllUser();
-
     @FormUrlEncoded
-    @POST("user/delete")
-    Call<UserMessage> deteleUser(@Field("userId") Long id);
+    @POST("user/login")
+    Call<UserMessage> login(@Field("phone") String phone, @Field("password") String password);
 
-    @PUT("user/update/{id}")
-    Call<User> update(@Path("id") long id, @Body User user);
 
     @POST("user/register")
     Call<UserMessage> register(@Body User user);
 
+
+    @POST(value = "user/all")
+    Call<UserMessage> getAllUser();
+
+    @PUT("user/update/{id}")
+    Call<User> update(@Path("id") long id, @Body User user);
+
     @FormUrlEncoded
-    @POST("user/login")
-    Call<UserMessage> login(@Field("phone") String phone, @Field("password") String password);
+    @POST("user/delete")
+    Call<UserMessage> deleteUser(@Field("id") Long id);
 }

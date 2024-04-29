@@ -25,25 +25,16 @@ import retrofit2.Response;
 public class LoginActivity extends AppCompatActivity {
     TextView tvToRegister;
     Button btnLogin;
-    EditText etPhone, etPassword;
+    EditText edPhone, edPassword;
     UserApi userApi;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        userApi = RetrofitClient.getInstance().getRetrofit().create(UserApi.class);
-
         init();
         setEvent();
-    }
-
-    private void init() {
-        tvToRegister = findViewById(R.id.tvRegister);
-        btnLogin = findViewById(R.id.btnLogin);
-        etPhone = findViewById(R.id.edLoginPhone);
-        etPassword = findViewById(R.id.edLoginPW);
     }
 
     private void setEvent() {
@@ -54,45 +45,69 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String phone = etPhone.getText().toString().trim();
-                String password = etPassword.getText().toString().trim();
+                if(edPhone.getText().toString().isEmpty() || edPassword.getText().toString().isEmpty())
+                {
+                    Toast.makeText(LoginActivity.this, "Nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    String phone = edPhone.getText().toString().trim();
+                    String password = edPassword.getText().toString().trim();
+                    System.out.println(phone + " " + password);
 
-                if (TextUtils.isEmpty(phone) || TextUtils.isEmpty(password)) {
-                    Toast.makeText(LoginActivity.this, R.string.enter_full_info, Toast.LENGTH_SHORT).show();
-                } else {
-                    userApi.login(phone, password).enqueue(new Callback<UserMessage>() {
-                        @Override
-                        public void onResponse(Call<UserMessage> call, Response<UserMessage> response) {
-                            if (response.isSuccessful()) {
-                                UserMessage userMessage = response.body();
-                                if (userMessage.getUser() != null) {
-                                    Toast.makeText(LoginActivity.this, userMessage.getMessage(), Toast.LENGTH_SHORT).show();
-                                    User user = userMessage.getUser();
-                                    SharePrefManager.getInstance(getApplicationContext()).userLogin(user);
-                                    if ("admin".equals(user.getRole())) {
-                                        Intent intent = new Intent(LoginActivity.this, AdminActivity.class);
+                    if (!phone.isEmpty() && !password.isEmpty()) {
+                        userApi = RetrofitClient.getInstance().getRetrofit().create(UserApi.class);
+                        userApi.login(phone, password).enqueue(new Callback<UserMessage>() {
+                            @Override
+                            public void onResponse(Call<UserMessage> call, Response<UserMessage> response) {
+                                UserMessage userLogin = response.body();
+//                                                                System.out.println("-----------------");
+//                                                                System.out.println("response" + userLogin.getUser().getRole());
+                                if (userLogin.getUser() != null) {
+                                    System.out.println("----------" + userLogin.getUser().getFirst_name());
+                                    // Xử lý kết quả trả về nếu thành công
+                                    Toast.makeText(LoginActivity.this, userLogin.getMessage(), Toast.LENGTH_SHORT).show();
+                                    User user = userLogin.getUser();
+                                    System.out.println("-----------------");
+                                    System.out.println(user.getRole());
+                                    SharedPrefManager.getInstance(getApplicationContext()).userLogin(user);
+                                    //                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                    //                                startActivity(intent);
+                                    if (user.getRole().equals("user")) {
+                                        System.out.println("is user");
+                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                         startActivity(intent);
                                     } else {
-                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                        System.out.println("is admin");
+                                        Intent intent = new Intent(LoginActivity.this, AdminActivity.class);
                                         startActivity(intent);
                                     }
                                 } else {
-                                    Toast.makeText(LoginActivity.this, userMessage.getMessage(), Toast.LENGTH_SHORT).show();
+                                    // Xử lý lỗi nếu kết quả trả về không thành công
+                                    Toast.makeText(LoginActivity.this, userLogin.getMessage(), Toast.LENGTH_SHORT).show();
+                                    //                                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                                    //                                startActivity(intent);0383738128, 0383738129
                                 }
                             }
-                        }
 
-                        @Override
-                        public void onFailure(Call<UserMessage> call, Throwable t) {
-                            Toast.makeText(LoginActivity.this, R.string.connection_error, Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                            @Override
+                            public void onFailure(Call<UserMessage> call, Throwable t) {
+                                // Xử lý lỗi nếu có lỗi xảy ra trong quá trình gọi API
+                                System.out.println(t);
+                            }
+                        });
+                    }
                 }
             }
         });
+    }
+
+    private void init() {
+        tvToRegister = findViewById(R.id.tvRegister);
+        btnLogin = findViewById(R.id.btnLogin);
+        edPhone = findViewById(R.id.edLoginPhone);
+        edPassword = findViewById(R.id.edLoginPW);
     }
 }

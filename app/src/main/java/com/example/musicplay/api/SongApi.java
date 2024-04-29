@@ -18,30 +18,33 @@ import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 public interface SongApi {
-
-    @Multipart
-    @POST("song/create")
-    Call<SongMessage> createSong(@Part MultipartBody.Part file, @Part MultipartBody.Part image, @Part("name") String name, @Part("author") String author, @Part("singer") String singer, @Part("category_id") long category_id);
-
     @FormUrlEncoded
-    @POST("song/delete")
-    Call<SongMessage> deleteSong(@Field("songId") Long songId);
+    @POST("song/SongCategory")
+    Call<SongMessage> SongCategory(@Field("category_id") Long category_id);
+
 
     @POST("song/all")
     Call<SongMessage> getAllSong();
 
     @FormUrlEncoded
-    @POST("song/getByName")
-    Call<SongMessage> getByName(@Field("name") String name);
+    @POST("song/GetListId")
+    Call<SongMessage> GetById(@Field("ids") List<Long> ids);
 
     @FormUrlEncoded
-    @POST("song/getSongOfCategory")
-    Call<SongMessage> getSongOfCategory(@Field("category_id") Long category_id);
+    @POST("song/GetByName")
+    Call<SongMessage> GetByName(@Field("name") String name);
+
+
+    @FormUrlEncoded
+    @POST("song/delete")
+    Call<SongMessage> deleteSong(@Field("id") Long id);
 
     @PUT("song/update/{id}")
-    Call<SongMessage> update(@Path("id") Long id, @Body SongUpdate song);
+    Call<SongMessage> update(@Path("id") long id, @Body SongUpdate song);
 
-    @FormUrlEncoded
-    @POST("song/getListId")
-    Call<SongMessage> getListId(@Field("ids") List<Long> ids);
+
+    @Multipart
+    @POST("song/create")
+    Call<SongMessage> createSong(@Part MultipartBody.Part file, @Part MultipartBody.Part image, @Part("name") RequestBody name, @Part("author") RequestBody author, @Part("singer") RequestBody singer, @Part("category_id") RequestBody category_id);
 }
+

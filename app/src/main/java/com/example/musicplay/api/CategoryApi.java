@@ -18,18 +18,17 @@ import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 public interface CategoryApi {
-
     @POST("category/all")
     Call<List<Category>> getAllCategory();
 
     @Multipart
     @POST("category/create")
-    Call<CategoryMessage> createCategory(@Part("name")RequestBody name, @Part MultipartBody.Part image, @Part("description") RequestBody description);
+    Call<CategoryMessage> createCategory(@Part("name") RequestBody name, @Part MultipartBody.Part image,@Part("description") RequestBody description );
 
     @PUT("category/update/{id}")
     Call<CategoryMessage> update(@Path("id") long id, @Body Category category);
 
     @FormUrlEncoded
     @POST("category/delete")
-    Call<CategoryMessage> delete(@Field("id") long id);
+    Call<CategoryMessage> delete(@Field("id") Long id);
 }

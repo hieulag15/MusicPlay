@@ -4,18 +4,21 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+
+
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
+
 public class UserMessage {
     @SerializedName("message")
     private String message;
 
     @SerializedName("userDTO")
-    private User user;
+    private User user ;
 
     @SerializedName("userDTOS")
-    private List<User> users;
-
-    public UserMessage() {
-    }
+    private List<User> users ;
 
     public UserMessage(String message, User user, List<User> users) {
         this.message = message;

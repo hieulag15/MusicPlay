@@ -231,9 +231,9 @@ public class PlayerActivity extends AppCompatActivity {
     }
 
     private void setFavourite(Song song) {
-        User user = SharePrefManager.getInstance(getApplicationContext()).getUser();
+        User user = SharedPrefManager.getInstance(getApplicationContext()).getUser();
         favouriteApi = RetrofitClient.getInstance().getRetrofit().create(FavouriteApi.class);
-        favouriteApi.findFavourite(song.getId(), user.getId()).enqueue(new Callback<FavouriteMessage>() {
+        favouriteApi.findFavorite(song.getId(), user.getId()).enqueue(new Callback<FavouriteMessage>() {
             @Override
             public void onResponse(Call<FavouriteMessage> call, Response<FavouriteMessage> response) {
                 if (response.isSuccessful()) {
@@ -256,12 +256,12 @@ public class PlayerActivity extends AppCompatActivity {
     }
 
     private void favouriteSong(Song song) {
-        User user = SharePrefManager.getInstance(getApplicationContext()).getUser();
+        User user = SharedPrefManager.getInstance(getApplicationContext()).getUser();
         favouriteApi = RetrofitClient.getInstance().getRetrofit().create(FavouriteApi.class);
         Call<FavouriteMessage> call;
 
         if (isFavorite) {
-            call = favouriteApi.deleteFavourite(song.getId(), user.getId());
+            call = favouriteApi.deleteFavorite(song.getId(), user.getId());
         } else {
             call = favouriteApi.addFavourite(song.getId(), user.getId());
         }

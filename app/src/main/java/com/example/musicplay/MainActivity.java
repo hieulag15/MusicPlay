@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
             startService(playIntent);
         }
 
-        User user = SharePrefManager.getInstance(getApplicationContext()).getUser();
+        User user = SharedPrefManager.getInstance(getApplicationContext()).getUser();
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(

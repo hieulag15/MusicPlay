@@ -1,11 +1,11 @@
 package com.example.musicplay.adapter;
 
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.musicplay.domain.OnItemClickListener;
@@ -15,35 +15,36 @@ import com.example.musicplayer.R;
 import java.util.List;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
-    private List<User> mUsers;
+
+    private List<User> mUserList;
     private OnItemClickListener mListener;
 
-    public UserAdapter(List<User> mUsers) {
-        this.mUsers = mUsers;
+    public UserAdapter(List<User> userList) {
+        mUserList = userList;
     }
 
-    @NonNull
     @Override
-    public UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public UserAdapter.UserViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_user, parent, false);
-        return new UserViewHolder(view, mListener);
+        return new UserAdapter.UserViewHolder(view, mListener);
     }
 
     @Override
-    public void onBindViewHolder(UserViewHolder holder, int position) {
-        User user = mUsers.get(position);
+    public void onBindViewHolder(UserAdapter.UserViewHolder holder, int position) {
+        User user = mUserList.get(position);
         String pos = String.valueOf(position);
         holder.mFirstName.setText(user.getFirst_name());
         holder.mLastName.setText(user.getLast_name());
         holder.mEmail.setText(user.getEmail());
         holder.mPhone.setText(user.getPhone());
+        //holder.mPassword.setText(user.getPassword());
         holder.tvNumber.setText(pos);
     }
 
     @Override
     public int getItemCount() {
-        return mUsers.size();
+        return mUserList.size();
     }
 
     public static class UserViewHolder extends RecyclerView.ViewHolder {
@@ -52,15 +53,17 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         public TextView mFirstName;
         public TextView mLastName;
         public TextView mPhone;
+        //        public TextView mPassword;
         public TextView mEmail;
 
         public UserViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
-            tvNumber = itemView.findViewById(R.id.tvNumber);
             mFirstName = itemView.findViewById(R.id.tvFirstName);
             mLastName = itemView.findViewById(R.id.tvLastName);
             mPhone = itemView.findViewById(R.id.tvPhone);
             mEmail = itemView.findViewById(R.id.tvEmail);
+            tvNumber = itemView.findViewById(R.id.tvNumber);
+
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -75,6 +78,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
             });
         }
     }
+
     public void setOnItemClickListener(OnItemClickListener listener) {
         mListener = listener;
     }

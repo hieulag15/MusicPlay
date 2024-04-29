@@ -1,7 +1,6 @@
 package com.example.musicplay.domain;
 
 public class SongUpdate {
-
     private String name;
 
     private String author;
@@ -10,14 +9,13 @@ public class SongUpdate {
 
     private Category category;
 
-    public SongUpdate() {
-    }
-
     public SongUpdate(String name, String author, String singer, Category category) {
         this.name = name;
         this.author = author;
         this.singer = singer;
         this.category = category;
+    }
+    public SongUpdate() {
     }
 
     public String getName() {

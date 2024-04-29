@@ -16,53 +16,53 @@ import com.example.musicplayer.R;
 
 import java.util.List;
 
-public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongViewHolder>{
+public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongViewHolder> {
 
-    private List<Song> SongList;
-    private OnItemClickListener Listener;
+    private List<Song> mSongList;
+    private OnItemClickListener mListener;
 
     public SongListAdapter(List<Song> songList) {
-        SongList = songList;
+        mSongList = songList;
     }
-    @NonNull
+
     @Override
-    public SongViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public SongViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.song_item, parent, false);
-        return new SongViewHolder(view, Listener);
+        return new SongViewHolder(view, mListener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SongListAdapter.SongViewHolder holder, int position) {
+    public void onBindViewHolder(SongViewHolder holder, int position) {
+        Song song = mSongList.get(position);
 
-        Song song = SongList.get(position);
-
-        holder.SongName.setText(song.getName());
-        holder.ArtistTextView.setText(song.getSinger());
+        holder.mSongName.setText(song.getName());
+        holder.mArtistTextView.setText(song.getSinger());
         //holder.mImageView.setImageResource(song.getImage());
 
         Glide.with(holder.itemView.getContext())
                 .load(song.getImage())
-                .into(holder.ImageView);
-
+                .into(holder.mImageView);
     }
 
     @Override
     public int getItemCount() {
-        return SongList != null ? SongList.size() : 0;
+        if(mSongList!= null)
+            return mSongList.size();
+        return 0;
     }
 
     public static class SongViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView SongName;
-        public TextView ArtistTextView;
-        public ImageView ImageView;
+        public TextView mSongName;
+        public TextView mArtistTextView;
+        public ImageView mImageView;
 
         public SongViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
-            ImageView = itemView.findViewById(R.id.imgSong);
-            SongName = itemView.findViewById(R.id.tvSongName);
-            ArtistTextView = itemView.findViewById(R.id.tvSinger);
+            mImageView = itemView.findViewById(R.id.imgSong);
+            mSongName = itemView.findViewById(R.id.tvSongName);
+            mArtistTextView = itemView.findViewById(R.id.tvSinger);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -79,6 +79,6 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
-        Listener = listener;
+        mListener = listener;
     }
 }

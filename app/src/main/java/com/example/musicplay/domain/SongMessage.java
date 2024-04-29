@@ -9,10 +9,10 @@ public class SongMessage {
     private String message;
 
     @SerializedName("songs")
-    private List<Song> songs;
+    private List<Song> songs ;
 
     @SerializedName("song")
-    private Song song;
+    private Song song ;
 
     public SongMessage() {
     }

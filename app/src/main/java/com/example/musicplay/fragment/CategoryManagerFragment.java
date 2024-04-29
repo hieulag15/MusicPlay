@@ -36,53 +36,59 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CategoryManagerFragment extends Fragment {
-    private ImageButton btnAdd;
-    private List<Category> categoryList;
-    private View view;
+    ImageButton btnAdd;
+    List<Category> categoryList;
+    View view;
     int currentPosition;
     private RecyclerView mRecyclerView;
     private CategoryAdapter mAdapter;
 
-    private CategoryApi categoryApi;
+    CategoryApi categoryApi;
     public CategoryManagerFragment() {
         // Required empty public constructor
     }
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_category_manager, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        view  = inflater.inflate(R.layout.fragment_category_manager, container, false);
 
         init();
-        return  view;
+
+        return view;
     }
 
-    private void loadData() {
+    private void setEvent() {
+    }
+
+    private void loadData(){
+
         mRecyclerView = view.findViewById(R.id.rcvCategoryManager);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
         mRecyclerView.setLayoutManager(gridLayoutManager);
 
+        // Create a list of songs
         getCategory();
+        // Create and set the adapter for the RecyclerView
+
     }
 
-    private void getCategory() {
-        categoryApi = RetrofitClient.getInstance().getRetrofit().create(CategoryApi.class);
+    private void getCategory(){
+        categoryApi= RetrofitClient.getInstance().getRetrofit().create(CategoryApi.class);
         categoryApi.getAllCategory().enqueue(new Callback<List<Category>>() {
             @Override
             public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
-                if (response.isSuccessful()) {
-                    categoryList = response.body();
-                    mAdapter = new CategoryAdapter(categoryList);
-                    mRecyclerView.setAdapter(mAdapter);
+                categoryList = response.body();
+                mAdapter = new CategoryAdapter(categoryList);
+                mRecyclerView.setAdapter(mAdapter);
 
-                    mAdapter.setOnItemClickListener(new OnItemClickListener() {
-                        @Override
-                        public void onItemClick(int position) {
-                            Category category = categoryList.get(position);
-                            showDialog(category);
-                        }
-                    });
-                }
+                mAdapter.setOnItemClickListener(new OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        Category data = categoryList.get(position);
+                        showDialog(data);
+                    }
+                });
             }
 
             @Override
@@ -93,28 +99,48 @@ public class CategoryManagerFragment extends Fragment {
     }
 
     private void init() {
+        setEvent();
         loadData();
     }
 
-    private void showDialog(Category category) {
+    private void showDialog(Category data) {
         final Dialog dialog = new Dialog(getActivity());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.bottom_sheet);
 
-        LinearLayout deleteLayout = dialog.findViewById(R.id.layout_delete);
+        LinearLayout deteteLayout = dialog.findViewById(R.id.layout_delete);
         LinearLayout editLayout = dialog.findViewById(R.id.layout_edit);
 
-        deleteLayout.setOnClickListener(new View.OnClickListener() {
+        deteteLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                deleteCategory(category, dialog);
+                categoryApi = RetrofitClient.getInstance().getRetrofit().create(CategoryApi.class);
+                categoryApi.delete(data.getId()).enqueue(new Callback<CategoryMessage>() {
+                    @Override
+                    public void onResponse(Call<CategoryMessage> call, Response<CategoryMessage> response) {
+                        CategoryMessage categoryMessage = response.body();
+                        Toast.makeText(getActivity(), categoryMessage.getMessage(), Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                        onResume();
+                    }
+
+                    @Override
+                    public void onFailure(Call<CategoryMessage> call, Throwable t) {
+
+                    }
+                });
+                Toast.makeText(getActivity(), "click Delete", Toast.LENGTH_SHORT).show();
             }
         });
 
         editLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                editCategory(category);
+                Intent intent = new Intent(getActivity(), CategoryFormActivity.class);
+                intent.putExtra("data", data);
+                Toast.makeText(getActivity(), "click Edit", Toast.LENGTH_SHORT).show();
+
+                startActivity(intent);
             }
         });
 
@@ -122,35 +148,6 @@ public class CategoryManagerFragment extends Fragment {
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.getWindow().getAttributes().windowAnimations = R.style.DialoAnimation;
-        dialog.getWindow().setGravity(Gravity.CENTER);
-    }
-
-    private void deleteCategory(Category category, Dialog dialog) {
-        categoryApi = RetrofitClient.getInstance().getRetrofit().create(CategoryApi.class);
-        categoryApi.delete(category.getId()).enqueue(new Callback<CategoryMessage>() {
-            @Override
-            public void onResponse(Call<CategoryMessage> call, Response<CategoryMessage> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    CategoryMessage categoryMessage = response.body();
-                    Toast.makeText(getActivity(), categoryMessage.getMessage(), Toast.LENGTH_SHORT).show();
-                    dialog.dismiss();
-                    onResume();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<CategoryMessage> call, Throwable t) {
-                // Handle the failure case
-                // For example, show a Toast message to the user
-            }
-        });
-    }
-
-    private void editCategory(Category category) {
-        Intent intent = new Intent(getActivity(), CategoryFormActivity.class);
-        intent.putExtra("category", category);
-        Toast.makeText(getActivity(), "click Edit", Toast.LENGTH_SHORT).show();
-
-        startActivity(intent);
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
     }
 }

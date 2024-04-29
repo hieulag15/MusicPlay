@@ -39,6 +39,7 @@ public class SongManagerAdapter extends RecyclerView.Adapter<SongManagerAdapter.
         holder.mSongName.setText(song.getName());
         holder.mArtistTextView.setText(song.getSinger());
 
+//        holder.mImageView.setImageResource(song.getImage());
         Glide.with(holder.itemView.getContext())
                 .load(song.getImage())
                 .into(holder.mImageView);

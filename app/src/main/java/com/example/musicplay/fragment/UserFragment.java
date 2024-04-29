@@ -17,22 +17,25 @@ import androidx.fragment.app.Fragment;
 
 import com.example.musicplay.EditUserActivity;
 import com.example.musicplay.LoginActivity;
-import com.example.musicplay.SharePrefManager;
+
+import com.example.musicplay.SharedPrefManager;
 import com.example.musicplay.domain.User;
 import com.example.musicplay.utilities.Utility;
 import com.example.musicplayer.R;
 
 public class UserFragment extends Fragment {
     View view;
-    TextView tvProfileName, tvProfilePhone, tvProfileEmail;
-    User user;
-    Button btnProfileLogout, btnProfileEdit;
 
+    TextView tvProfileName, tvProfilePhone, tvProfileEmail;
+
+    User user;
+
+    Button btnProfileLogout, btnProfileEdit;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view  = inflater.inflate(R.layout.fragment_profile, container, false);
-        user = SharePrefManager.getInstance(getContext()).getUser();
+        user = SharedPrefManager.getInstance(getContext()).getUser();
         init();
         event();
 
@@ -56,30 +59,35 @@ public class UserFragment extends Fragment {
 
     private void edit() {
         Intent intent = new Intent(getActivity(), EditUserActivity.class);
-        intent.putExtra("user", user);
-        intent.putExtra("valueFragment", 1);
+        intent.putExtra("data", user);
         startActivity(intent);
     }
 
     private void logout() {
-        SharePrefManager.getInstance(getContext()).logout();
+        Activity activity = getActivity();
+        SharedPreferences preferences = activity.getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.remove("user");
+        editor.apply();
+
+        // chuyển hướng đến màn hình đăng nhập
         Intent intent = new Intent(getActivity(), LoginActivity.class);
         startActivity(intent);
-        getActivity().finish();
+        activity.finish();
     }
 
     private void init() {
-        tvProfileName = view.findViewById(R.id.tvProfileName);
-        tvProfilePhone = view.findViewById(R.id.tvProfilePhone);
-        tvProfileEmail = view.findViewById(R.id.tvProfileEmail);
         btnProfileLogout = view.findViewById(R.id.btnProfileLogout);
         btnProfileEdit = view.findViewById(R.id.btnProfileEdit);
+        tvProfileName= view.findViewById(R.id.tvProfileName);
+        tvProfilePhone= view.findViewById(R.id.tvProfilePhone);
+        tvProfileEmail= view.findViewById(R.id.tvProfileEmail);
 
         Utility.setScrollText(tvProfileName);
         Utility.setScrollText(tvProfilePhone);
         Utility.setScrollText(tvProfileEmail);
 
-        tvProfileName.setText(user.getFirst_name() + " " + user.getLast_name());
+        tvProfileName.setText(user.getFirst_name() +" " + user.getLast_name());
         tvProfilePhone.setText(user.getPhone());
         tvProfileEmail.setText(user.getEmail());
     }

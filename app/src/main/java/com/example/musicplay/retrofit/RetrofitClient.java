@@ -9,24 +9,19 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
-
     private static Retrofit retrofit;
-    private static OkHttpClient okHttpClient;
 
     public static RetrofitClient retrofitClient;
+    private static final String BASE_URL = "http://192.168.50.109:8080/api/v1/";
 
-    private static final  String BASE_URL = "http://172.16.30.35:8080/api/v1/";
-
-    public static  Retrofit getRetrofit() {
-        if (retrofit == null) {
-            if (okHttpClient == null) {
-                okHttpClient = new OkHttpClient.Builder()
-                        .connectTimeout(30, TimeUnit.SECONDS)
-                        .callTimeout(30, TimeUnit.SECONDS)
-                        .readTimeout(30, TimeUnit.SECONDS)
-                        .writeTimeout(30, TimeUnit.SECONDS)
-                        .build();
-            }
+    public static Retrofit getRetrofit() {
+        if(retrofit==null) {
+            OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                    .connectTimeout(30, TimeUnit.SECONDS)
+                    .callTimeout(30, TimeUnit.SECONDS)
+                    .readTimeout(30, TimeUnit.SECONDS)
+                    .writeTimeout(30, TimeUnit.SECONDS)// Thời gian timeout là 30 giây
+                    .build();
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL).client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create())
@@ -42,3 +37,4 @@ public class RetrofitClient {
         return retrofitClient;
     }
 }
+

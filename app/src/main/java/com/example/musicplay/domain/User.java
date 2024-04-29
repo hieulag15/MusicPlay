@@ -10,7 +10,7 @@ public class User implements Serializable {
     private long id;
 
     @SerializedName("phone")
-    private String phone;
+    private  String phone;
 
     @SerializedName("first_name")
     private String first_name;
@@ -27,8 +27,6 @@ public class User implements Serializable {
     @SerializedName("role")
     private String role;
 
-    public User() {
-    }
 
     public User(long id, String phone, String first_name, String last_name, String email, String password, String role) {
         this.id = id;
@@ -36,8 +34,10 @@ public class User implements Serializable {
         this.first_name = first_name;
         this.last_name = last_name;
         this.email = email;
-        this.password = password;
         this.role = role;
+        this.password = password;
+    }
+    public User() {
     }
 
     public User(long id, String phone, String first_name, String last_name, String email, String password) {
@@ -49,7 +49,7 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public User(String phone, String first_name, String last_name, String email, String password) {
+    public User( String phone, String first_name, String last_name, String email, String password) {
         this.phone = phone;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -104,7 +104,6 @@ public class User implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
-
     public String getRole() {
         return role;
     }
@@ -112,4 +111,5 @@ public class User implements Serializable {
     public void setRole(String role) {
         this.role = role;
     }
+
 }

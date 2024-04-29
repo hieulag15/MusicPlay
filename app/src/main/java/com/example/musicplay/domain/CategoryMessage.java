@@ -8,13 +8,13 @@ public class CategoryMessage {
     @SerializedName("category")
     private Category category;
 
-    public CategoryMessage() {
-    }
-
     public CategoryMessage(String message, Category category) {
         this.message = message;
         this.category = category;
     }
+    public CategoryMessage() {
+    }
+
 
     public String getMessage() {
         return message;

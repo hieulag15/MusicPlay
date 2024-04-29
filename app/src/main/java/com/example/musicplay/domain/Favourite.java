@@ -15,13 +15,12 @@ public class Favourite implements Serializable {
     @SerializedName("user")
     private User user;
 
-    public Favourite() {
-    }
-
     public Favourite(long id, Song song, User user) {
         this.id = id;
         this.song = song;
         this.user = user;
+    }
+    public Favourite() {
     }
 
     public long getId() {
@@ -48,3 +47,4 @@ public class Favourite implements Serializable {
         this.user = user;
     }
 }
+

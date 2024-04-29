@@ -8,19 +8,19 @@ public class FavouriteMessage {
     @SerializedName("message")
     private String message;
 
-    @SerializedName("favourites")
-    private List<Favourite> favourites;
+    @SerializedName("favorites")
+    private List<Favourite> favourites ;
 
-    @SerializedName("favourite")
-    private Favourite favourite;
-
-    public FavouriteMessage() {
-    }
+    @SerializedName("favorite")
+    private Favourite favourite ;
 
     public FavouriteMessage(String message, List<Favourite> favourites, Favourite favourite) {
         this.message = message;
         this.favourites = favourites;
         this.favourite = favourite;
+    }
+
+    public FavouriteMessage() {
     }
 
     public String getMessage() {
