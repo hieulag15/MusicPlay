@@ -35,7 +35,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CategoryManagerFragment extends Fragment {
+public class    CategoryManagerFragment extends Fragment {
     ImageButton btnAdd;
     List<Category> categoryList;
     View view;

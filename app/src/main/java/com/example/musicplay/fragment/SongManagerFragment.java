@@ -14,10 +14,13 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.musicplay.SongFormActivity;
 import com.example.musicplay.adapter.SongManagerAdapter;
 import com.example.musicplay.api.SongApi;
 import com.example.musicplay.asset.LoadingDialog;
@@ -35,53 +38,58 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SongManagerFragment extends Fragment {
-    ImageButton btnAdd;
-    List<Song> songList;
-    View view;
-    int currentPosition;
+    private List<Song> songList;
+    private View view;
+    private int currentPosition;
     private RecyclerView mRecyclerView;
     private SongManagerAdapter mSongAdapter;
+    private SongApi songApi;
+    private LinearLayout deleteLayout, editLayout;
 
-    SongApi songApi;
+    private Long id_song;
+
+
     public SongManagerFragment() {
         // Required empty public constructor
     }
 
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        view  = inflater.inflate(R.layout.fragment_song_manager, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_song_manager, container, false);
         init();
+        loadData();
+        setEvent();
         return view;
     }
 
-    private void setEvent() {
+    private void init() {
+        mRecyclerView = view.findViewById(R.id.rcvSongListManager);
+        songApi = RetrofitClient.getInstance().getRetrofit().create(SongApi.class);
     }
 
-    private void loadData(){
-
-        mRecyclerView = view.findViewById(R.id.rcvSongListManager);
+    private void loadData() {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        // Create a list of songs
         songList = new ArrayList<>();
-        songApi = RetrofitClient.getInstance().getRetrofit().create(SongApi.class);
         songApi.getAllSong().enqueue(new Callback<SongMessage>() {
             @Override
             public void onResponse(Call<SongMessage> call, Response<SongMessage> response) {
-                songList = response.body().getSongs();
+                if (response.isSuccessful()) {
+                    songList = response.body().getSongs();
+                    mSongAdapter = new SongManagerAdapter(songList);
+                    mRecyclerView.setAdapter(mSongAdapter);
+                    mSongAdapter.notifyDataSetChanged();
 
-                // Create and set the adapter for the RecyclerView
-                mSongAdapter = new SongManagerAdapter(songList);
-                mRecyclerView.setAdapter(mSongAdapter);
-                mSongAdapter.setOnItemClickListener(new OnItemClickListener() {
-                    @Override
-                    public void onItemClick(int position) {
-                        currentPosition = position;
-                        Song song  = songList.get(currentPosition);
-                        showDialog(song);
-                    }
-                });
+                    mSongAdapter.setOnItemClickListener(new OnItemClickListener() {
+                        @Override
+                        public void onItemClick(int position) {
+                            currentPosition = position;
+                            Song song = songList.get(currentPosition);
+                            showDialog(song);
+                        }
+                    });
+                }
             }
 
             @Override
@@ -91,54 +99,54 @@ public class SongManagerFragment extends Fragment {
         });
     }
 
-    private void init() {
-        setEvent();
-        loadData();
+    private void setEvent() {
+
     }
 
     private void showDialog(Song song) {
-        Long id_song = song.getId();
         final Dialog dialog = new Dialog(getActivity());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.bottom_sheet);
+        id_song = song.getId();
 
-        LinearLayout deteteLayout = dialog.findViewById(R.id.layout_delete);
-        LinearLayout editLayout = dialog.findViewById(R.id.layout_edit);
+        deleteLayout = dialog.findViewById(R.id.layout_delete);
+        editLayout = dialog.findViewById(R.id.layout_edit);
 
-
-        deteteLayout.setOnClickListener(new View.OnClickListener() {
+        deleteLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                songApi = RetrofitClient.getInstance().getRetrofit().create(SongApi.class);
                 LoadingDialog loadingDialog = new LoadingDialog(getActivity());
                 loadingDialog.show();
-                songApi.deleteSong(id_song).enqueue(new Callback<SongMessage>() {
 
+                songApi.deleteSong(id_song).enqueue(new Callback<SongMessage>() {
                     @Override
                     public void onResponse(Call<SongMessage> call, Response<SongMessage> response) {
-                        String string = response.body().getMessage();
-                        Toast.makeText(getActivity(),string,Toast.LENGTH_SHORT).show();
-                        loadingDialog.cancel();
-                        dialog.dismiss();
-                        onResume();
+                        if (response.isSuccessful()) {
+//                            songList.remove(currentPosition);
+//                            mSongAdapter.notifyDataSetChanged();
+                            String notify = response.body().getMessage();
+                            Toast.makeText(getActivity(), notify, Toast.LENGTH_SHORT).show();
+                            loadingDialog.cancel();
+                            dialog.dismiss();
+                            onResume();
+                        }
                     }
 
                     @Override
                     public void onFailure(Call<SongMessage> call, Throwable t) {
-                        loadingDialog.cancel();
+                        loadingDialog.dismiss();
                     }
                 });
-
             }
         });
 
         editLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Song data = songList.get(currentPosition);
+                Song song = songList.get(currentPosition);
                 dialog.cancel();
                 Intent intent = new Intent(getActivity(), SongFormActivity.class);
-                intent.putExtra("data", data);
+                intent.putExtra("song", song);
                 startActivity(intent);
             }
         });
@@ -149,10 +157,10 @@ public class SongManagerFragment extends Fragment {
         dialog.getWindow().getAttributes().windowAnimations = R.style.DialoAnimation;
         dialog.getWindow().setGravity(Gravity.CENTER);
     }
+
     @Override
     public void onResume() {
         super.onResume();
         init();
-        // Perform any necessary updates here
     }
 }
