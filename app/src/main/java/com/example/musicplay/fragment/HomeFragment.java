@@ -197,7 +197,7 @@ public class HomeFragment extends Fragment {
 
                 FavouriteMessage favouriteMessage = response.body();
                 List<Favourite> favourites = favouriteMessage.getFavourites();
-                favoriteDescription = view.findViewById(R.id.favoriteDescriptiontest);
+                favoriteDescription = view.findViewById(R.id.favoriteDescription);
                 int len = favourites.size();
                 favoriteDescription.setText("Hiện tại có " +len+" ca khúc được bạn thích");
             }

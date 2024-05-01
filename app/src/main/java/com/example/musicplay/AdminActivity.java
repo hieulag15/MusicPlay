@@ -75,6 +75,7 @@ public class AdminActivity extends AppCompatActivity {
             title = getString(R.string.user_list);
             btnBack.setImageResource(R.drawable.ic_user_maneger);
         } else if (currentFragment instanceof UserFragment) {
+            title = "Thông tin cá nhân";
             btnBack.setImageResource(R.drawable.ic_user);
         }
         tvTitle.setText(title);

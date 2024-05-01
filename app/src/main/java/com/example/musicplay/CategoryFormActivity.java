@@ -97,11 +97,12 @@ public class CategoryFormActivity extends AppCompatActivity {
             edName.setText("");
             edDescription.setText("");
             tvImg.setText(getResources().getString(R.string.choose_img));
+            btnSubmit.setText(getResources().getString(R.string.add_category));
         }
     }
 
     private void init(){
-        btnChooseImg = findViewById(R.id.btnUpSongImg);
+        btnChooseImg = findViewById(R.id.btnChooseImage);
         btnSubmit = findViewById(R.id.btnCategorySubmit);
         btnCancel = findViewById(R.id.btnCategoryCancel);
         edName = findViewById(R.id.edCategoryName);
@@ -178,6 +179,10 @@ public class CategoryFormActivity extends AppCompatActivity {
                 Toast.makeText(CategoryFormActivity.this, categoryMessage.getMessage(), Toast.LENGTH_SHORT).show();
                 loadingDialog.cancel();
                 finish();
+
+                Intent intent = new Intent(CategoryFormActivity.this, AdminActivity.class);
+                intent.putExtra("valueDefualt", 2);
+                startActivity(intent);
             }
 
             @Override
@@ -202,6 +207,10 @@ public class CategoryFormActivity extends AppCompatActivity {
             public void onResponse(Call<CategoryMessage> call, Response<CategoryMessage> response) {
                 CategoryMessage categoryMessage = response.body();
                 Toast.makeText(getApplicationContext(), categoryMessage.getMessage(), Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(CategoryFormActivity.this, AdminActivity.class);
+                intent.putExtra("valueDefualt", 2);
+                startActivity(intent);
             }
 
             @Override
@@ -211,4 +220,5 @@ public class CategoryFormActivity extends AppCompatActivity {
         setEvent();
         loadData();
     }
+
 }

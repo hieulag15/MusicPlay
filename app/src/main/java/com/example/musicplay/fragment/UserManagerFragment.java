@@ -136,8 +136,7 @@ public class UserManagerFragment extends Fragment {
 
             @Override
             public void onFailure(Call<UserMessage> call, Throwable t) {
-                // Handle the failure case
-                // For example, show a Toast message to the user
+
             }
         });
     }

@@ -12,15 +12,15 @@ public class RetrofitClient {
     private static Retrofit retrofit;
 
     public static RetrofitClient retrofitClient;
-    private static final String BASE_URL = "http://192.168.50.109:8080/api/v1/";
+    private static final String BASE_URL = "http://192.168.1.15:8080/api/v1/";
 
     public static Retrofit getRetrofit() {
         if(retrofit==null) {
             OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                    .connectTimeout(30, TimeUnit.SECONDS)
-                    .callTimeout(30, TimeUnit.SECONDS)
-                    .readTimeout(30, TimeUnit.SECONDS)
-                    .writeTimeout(30, TimeUnit.SECONDS)// Thời gian timeout là 30 giây
+                    .connectTimeout(5, TimeUnit.MINUTES)
+                    .callTimeout(5, TimeUnit.MINUTES)
+                    .readTimeout(5, TimeUnit.MINUTES)
+                    .writeTimeout(5, TimeUnit.MINUTES)// Thời gian timeout là 5 phut
                     .build();
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL).client(okHttpClient)

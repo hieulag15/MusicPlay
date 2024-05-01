@@ -60,7 +60,7 @@ public class EditUserActivity extends AppCompatActivity {
     }
     private void loadData(){
         Intent intent = getIntent();
-        user =(User) intent.getSerializableExtra("data");
+        user =(User) intent.getSerializableExtra("user");
         edFirstName.setText(user.getFirst_name());
         ed_lastname.setText(user.getLast_name());
         edEmail.setText(user.getEmail());

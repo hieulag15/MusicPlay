@@ -45,6 +45,6 @@ public interface SongApi {
 
     @Multipart
     @POST("song/create")
-    Call<SongMessage> createSong(@Part MultipartBody.Part file, @Part MultipartBody.Part image, @Part("name") RequestBody name, @Part("author") RequestBody author, @Part("singer") RequestBody singer, @Part("category_id") RequestBody category_id);
+    Call<SongMessage> createSong(@Part MultipartBody.Part file, @Part MultipartBody.Part image, @Part("name") String name, @Part("author") String author, @Part("singer") String singer, @Part("category_id") Long category_id);
 }
 
