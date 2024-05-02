@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import com.example.musicplay.EditUserActivity;
 import com.example.musicplay.LoginActivity;
 
+import com.example.musicplay.MusicService;
 import com.example.musicplay.SharedPrefManager;
 import com.example.musicplay.domain.User;
 import com.example.musicplay.utilities.Utility;
@@ -64,6 +65,9 @@ public class UserFragment extends Fragment {
     }
 
     private void logout() {
+        Intent musicServiceIntent = new Intent(getActivity(), MusicService.class);
+        getActivity().stopService(musicServiceIntent);
+
         Activity activity = getActivity();
         SharedPreferences preferences = activity.getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
