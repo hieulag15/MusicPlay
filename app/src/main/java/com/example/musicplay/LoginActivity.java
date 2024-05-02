@@ -63,8 +63,6 @@ public class LoginActivity extends AppCompatActivity {
                             @Override
                             public void onResponse(Call<UserMessage> call, Response<UserMessage> response) {
                                 UserMessage userLogin = response.body();
-//                                                                System.out.println("-----------------");
-//                                                                System.out.println("response" + userLogin.getUser().getRole());
                                 if (userLogin.getUser() != null) {
                                     System.out.println("----------" + userLogin.getUser().getFirst_name());
                                     // Xử lý kết quả trả về nếu thành công

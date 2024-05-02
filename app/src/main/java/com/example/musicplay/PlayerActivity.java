@@ -228,6 +228,7 @@ public class PlayerActivity extends AppCompatActivity {
             musicService.pause();
         }
         finish();
+
     }
 
     private void setFavourite(Song song) {

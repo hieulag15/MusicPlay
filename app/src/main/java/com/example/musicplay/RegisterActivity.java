@@ -48,6 +48,18 @@ public class RegisterActivity extends AppCompatActivity {
                     String password = edPassword.getText().toString().trim();
                     String confirmPassword = edConfirmPassword.getText().toString().trim();
 
+                    // Kiểm tra định dạng email
+                    if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                        Toast.makeText(RegisterActivity.this, "Email không đúng định dạng", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    // Kiểm tra định dạng số điện thoại
+                    if (!phone.matches("^0\\d{9}$")) {
+                        Toast.makeText(RegisterActivity.this, "Số điện thoại phải bắt đầu bằng số 0 và có đủ 10 số", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
                     User user = new User(phone, firstName, lastName, email, password);
 
 

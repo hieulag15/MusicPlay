@@ -127,8 +127,8 @@ public class UserManagerFragment extends Fragment {
             @Override
             public void onResponse(Call<UserMessage> call, Response<UserMessage> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    String string = response.body().getMessage();
-                    Toast.makeText(getActivity(), string, Toast.LENGTH_SHORT).show();
+                    UserMessage userMessage = response.body();
+                    Toast.makeText(getActivity(), userMessage.getMessage(), Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                     onResume();
                 }

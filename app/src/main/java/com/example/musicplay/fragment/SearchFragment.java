@@ -60,7 +60,6 @@ public class SearchFragment extends Fragment {
         songRecyclerView = view.findViewById(R.id.songRecyclerView);
 
         songRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        getSong(songs);
     }
 
     private void getSong(List<Song> songs) {
@@ -111,6 +110,8 @@ public class SearchFragment extends Fragment {
                             songRecyclerView.setAdapter(songListAdapter);
                             songRecyclerView.setHasFixedSize(true);
                             songListAdapter.notifyDataSetChanged();
+
+                            getSong(songs);
                         }
                     }
 

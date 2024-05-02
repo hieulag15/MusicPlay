@@ -122,8 +122,6 @@ public class SongManagerFragment extends Fragment {
                     @Override
                     public void onResponse(Call<SongMessage> call, Response<SongMessage> response) {
                         if (response.isSuccessful()) {
-//                            songList.remove(currentPosition);
-//                            mSongAdapter.notifyDataSetChanged();
                             String notify = response.body().getMessage();
                             Toast.makeText(getActivity(), notify, Toast.LENGTH_SHORT).show();
                             loadingDialog.cancel();

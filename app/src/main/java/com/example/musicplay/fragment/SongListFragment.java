@@ -111,9 +111,6 @@ public class SongListFragment extends Fragment {
                             Intent intent = new Intent(getActivity(), PlayerActivity.class);
                             intent.putExtra("position", position);
                             intent.putExtra("songs", (Serializable) songs);
-                            System.out.println("-----------------");
-                            System.out.println(data);
-                            //intent.putExtra("songList", new ArrayList<>(songList));
                             startActivity(intent);
                         }
                     });

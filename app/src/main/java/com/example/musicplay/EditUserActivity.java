@@ -76,7 +76,12 @@ public class EditUserActivity extends AppCompatActivity {
                 {
                     Toast.makeText(EditUserActivity.this, "Nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
                 }else {
-                    submit();
+                    String email = edEmail.getText().toString();
+                    if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                        Toast.makeText(EditUserActivity.this, "Email không đúng định dạng", Toast.LENGTH_SHORT).show();
+                    } else {
+                        submit();
+                    }
                 }
             }
         });
