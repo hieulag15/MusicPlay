@@ -59,10 +59,10 @@ public class LibraryFragment extends Fragment {
         timer = new Timer();
         categoryList = view.findViewById(R.id.categoryRecyclerView);
         getCategory();
-        sliderList.add(new SliderModel(R.drawable.poster1,"playlist 1"));
-        sliderList.add(new SliderModel(R.drawable.poster2,"playlist 2"));
-        sliderList.add(new SliderModel(R.drawable.poster3,"playlist 3"));
-        sliderList.add(new SliderModel(R.drawable.poster4,"playlist 4"));
+        sliderList.add(new SliderModel(R.drawable.poster1,"Event"));
+        sliderList.add(new SliderModel(R.drawable.poster2,"EDM"));
+        sliderList.add(new SliderModel(R.drawable.poster3,"Festival"));
+        sliderList.add(new SliderModel(R.drawable.poster4,"Party"));
 
 
 

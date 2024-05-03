@@ -14,8 +14,8 @@
 
     <item
         android:id="@+id/navigation_setting"
-        android:icon="@drawable/ic_setting"
-        android:title="Cài đặt" />
+        android:icon="@drawable/ic_tv"
+        android:title="Thu Vien" />
 
     <item
         android:id="@+id/navigation_user"
